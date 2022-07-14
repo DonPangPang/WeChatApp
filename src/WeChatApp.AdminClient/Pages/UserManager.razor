@@ -1,0 +1,434 @@
+﻿@page "/usermgr"
+
+@inject IDepartmentService DepartmentService
+@inject IUserService UserService
+@inject IPopupService PopupService
+
+<div>
+    <MRow>
+        <MCol Cols="12" Sm="3">
+            <MCard>
+                <MCardTitle>部门</MCardTitle>
+                <MDivider></MDivider>
+                <MTreeview Activatable  Hoverable OpenAll TItem="DepartmentDto" TKey="Guid" Items="_departments" ItemText="r=>r.DepartmentName"
+                    ActiveChanged="HandleDeptActive"
+                    ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id">
+                </MTreeview>
+            </MCard>
+        </MCol>
+        <MCol Cols="12" Sm="9">
+            <MCard>
+                <MDataTable Headers="_headers" Items="_users" OnOptionsUpdate="HandleOnOptionsUpdate"
+                ServerItemsLength="_totalUsers" Loading="_loading" Class="elevation-1"
+                NoDataText="无数据..."
+                LoadingText="加载数据中...请稍等.">
+                 <TopContent>
+        <MToolbar Flat>
+            <MToolbarTitle>用户</MToolbarTitle>
+            <MDivider Class="mx-4"
+                      Inset
+                      Vertical></MDivider>
+                      <MTextField @bind-Value="_search"
+                        AppendIcon="mdi-magnify"
+                        Label="搜索"
+                        SingleLine
+                        HideDetails="true" OnAppendClick="HandleSearch" TValue="string" OnChange="HandleSearchChange">
+                    </MTextField>
+            <MSpacer></MSpacer>
+            <MButton Color="primary"
+                     Dark
+                     Class="mb-2"
+                     OnClick="AddItem">
+                添加
+            </MButton>
+            <MDialog @bind-Value="_dialog"
+                     MaxWidth="500">
+                <MCard>
+                    <MCardTitle>
+                        <span class="text-h5">@FormTitle</span>
+                    </MCardTitle>
+
+                    <MCardText>
+                        <MContainer>
+                            <MTextField @bind-Value="_editedItem.Name"
+                                                Label="姓名"></MTextField>
+                                                <MTextField @bind-Value="_editedItem.Email"
+                                                Label="邮箱"></MTextField>
+                            <MRow>
+                                <MCol Cols="12"
+                                      Sm="6">
+                                    <MTextField @bind-Value="_editedItem.Tel"
+                                                Label="电话"></MTextField>
+                                </MCol>
+                                <MCol Cols="12"
+                                      Sm="6">
+                                 <MSelect @bind-Value="_editedItem.Role"
+                                    Items="@RoleDropList"
+                                    Label="角色"
+                                    ItemText="u => u.Label"
+                                    ItemValue="u => u.Value" onselect=""></MSelect>
+                                </MCol>
+                            </MRow>
+                        </MContainer>
+                    </MCardText>
+
+                    <MCardActions>
+                        <MSpacer></MSpacer>
+                        <MButton Color="blue darken-1"
+                                 Text
+                                 OnClick="Close">
+                            取消
+                        </MButton>
+                        <MButton Color="blue darken-1"
+                                 Text
+                                 OnClick="Save">
+                            保存
+                        </MButton>
+                    </MCardActions>
+                </MCard>
+            </MDialog>
+            @* <MDialog @bind-Value="_dialogDelete" MaxWidth="500">
+                <MCard>
+                    <MCardTitle Class="text-h5">确定要删除这条记录?</MCardTitle>
+                    <MCardActions>
+                        <MSpacer></MSpacer>
+                        <MButton Color="blue darken-1" Text OnClick="CloseDelete">取消</MButton>
+                        <MButton Color="blue darken-1" Text OnClick="DeleteItemConfirm">确定</MButton>
+                        <MSpacer></MSpacer>
+                    </MCardActions>
+                </MCard>
+            </MDialog> *@
+            <PConfirm  Visible="_dialogDelete"
+                Title="确认操作"
+                Type="type"
+                OnCancel="CloseDelete"
+                OnOk="DeleteItemConfirm">
+            您确认该操作吗？
+        </PConfirm>
+        </MToolbar>
+    </TopContent>
+                <ItemColContent>
+                    @if (context.Header.Value == "serial")
+                    {
+                        @(_users.ToList().IndexOf(context.Item) + 1)
+                    }
+                    else if (context.Header.Value == nameof(UserDto.Gender))
+                    {
+                        <MChip Color="@context.Item.Gender.GetColor()" Label Outlined Dark>
+                            @context.Item.Gender
+                        </MChip>
+                    }
+                    else if (context.Header.Value == nameof(UserDto.Role))
+                    {
+                        <MChip Color="@GetRoleColor(@context.Item.Role)" Label Outlined Dark>
+                            @context.Item.Role
+                        </MChip>
+                    }
+                    else if (context.Header.Value == "actions")
+                    {
+                        <MIcon Small Class="mr-2" OnClick="() => EditItem(context.Item)">
+                            mdi-pencil
+                        </MIcon>
+                        @* <MIcon Small OnClick="() => DeleteItem(context.Item)">
+                            mdi-delete
+                        </MIcon> *@
+                         <MIcon Small OnClick="() => Show(AlertTypes.Warning)">
+                            mdi-delete
+                        </MIcon>
+                    }
+                    else
+                    {
+                        @context.Value
+                    }
+                </ItemColContent>
+            </MDataTable>
+            </MCard>
+        </MCol>
+    </MRow>
+
+</div>
+
+@code {
+    AlertTypes type = 0;
+    private string _message = string.Empty;
+    ToastPosition position = ToastPosition.TopRight;
+    void Show(AlertTypes t = 0)
+    {
+        type = t;
+        _dialogDelete = true;
+    }
+
+    async Task AlertShow(AlertTypes t = 0)
+    {
+        type = t;
+        await PopupService.ToastAsync(_message, type);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetDeptsFromApi();
+
+        await GetDataFromApi();
+
+        await PopupService.ConfigToast(config =>
+        {
+            config.Position = ToastPosition.TopRight;
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    private List<Guid> _activeDept = new();
+
+    private async Task HandleDeptActive(List<Guid> val)
+    {
+        _activeDept = val;
+
+        _parameter.DepartmentId = val.FirstOrDefault();
+        await GetDataFromApi();
+    }
+
+    private async Task HandleSearch()
+    {
+        _parameter.Q = _search;
+        await GetDataFromApi();
+    }
+
+    private async Task HandleSearchChange(string val)
+    {
+        _parameter.Q = val;
+        await GetDataFromApi();
+    }
+
+    private string _search = string.Empty;
+
+    private int _totalUsers = 0;
+    private IEnumerable<UserDto> _users = new List<UserDto>();
+    private bool _loading = true;
+    private DataOptions _options = new DataOptions()
+    {
+        Page = 1,
+        ItemsPerPage = 10
+    };
+    private int _serial = 1;
+
+    private bool _dialog;
+    private bool _dialogDelete;
+
+    private int _editedIndex = -1;
+
+    public string FormTitle
+    {
+        get
+        {
+            return _editedIndex == -1 ? "添加" : "编辑";
+        }
+    }
+
+    private List<EnumItem<Role>> RoleDropList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<Role>().ToList();
+
+    private UserDto _editedItem = new();
+
+    private Guid _deptId = Guid.Empty;
+
+    public void Close()
+    {
+        _dialog = false;
+        _editedItem = new ();
+        _editedIndex = -1;
+    }
+
+    public async Task Save()
+    {
+        if (_editedIndex > -1)
+        {
+            _editedItem.Uid = _editedItem.Name;
+            var result = await UserService.EditUserAsync<WcResponse<UserDto>>(_editedItem);
+            _message = result.Message ?? "";
+            await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+        }
+        else
+        {
+            //_users.Append(_editedItem);
+            _editedItem.Uid = _editedItem.Name;
+            _editedItem.DepartmentId = _activeDept.FirstOrDefault();
+            var result = await UserService.AddUserAsync<WcResponse<UserDto>>(_editedItem);
+            _message = result.Message ?? "";
+            await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+        }
+        await GetDataFromApi();
+        Close();
+    }
+
+    public async Task AddItem()
+    {
+        if(!_activeDept.Any())
+        {
+            _message = "请先选择部门";
+            await AlertShow(AlertTypes.Error);
+            return;
+        }
+
+        _editedItem = new UserDto();
+        _editedIndex = -1;
+        _dialog = true;
+    }
+
+    public void EditItem(UserDto item)
+    {
+        _editedIndex = 1;
+        _editedItem = new UserDto()
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Email = item.Email,
+            Tel = item.Tel,
+            Role = item.Role,
+            DepartmentId = item.DepartmentId
+        };
+        _dialog = true;
+    }
+
+    public void DeleteItem(UserDto item)
+    {
+        _editedIndex = _users.ToList().IndexOf(item);
+        _editedItem = new UserDto()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Email = item.Email,
+                Tel = item.Tel,
+                Role = item.Role,
+            };
+        _dialogDelete = true;
+    }
+
+    public async Task DeleteItemConfirm()
+    {
+        //_users.ToList().RemoveAt(_editedIndex);
+        var result = await UserService.DeleteUserAsync<WcResponse<UserDto>>(_editedItem);
+        _message = result.Message ?? "";
+        await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+        CloseDelete();
+        await GetDataFromApi();
+    }
+
+    public void CloseDelete()
+    {
+        _dialogDelete = false;
+        _editedItem = new();
+        _editedIndex = -1;
+    }
+
+    #region Department
+    private List<DepartmentDto> _departments = new List<DepartmentDto>();
+
+    private async Task GetDeptsFromApi()
+    {
+        var result = await DepartmentService.GetDepartmentTreeAsync<WcResponse<IEnumerable<DepartmentDto>>>();
+
+        if (result.Code == WcStatus.Success)
+        {
+            _departments = result.Data!.ToList();
+        }
+    }
+    #endregion
+
+    private string GetRoleColor(Role role)
+    {
+        return role switch
+        {
+            Role.高层管理员 => "red",
+            Role.中层管理员 => "orange",
+            Role.普通成员 or _ => "grey"
+        };
+    }
+    private List<DataTableHeader<UserDto>> _headers = new List<DataTableHeader<UserDto>>
+{
+new() { Text = "序号", Align = "center", Value = "serial", Sortable = false },
+new()
+{
+Text = "姓名",
+Align = "center",
+Sortable = false,
+Value = nameof(UserDto.Name)
+},
+new() { Text = "性别", Align = "center", Value = nameof(UserDto.Gender) },
+new() { Text = "邮箱", Align = "center", Value = nameof(UserDto.Email) },
+new() { Text = "电话", Align = "center", Value = nameof(UserDto.Tel) },
+new() { Text = "角色", Align = "center", Value = nameof(UserDto.Role) },
+new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
+};
+
+    public async Task HandleOnOptionsUpdate(DataOptions options)
+    {
+        _options = options;
+        await GetDataFromApi();
+    }
+
+    public async Task GetDataFromApi()
+    {
+        _loading = true;
+        await ApiCallAsync().ContinueWith(async(task) =>
+        {
+            var data = await task;
+            _users = data.items;
+            _totalUsers = data.total;
+            _loading = false;
+
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+
+    public async Task<(IEnumerable<UserDto> items, int total)> ApiCallAsync()
+    {
+        var sortBy = _options.SortBy;
+        var sortDesc = _options.SortDesc;
+        _parameter.Page = _options.Page;
+        _parameter.PageSize = _options.ItemsPerPage;
+
+        @* var (items, total) = await GetUserFromApi(); *@
+
+        @* if (sortBy.Count == 1 && sortDesc.Count == 1)
+        {
+            var header = _headers.Find(header => header.Value == sortBy[0]);
+            var selector = header!.ItemValue.Factory;
+
+            if (!sortDesc[0])
+            {
+                items = items.OrderBy(selector);
+            }
+            else
+            {
+                items = items.OrderByDescending(selector);
+            }
+        } *@
+
+        return await GetUserFromApi();
+    }
+
+    private UserDtoParameters _parameter = new(){
+        OrderBy = "Role desc,Name",
+    };
+
+    @* private async Task<IEnumerable<UserDto>> GetUserFromApi()
+    {
+        var result = await UserService.GetUserListAsync<WcResponse<IEnumerable<UserDto>>>(_parameter);
+
+        if (result.Code == WcStatus.Success)
+        {
+            return result.Data!;
+        }
+        return new List<UserDto>();
+    } *@
+
+    private async Task<(IEnumerable<UserDto>, int)> GetUserFromApi()
+    {
+        var result = await UserService.GetUserListAsync<WcResponse<IEnumerable<UserDto>>>(_parameter);
+
+        if (result.Code == WcStatus.Success)
+        {
+            return (result.Data!, result.TotalCount);
+        }
+        return (new List<UserDto>(), 0);
+    }
+}

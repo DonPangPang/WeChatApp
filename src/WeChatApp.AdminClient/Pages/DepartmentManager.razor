@@ -1,0 +1,206 @@
+﻿@page "/deptmgr"
+
+@inject IDepartmentService DepartmentService
+@inject IPopupService PopupService
+
+<MRow>
+    <MCol Cols="12" Sm="5">
+        <MCard>
+            <MCardTitle>部门:</MCardTitle>
+            <MTreeview Hoverable OpenAll Items="_departments" ItemText="r=>r.DepartmentName"
+                ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id">
+                <LabelContent>
+                    <MItemGroup>
+                        <MContainer>
+                            <MRow>
+                                <MCol>@context.Item.DepartmentName</MCol>
+                                <MSpacer></MSpacer>
+                                <MCol>
+                                    <MButtonGroup Dense>
+                                        <MButton Small OnClick="() => AddItem(context.Item)">
+                                            <MIcon>mdi-plus</MIcon>
+                                        </MButton>
+                                        <MButton Small OnClick="() => EditItem(context.Item)">
+                                            <MIcon>mdi-circle-edit-outline</MIcon>
+                                        </MButton>
+                                        <MButton Small OnClick="() => DeleteItem(context.Item)">
+                                            <MIcon>mdi-delete-sweep-outline</MIcon>
+                                        </MButton>
+                                    </MButtonGroup>
+                                </MCol>
+                            </MRow>
+                        </MContainer>
+                    </MItemGroup>
+                </LabelContent>
+            </MTreeview>
+        </MCard>
+    </MCol>
+    <MCol Cols="12" Sm="8"></MCol>
+</MRow>
+<MDialog @bind-Value="_dialog" MaxWidth="500">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+
+        <MCardText>
+            <MContainer>
+                <MTextField @bind-Value="_editedItem.DepartmentName" Label="部门名称"></MTextField>
+            </MContainer>
+        </MCardText>
+
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1" Text OnClick="Close">
+                取消
+            </MButton>
+            <MButton Color="blue darken-1" Text OnClick="Save">
+                保存
+            </MButton>
+        </MCardActions>
+    </MCard>
+</MDialog>
+<PConfirm Visible="_dialogDelete" Title="确认操作" Type="AlertTypes.Warning" OnCancel="CloseDelete"
+    OnOk="DeleteItemConfirm">
+    您确认该操作吗？
+</PConfirm>
+
+@code {
+
+    AlertTypes type = 0;
+
+    void Show(AlertTypes t = 0)
+    {
+        type = t;
+        _dialogDelete = true;
+    }
+
+    ToastPosition position = ToastPosition.TopRight;
+    async Task AlertShow(AlertTypes t = 0)
+    {
+        type = t;
+        await PopupService.ToastAsync(_message, type);
+    }
+
+    private bool _dialog;
+    private bool _dialogDelete;
+
+    private bool _messageAlert = false;
+    private string _message = string.Empty;
+
+    private DepartmentDto _editedItem = new DepartmentDto();
+
+    private int _editedIndex;
+    public string FormTitle
+    {
+        get
+        {
+            return _editedIndex == -1 ? "添加" : "编辑";
+        }
+    }
+
+    public void Close()
+    {
+        _dialog = false;
+        _editedItem = new();
+        _editedIndex = -1;
+    }
+
+    public async Task Save()
+    {
+        if (_editedIndex > -1)
+        {
+            var result = await DepartmentService.EditDepartmentAsync<WcResponse<DepartmentDto>>(_editedItem);
+            _message = result.Message ?? "";
+            await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+
+            await GetFromApi();
+        }
+        else
+        {
+            var parent = _departments.FirstOrDefault(r => r.Id == _editedItem.ParentId);
+            //parent?.Children?.Append(_editedItem);
+            var result = await DepartmentService.AddDepartmentAsync<WcResponse<DepartmentDto>>(_editedItem);
+
+            _message = result.Message ?? "";
+            await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+
+            await GetFromApi();
+        }
+        Close();
+    }
+
+    public void AddItem(DepartmentDto item)
+    {
+        _editedItem = new DepartmentDto()
+        {
+            ParentId = item.Id
+        };
+        _editedIndex = -1;
+        _dialog = true;
+    }
+
+    public void EditItem(DepartmentDto item)
+    {
+        _editedIndex = 1;
+        _editedItem = new DepartmentDto()
+        {
+            Id = item.Id,
+            DepartmentName = item.DepartmentName,
+            ParentId = item.ParentId
+        };
+        _dialog = true;
+    }
+
+    public void DeleteItem(DepartmentDto item)
+    {
+        _editedIndex = _departments.IndexOf(item);
+        _editedItem = new DepartmentDto()
+        {
+            Id = item.Id,
+            DepartmentName = item.DepartmentName,
+        };
+        _dialogDelete = true;
+    }
+
+    public async Task DeleteItemConfirm()
+    {
+        //_departments.RemoveAt(_editedIndex);
+        var result = await DepartmentService.DeleteDepartmentAsync<WcResponse<DepartmentDto>>(_editedItem);
+        _message = result.Message ?? "";
+        await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
+        await GetFromApi();
+        CloseDelete();
+    }
+
+    public void CloseDelete()
+    {
+        _dialogDelete = false;
+        _editedItem = new();
+        _editedIndex = -1;
+    }
+
+    List<DepartmentDto> _departments = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFromApi();
+
+        await PopupService.ConfigToast(config =>
+        {
+            config.Position = ToastPosition.TopRight;
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task GetFromApi()
+    {
+        var result = await DepartmentService.GetDepartmentTreeAsync<WcResponse<IEnumerable<DepartmentDto>>>();
+
+        if (result.Code == WcStatus.Success)
+        {
+            _departments = result.Data!.ToList();
+        }
+    }
+}

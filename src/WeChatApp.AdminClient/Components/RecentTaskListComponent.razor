@@ -1,0 +1,91 @@
+@inject IDepartmentService DepartmentService
+@inject IPopupService PopupService
+
+<MListItem TwoLine>
+    <MListItemContent>
+        <div class="text-overline mb-4" style="float: left;">
+            最近任务
+        </div>
+        <MListItemSubtitle>
+
+            <MList Disabled>
+                <MListItemGroup>
+                    @foreach (var item in items)
+                    {
+                        <MListItem Style="height: 16px;">
+                            <MListItemContent>
+                                <MListItemTitle>@item.Text</MListItemTitle>
+                            </MListItemContent>
+                        </MListItem>
+                        <MDivider></MDivider>
+                    }
+                </MListItemGroup>
+            </MList>
+        </MListItemSubtitle>
+    </MListItemContent>
+</MListItem>
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFromApi();
+
+        await PopupService.ConfigToast(config =>
+        {
+            config.Position = ToastPosition.TopRight;
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    #region Department
+    AlertTypes type = 0;
+
+    void Show(AlertTypes t = 0)
+    {
+        type = t;
+        _dialogDelete = true;
+    }
+
+    ToastPosition position = ToastPosition.TopRight;
+    async Task AlertShow(AlertTypes t = 0)
+    {
+        type = t;
+        await PopupService.ToastAsync(_message, type);
+    }
+
+    private bool _dialog;
+    private bool _dialogDelete;
+
+    private bool _messageAlert = false;
+    private string _message = string.Empty;
+
+    List<DepartmentDto> _departments = new();
+
+    public async Task GetFromApi()
+    {
+        var result = await DepartmentService.GetDepartmentTreeAsync<WcResponse<IEnumerable<DepartmentDto>>>();
+
+        if (result.Code == WcStatus.Success)
+        {
+            _departments = result.Data!.ToList();
+        }
+    }
+    #endregion Department
+
+    List<Item> items = new List<Item>
+{
+new Item { Text= "Real-Time", Icon= "mdi-account" },
+new Item { Text= "Audience", Icon= "mdi-account" },
+new Item { Text= "Conversions", Icon= "mdi-account" },
+new Item { Text= "Real-Time", Icon= "mdi-account" },
+new Item { Text= "Audience", Icon= "mdi-account" },
+new Item { Text= "Conversions", Icon= "mdi-account" }
+};
+
+    class Item
+    {
+        public string Text { get; set; }
+        public string Icon { get; set; }
+    }
+}

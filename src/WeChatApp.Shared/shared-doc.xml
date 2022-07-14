@@ -1,0 +1,2016 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeChatApp.Shared</name>
+    </assembly>
+    <members>
+        <member name="T:WeChatApp.Shared.Attributes.ShowColorAttribute">
+            <summary>
+            枚举颜色
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Attributes.ShowColorAttribute.Color">
+            <summary>
+            颜色
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.BonusPointRecord">
+            <summary>
+            积分记录
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.BonusPoints">
+            <summary>
+            积分
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.PickUpUserId">
+            <summary>
+            积分认领人
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.PickUpUserName">
+            <summary>
+            积分认领人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.BonusPointRecord.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.Department">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.DepartmentName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.TreeIds">
+            <summary>
+            部门树形结构
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.ParentId">
+            <summary>
+            父部门Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.Parent">
+            <summary>
+            父级部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.Children">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.LogRecord">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.Type">
+            <summary>
+            API, Db...
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.Module">
+            <summary>
+            模块
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.LogRecord.LogTime">
+            <summary>
+            日志时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.LogType">
+            <summary>
+            日志类型
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Entity.LogType.None">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Entity.LogType.Api">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Entity.LogType.Database">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Entity.LogType.Task">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.MessageToast">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.Type">
+            <summary>
+            消息类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.Content">
+            <summary>
+            正文
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.IsPush">
+            <summary>
+            是否已经发送
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.MessageToast.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.User">
+            <summary>
+            用户表
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Uid">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Gender">
+            <summary>
+            性别
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Tel">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.IsSuper">
+            <summary>
+            是否为超级管理员
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.WeComDepartment">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.User.DepartmentId">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.WorkTask">
+            <summary>
+            工作任务
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Id">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.DepartmentId">
+            <summary>
+            部门Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Title">
+            <summary>
+            工作标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Content">
+            <summary>
+            工作内容
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.WorkPublishType">
+            <summary>
+            任务发布类型
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.MaxPickUpCount">
+            <summary>
+            最高抢单人数
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PointsRewards">
+            <summary>
+            积分奖励
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PointsSettlement">
+            <summary>
+            积分结算
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PickUpUserIds">
+            <summary>
+            接取人Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PickUpUserNames">
+            <summary>
+            接取人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Type">
+            <summary>
+            工作任务接取类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Nodes">
+            <summary>
+            子节点
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Status">
+            <summary>
+            工作任务的状态
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Timespan">
+            <summary>
+            乐观锁
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.IsPublicNodes">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PublicStartTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.PublicEndTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyUserId">
+            <summary>
+            修改人Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.WorkTaskNode">
+            <summary>
+            工作任务节点
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.WorkTaskId">
+            <summary>
+            工作任务的Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Type">
+            <summary>
+            节点类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.ImageSources">
+            <summary>
+            图片
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Items">
+            <summary>
+            子节点
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.NodeTime">
+            <summary>
+            节点时间
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.WorkTaskNodeItem">
+            <summary>
+            工作节点子项
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.Id">
+            <summary>
+            Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.WorkTaskNodeId">
+            <summary>
+            工作任务节点Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.Title">
+            <summary>
+            标题
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.Content">
+            <summary>
+            内容
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.ImageSources">
+            <summary>
+            图片路径
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.CreateUserUid">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.CreateUserName">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTaskNodeItem.CreateTime">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.ClientUA">
+            <summary>
+            客户端类型
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.ClientUA.PC">
+            <summary>
+            PC
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.ClientUA.Mobile">
+            <summary>
+            手机端
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.MsgToastType">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.MsgToastType.System">
+            <summary>
+            系统消息
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.MsgToastType.Notice">
+            <summary>
+            通知
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.MsgToastType.Push">
+            <summary>
+            推送
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.Role.高层管理员">
+            <summary>
+            高层管理员
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.Role.中层管理员">
+            <summary>
+            中层管理员
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.Role.普通成员">
+            <summary>
+            普通成员
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.WorkPublishType">
+            <summary>
+            工作发布类型
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkPublishType.全局发布">
+            <summary>
+            全局发布
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkPublishType.科室发布">
+            <summary>
+            科室发布
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkPublishType.自定义发布">
+            <summary>
+            自定义发布
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.WorkTaskNodeTypes">
+            <summary>
+            节点的类型
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.None">
+            <summary>
+            无
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Publish">
+            <summary>
+            发布
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Approval">
+            <summary>
+            审批
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.PickUp">
+            <summary>
+            接取
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Assigned">
+            <summary>
+            分配, 指定
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Report">
+            <summary>
+            汇报
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Modify">
+            <summary>
+            修改
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.End">
+            <summary>
+            完成
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskNodeTypes.Close">
+            <summary>
+            结束
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.WorkTaskStatus">
+            <summary>
+            工作状态
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.None">
+            <summary>
+            无状态
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.PendingReview">
+            <summary>
+            待审核
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.PendingPublish">
+            <summary>
+            待发布
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Overrule">
+            <summary>
+            驳回
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Publish">
+            <summary>
+            发布
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Active">
+            <summary>
+            进行中
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Finished">
+            <summary>
+            已完成
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.End">
+            <summary>
+            结束
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Grade">
+            <summary>
+            评分
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.WorkTaskTypes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskTypes.None">
+            <summary>
+            无
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskTypes.PickUp">
+            <summary>
+            接取
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskTypes.Assigned">
+            <summary>
+            指定
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Extensions.FormatExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.HttpExtensions.GetQueryString``1(``0)">
+            <summary>
+            拼接参数
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="parameter"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.HttpExtensions.ToJson(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.HttpExtensions.ToObject``1(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="json"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatApp.Shared.Extensions.UtilExtensions">
+            <summary>
+            通用扩展
+            </summary>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.UtilExtensions.GetColor(System.Enum)">
+            <summary>
+            获取颜色
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.BonusPointRecordDto">
+            <summary>
+            积分记录
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.DepartmentDto">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.DepartmentName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.DepartmentIdTree">
+            <summary>
+            部门树形结构
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.ParentId">
+            <summary>
+            父部门Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.Children">
+            <summary>
+            子部门
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.IDtoBase">
+            <summary>
+            Dto
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.IDtoBase.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.LoginDto">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.LoginDto.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.LoginDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.LoginDto.ClientUA">
+            <summary>
+            访问端
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.MessageToastDto">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.MessageToastDto.Type">
+            <summary>
+            消息类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.MessageToastDto.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.MessageToastDto.Content">
+            <summary>
+            正文
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.PickUpWorkTaskDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.PickUpWorkTaskDto.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.PickUpWorkTaskDto.PickUpUserIds">
+            <summary>
+            抢单人的Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.UserChangePasswordDto">
+            <summary>
+            用户更改密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserChangePasswordDto.OldPassword">
+            <summary>
+            旧密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserChangePasswordDto.NewPassword">
+            <summary>
+            新密码
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.UserDto">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Uid">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Tel">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.IsSuper">
+            <summary>
+            是否为超级管理员
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.WeComDepartment">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.DepartmentId">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.WorkTaskApprovalDto">
+            <summary>
+            工作任务审批参数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskApprovalDto.WorkTaskId">
+            <summary>
+            工作任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskApprovalDto.ApprovalResult">
+            <summary>
+            审批结果
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskApprovalDto.ApprovalOpinion">
+            <summary>
+            审批意见
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.WorkTaskDto">
+            <summary>
+            工作任务
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Id">
+            <summary>
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.DepartmentId">
+            <summary>
+            部门Id
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Title">
+            <summary>
+            工作标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Content">
+            <summary>
+            工作内容
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.MaxPickUpCount">
+            <summary>
+            最高抢单人数
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.WorkPublishType">
+            <summary>
+            任务发布类型
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PointsRewards">
+            <summary>
+            积分奖励
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PointsSettlement">
+            <summary>
+            积分结算
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PickUpUserIds">
+            <summary>
+            接取人Id
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PickUpUserNames">
+            <summary>
+            接取人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PockUpUsers">
+            <summary>
+            接取人列表
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Type">
+            <summary>
+            工作任务接取类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Nodes">
+            <summary>
+            子节点
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Status">
+            <summary>
+            工作任务的状态
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.IsPublicNodes">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PublicStartTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PublicEndTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.ModifyUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CreateUserId">
+            <summary>
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.ModifyUserId">
+            <summary>
+            修改人Id
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.ModifyUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.ModifyTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.WorkTaskNodeDto">
+            <summary>
+            工作任务的节点
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.WorkTaskId">
+            <summary>
+            工作任务的Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.Type">
+            <summary>
+            节点类型
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.ImageSources">
+            <summary>
+            图片
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.Items">
+            <summary>
+            子节点
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.NodeTime">
+            <summary>
+            节点时间
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeDto.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto">
+            <summary>
+            工作节点子项
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.Id">
+            <summary>
+            Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.WorkTaskNodeId">
+            <summary>
+            工作任务节点Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.Title">
+            <summary>
+            标题
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.Content">
+            <summary>
+            内容
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.ImageSources">
+            <summary>
+            图片路径
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserUid">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserName">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateTime">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.GlobalVars.GlobalVars">
+            <summary>
+            常量配置
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.AccessTokenKey">
+            <summary>
+            Token内存存储Key
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.Permission">
+            <summary>
+            权限策略名称
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.Cors">
+            <summary>
+            跨域策略名称
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.ClientTokenKey">
+            <summary>
+            客户端Token存储的名称
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.ClientUserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.GlobalVars.ApiVars">
+            <summary>
+            Apis
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.ApiVars.ApiBase">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.GlobalVars.HangfireVars">
+            <summary>
+            Hangfire
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.HangfireVars.DefaultSchemaName">
+            <summary>
+            默认架构
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.ICreator">
+            <summary>
+            创建
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ICreator.CreateUserUid">
+            <summary>
+            创建人Id(Uid)
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ICreator.CreateUserId">
+            <summary>
+            创建人Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ICreator.CreateUserName">
+            <summary>
+            创建人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ICreator.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IDeleted">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IDeleted.IsDeleted">
+            <summary>
+            删除标记
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IEnabled">
+            <summary>
+            开启
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IEnabled.IsEnabled">
+            <summary>
+            开启标记
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IEntity">
+            <summary>
+            实体
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IModifyed">
+            <summary>
+            修改
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IModifyed.ModifyUserUid">
+            <summary>
+            修改人Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IModifyed.ModifyUserId">
+            <summary>
+            修改人Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IModifyed.ModifyUserName">
+            <summary>
+            修改人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IModifyed.ModifyTime">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.ISorting">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ISorting.OrderBy">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IPaging">
+            <summary>
+            分页
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IPaging.Page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IPaging.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.IPublic">
+            <summary>
+            公开
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IPublic.PublicStartTime">
+            <summary>
+            公示开始时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.IPublic.PublicEndTime">
+            <summary>
+            公示结束时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Interfaces.ITree`1">
+            <summary>
+            树形数据
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ITree`1.Id">
+            <summary>
+            Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ITree`1.ParentId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ITree`1.Children">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ITree`1.TreeIds">
+            <summary>
+            树状结构
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.DbOptions">
+            <summary>
+            数据库设置
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.DbOptions.DbSettings">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.DbOptions.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.DbSetting">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.DbSetting.DbType">
+            <summary>
+            数据库类型
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.DbSetting.ConnectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.DbSetting.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.HangfireOptions">
+            <summary>
+            Hangfire设置
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.HangfireOptions.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.HangfireOptions.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.HangfireOptions.Value">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.WeChatOptions">
+            <summary>
+            微信基础设置
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WeChatOptions.CorpId">
+            <summary>
+            企业ID
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WeChatOptions.AgentId">
+            <summary>
+            应用ID
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WeChatOptions.Secret">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.WeComOptions">
+            <summary>
+            企业微信端的配置
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WeComOptions.CorpId">
+            <summary>
+            企业Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WeComOptions.RedirectUri">
+            <summary>
+            回调Url
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Options.WsServerOptions">
+            <summary>
+            WebSocket服务器配置
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WsServerOptions.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WsServerOptions.Port">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.WsServerOptions.Value">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters.UserId">
+            <summary>
+            用户Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters.DepartmentId">
+            <summary>
+            部门Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.IParameterBase">
+            <summary>
+            参数约束
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.ParameterBase">
+            <summary>
+            参数基类
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.Q">
+            <summary>
+            模糊查询
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.Page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.OrderBy">
+            <summary>
+            排序, 例如按姓名倒序,年龄正序: OrderBy=Name desc,Age
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.ParameterBase.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.UserDtoParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.UserDtoParameters.DepartmentId">
+            <summary>
+            部门Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoParameters">
+            <summary>
+            工作任务请求参数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoParameters.Status">
+            <summary>
+            任务状态, 如果不传就是全部状态的任务
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters">
+            <summary>
+            工作节点子项请求参数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters.WorkTaskId">
+            <summary>
+            工作任务Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters.WorkTaskNodeId">
+            <summary>
+            子节点Id
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters.code">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WeCom.IRequestParameter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.ResponseBody.WebApi.RespToken">
+            <summary>
+            Token返回
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WebApi.RespToken.Token">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WebApi.RespToken.RefreshToken">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.ResponseBody.WeCom.RespAccessTokenBody">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespAccessTokenBody.access_token">
+            <summary>
+            access_token
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespAccessTokenBody.expires_in">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.ResponseBody.WeCom.RespBodyBase">
+            <summary>
+            企业微信Api
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespBodyBase.errcode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespBodyBase.errmsg">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.ResponseBody.WeCom.RespUserBody">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserBody.UserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserBody.DeviceId">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.UserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Name">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Department">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Position">
+            <summary>
+            职务
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Mobile">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Gender">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Email">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WeCom.RespUserInfoBody.IsLeader">
+            <summary>
+            是否是领导
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Temp.MessageToastTemp">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.MessageToastTemp.UserIds">
+            <summary>
+            发送给用户的Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.MessageToastTemp.MessageToast">
+            <summary>
+            发送给用户的消息
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Temp.PagedList`1">
+            <summary>
+            分页
+            </summary>
+            <typeparam name="T"> </typeparam>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.CurrentPage">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.TotalPages">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.HasPrevious">
+            <summary>
+            是否有上一页
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.PagedList`1.HasNext">
+            <summary>
+            是否有下一页
+            </summary>
+        </member>
+        <member name="M:WeChatApp.Shared.Temp.PagedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="items">      </param>
+            <param name="count">      </param>
+            <param name="pageNumber"> </param>
+            <param name="pageSize">   </param>
+        </member>
+        <member name="M:WeChatApp.Shared.Temp.PagedList`1.#ctor">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.Shared.Temp.PagedList`1.CreateAsync(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="sourse">     </param>
+            <param name="pageNumber"> </param>
+            <param name="pageSize">   </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.Shared.Temp.PagedList`1.Create(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="sourse">     </param>
+            <param name="pageNumber"> </param>
+            <param name="pageSize">   </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.Shared.Temp.TreeItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.Id">
+            <summary>
+            Id
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.Name">
+            <summary>
+            名称
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.ParentId">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.Children">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.TreeIds">
+            <summary>
+            树状结构
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.Type">
+            <summary>
+            节点类型
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.Temp.TreeItemType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Temp.TreeItemType.Department">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Temp.TreeItemType.User">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Temp.UserItem">
+            <summary>
+            任务节点子项用户
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.UserItem.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.UserItem.Name">
+            <summary>
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.UserItem.Score">
+            <summary>
+            分数
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.IResponse">
+            <summary>
+            统一返回
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.WcResponse">
+            <summary>
+            统一返回
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse.TotalCount">
+            <summary>
+            总数
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.WcResponse`1">
+            <summary>
+            </summary>
+            <typeparam name="T"> </typeparam>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse`1.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse`1.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.WcResponse`1.TotalCount">
+            <summary>
+            总数
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.Shared.WcStatus">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.WcStatus.Success">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.WcStatus.Fail">
+            <summary>
+            失败
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.WcStatus.TokenExpired">
+            <summary>
+            Token失效
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.WcStatus.Error">
+            <summary>
+            错误
+            </summary>
+        </member>
+        <member name="T:Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="F:Gender.女">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gender.男">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

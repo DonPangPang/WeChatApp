@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Content Remove="Pages\WeComAuth.razor" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Masa.Blazor" Version="0.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\WeChatApp.EzHttpClient\WeChatApp.EzHttpClient.csproj" />
+	  <ProjectReference Include="..\WeChatApp.Shared\WeChatApp.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\WeComAuth.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\WeComAuth.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Pages\WeComAuth.razor" />
+	</ItemGroup>
+</Project>

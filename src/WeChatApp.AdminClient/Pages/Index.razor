@@ -1,0 +1,95 @@
+﻿@page "/"
+<PageTitle>工作台</PageTitle>
+
+<MRow>
+    <MCol>
+        <MCard>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        所有任务
+                    </div>
+                    <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
+                        300
+                    </MListItemTitle>
+                </MListItemContent>
+            </MListItem>
+        </MCard>
+    </MCol>
+    <MCol>
+        <MCard>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        未接取的任务
+                    </div>
+                    <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
+                        30
+                    </MListItemTitle>
+                </MListItemContent>
+            </MListItem>
+        </MCard>
+    </MCol>
+    <MCol>
+        <MCard>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        进行中的任务
+                    </div>
+                    <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
+                        40
+                    </MListItemTitle>
+                </MListItemContent>
+            </MListItem>
+        </MCard>
+    </MCol>
+    <MCol>
+        <MCard>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        我的任务
+                    </div>
+                    <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
+                        50
+                    </MListItemTitle>
+                </MListItemContent>
+            </MListItem>
+        </MCard>
+    </MCol>
+</MRow>
+<MRow>
+    <MCol>
+        <MCard>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        月度统计
+                    </div>
+                    <MListItemSubtitle>
+                        <div class="d-flex align-center justify-center">
+                            <MECharts Height="300" Width="@("100%")" Option="_option">
+                            </MECharts>
+                        </div>
+                    </MListItemSubtitle>
+                </MListItemContent>
+            </MListItem>
+        </MCard>
+    </MCol>
+</MRow>
+<MRow>
+    <MCol>
+        <MCard>
+            <RecentTaskListComponent>
+
+            </RecentTaskListComponent>
+        </MCard>
+    </MCol>
+    <MCol>
+        <MCard>
+            <RankingsComponent>
+            </RankingsComponent>
+        </MCard>
+    </MCol>
+</MRow>

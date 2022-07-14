@@ -1,0 +1,64 @@
+﻿@inherits LayoutComponentBase
+@inject IUserService UserService
+@inject ILocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
+@inject ILoginService LoginService
+
+
+<MApp>
+    <MContainer Fluid Style="width: 400px;margin-top: 200px;">
+        <h1 style="text-align: center;">积分后台管理</h1>
+        <MForm @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
+            <MTextField @bind-Value="_loginDto.UserName" Counter="10" Label="账号" required></MTextField>
+            <MTextField @bind-Value="_loginDto.Password" AppendIcon="@(_passwordShow ? "mdi-eye" : "mdi-eye-off")"
+                Type="@(_passwordShow ? "text" : "password")" Label="密码" Hint="至少输入8个字符" Counter="8"
+                OnAppendClick="() => _passwordShow = !_passwordShow">
+            </MTextField>
+            <MButton Color="success" Type="submit">登录</MButton>
+        </MForm>
+    </MContainer>
+</MApp>
+
+@code {
+
+    private LoginDto _loginDto = new();
+    private bool _passwordShow = false;
+    private bool _valid = true;
+
+    private async Task HandleLogin()
+    {
+        _loginDto.ClientUA = ClientUA.PC;
+        var result = await UserService.LoginAsync<WcResponse<RespToken>>(_loginDto);
+
+        if (result.Code == WcStatus.Success)
+        {
+            await LoginService.Login(result.Data!.Token);
+            NavigationManager.NavigateTo("");
+        }
+        else
+        {
+            _valid = false;
+            await LoginService.Logout();
+            NavigationManager.NavigateTo("");
+        }
+
+        Console.WriteLine(result.Message);
+
+        await GetUserLoginInfo();
+    }
+
+    private async Task GetUserLoginInfo()
+    {
+        var result = await UserService.GetLoginUserAsync<WcResponse<UserDto>>();
+
+        if (result.Code == WcStatus.Success)
+        {
+            await LocalStorageService.SetItemAsync<UserDto>(GlobalVars.ClientUserInfo, result.Data!);
+        }
+        else
+        {
+            await LoginService.Logout();
+            NavigationManager.NavigateTo("");
+        }
+    }
+}

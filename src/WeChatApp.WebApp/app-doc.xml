@@ -1,0 +1,942 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeChatApp.WebApp</name>
+    </assembly>
+    <members>
+        <member name="T:WeChatApp.WebApp.Auth.PermissionHandler">
+            <summary>
+            重写Permission
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Auth.PermissionHandler.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Http.IHttpContextAccessor,WeChatApp.WebApp.Services.IServiceGen,WeChatApp.WebApp.Filters.Session)">
+            <summary>
+            </summary>
+            <param name="config">              </param>
+            <param name="httpContextAccessor"> </param>
+            <param name="service">             </param>
+            <param name="session">             </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Auth.PermissionHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,WeChatApp.WebApp.Auth.PermissionRequirement)">
+            <summary>
+            </summary>
+            <param name="context">     </param>
+            <param name="requirement"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Auth.TokenParameter">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.ApiController">
+            <summary>
+            基础接口
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Success">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Fail">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Success(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Success(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Fail(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController.Fail(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.ApiController`2">
+            <summary>
+            基础接口
+            </summary>
+            <typeparam name="TEntity"> </typeparam>
+            <typeparam name="TDto"> </typeparam>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.#ctor(WeChatApp.WebApp.Services.IServiceGen)">
+            <summary>
+            </summary>
+            <param name="serviceGen"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.GetPagedListAsync(WeChatApp.Shared.RequestBody.WebApi.ParameterBase)">
+            <summary>
+            获取分页数据
+            </summary>
+            <param name="parameter"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.GetEntityAsync(System.Guid)">
+            <summary>
+            获取一条数据
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.CreateEntityAsync(`1)">
+            <summary>
+            创建一条数据
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.UpdateEntityAsync(`1)">
+            <summary>
+            更新一条数据
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.DeleteEntityAsync(System.Guid)">
+            <summary>
+            删除一条数据
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.DeleteEntitiesAsync(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            删除很多数据
+            </summary>
+            <param name="ids"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Success">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Fail">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Success(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Success(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Fail(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="msg"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.ApiController`2.Fail(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.AuthorizationController">
+            <summary>
+            注册用户信息
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AuthorizationController.#ctor(WeChatApp.WebApp.Services.IWeComServices,WeChatApp.WebApp.Filters.Session,WeChatApp.WebApp.Services.IServiceGen,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            </summary>
+            <param name="weComServices"> </param>
+            <param name="session">       </param>
+            <param name="serviceGen">    </param>
+            <param name="configuration"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AuthorizationController.WeComRegisterAsync(WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters)">
+            <summary>
+            认证
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AuthorizationController.Login(WeChatApp.Shared.FormBody.LoginDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="request"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AuthorizationController.Register(WeChatApp.Shared.FormBody.UserDto)">
+            <summary>
+            注册
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AuthorizationController.GenUserToken(System.Guid,System.String,System.String)">
+            <summary>
+            生成Token
+            </summary>
+            <param name="id">       </param>
+            <param name="username"> </param>
+            <param name="role">     </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.BonusPointRecordController">
+            <summary>
+            积分记录
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.#ctor(WeChatApp.WebApp.Services.IServiceGen,WeChatApp.WebApp.Filters.Session)">
+            <summary>
+            </summary>
+            <param name="serviceGen"> </param>
+            <param name="session">    </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetBonusPointRecordsAsync(WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters)">
+            <summary>
+            获取积分记录(带分页)
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetRankings">
+            <summary>
+            获取排名
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.DepartmentController">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.DepartmentController.#ctor(WeChatApp.WebApp.Services.IServiceGen)">
+            <summary>
+            </summary>
+            <param name="serviceGen"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.DepartmentController.GetTree">
+            <summary>
+            获取子集部门
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.DepartmentController.GetTreeWithUser">
+            <summary>
+            附带用户信息的部门列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.TestController">
+            <summary>
+            测试接口
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.TestController.#ctor(WeChatApp.WebApp.Services.IWeComServices,WeChatApp.WebApp.Services.IMessageToastService)">
+            <summary>
+            </summary>
+            <param name="weComServices">       </param>
+            <param name="messageToastService"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.TestController.GetTokenAsync">
+            <summary>
+            [WeCom]获取AccessToken
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="P:WeChatApp.WebApp.Controllers.TestController.SendMessageDto.UserIds">
+            <summary>
+            UserId集合
+            </summary>
+        </member>
+        <member name="P:WeChatApp.WebApp.Controllers.TestController.SendMessageDto.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.TestController.SendMessage(WeChatApp.WebApp.Controllers.TestController.SendMessageDto)">
+            <summary>
+            测试发送消息
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.UserController">
+            <summary>
+            用户接口
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.UserController.#ctor(WeChatApp.WebApp.Services.IServiceGen,WeChatApp.WebApp.Services.IWeComServices,WeChatApp.WebApp.Filters.Session)">
+            <summary>
+            </summary>
+            <param name="serviceGen">    </param>
+            <param name="weComServices"> </param>
+            <param name="session">       </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.UserController.GetUserInfo">
+            <summary>
+            获取当前登录的用户信息
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.UserController.GetUserPagedListAsync(WeChatApp.Shared.RequestBody.WebApi.UserDtoParameters)">
+            <summary>
+            用户获取分页
+            </summary>
+            <param name="parameter"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.UserController.GetUsersByDeptId(System.Guid)">
+            <summary>
+            通过部门Id获取用户
+            </summary>
+            <param name="deptId"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.UserController.ChangePassword(WeChatApp.Shared.FormBody.UserChangePasswordDto)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.WorkTaskController">
+            <summary>
+            工作任务
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.#ctor(WeChatApp.WebApp.Services.IServiceGen,WeChatApp.WebApp.Filters.Session,WeChatApp.WebApp.Services.IMessageToastService)">
+            <summary>
+            </summary>
+            <param name="serviceGen">          </param>
+            <param name="session">             </param>
+            <param name="messageToastService"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTasksAsync(WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoParameters)">
+            <summary>
+            获取任务列表(带分页)
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetMyWorkTasksAsync(WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoParameters)">
+            <summary>
+            获取我的任务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskAsync(System.Guid)">
+            <summary>
+            获取工作任务
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskWithNodesAsync(System.Guid)">
+            <summary>
+            获取工作任务带任务节点
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskWithNodesAndItemsAsync(System.Guid)">
+            <summary>
+            获取工作任务带任务节点, 以及任务节点的任务人的提交信息
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.CreateWorkTaskAsync(WeChatApp.Shared.FormBody.WorkTaskDto)">
+            <summary>
+            创建任务
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.ApprovalTask(WeChatApp.Shared.FormBody.WorkTaskApprovalDto)">
+            <summary>
+            审批任务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.PublishWorkTask(System.Guid)">
+            <summary>
+            发布任务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.PickupWorkTask(WeChatApp.Shared.FormBody.PickUpWorkTaskDto)">
+            <summary>
+            抢单/指定
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.WorkTaskNodeController">
+            <summary>
+            工作任务节点
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskNodeController.#ctor(WeChatApp.WebApp.Services.IServiceGen)">
+            <summary>
+            </summary>
+            <param name="serviceGen"> </param>
+        </member>
+        <member name="T:WeChatApp.WebApp.Controllers.WorkTaskNodeItemController">
+            <summary>
+            工作节点子项
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskNodeItemController.#ctor(WeChatApp.WebApp.Services.IServiceGen)">
+            <summary>
+            </summary>
+            <param name="serviceGen"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskNodeItemController.GetWorkTaskItems(WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters)">
+            <summary>
+            获取工作节点的子项
+            </summary>
+            <returns> </returns>
+            <exception cref="T:System.ArgumentNullException"> </exception>
+        </member>
+        <member name="T:WeChatApp.WebApp.Data.WeComAppDbContext">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Data.WeComAppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{WeChatApp.WebApp.Data.WeComAppDbContext},WeChatApp.WebApp.Filters.Session)">
+            <summary>
+            </summary>
+            <param name="options"> </param>
+            <param name="session"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Data.WeComAppDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            </summary>
+            <param name="modelBuilder"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Data.WeComAppDbContext.SaveChanges">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Data.WeComAppDbContext.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            </summary>
+            <param name="cancellationToken"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Data.WeComAppDbContext.LogDbEntityValidationException(Microsoft.EntityFrameworkCore.DbUpdateException)">
+            <summary>
+            </summary>
+            <param name="exception"> </param>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.AuthExtensions">
+            <summary>
+            认证扩展
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.AuthExtensions.AddAuthSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加认证
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.CorsExtensions">
+            <summary>
+            跨域扩展
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.CorsExtensions.AddCorsSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加扩展配置
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.EfCoreExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.EfCoreExtensions.AddSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加Sql Server支持
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.EfCoreExtensions.AddDatabase(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加Sql Server支持
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.EfCoreExtensions.Create(WeChatApp.Shared.Interfaces.IEntity)">
+            <summary>
+            创建
+            </summary>
+            <param name="entity"> </param>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.HttpClientExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.HttpClientExtensions.AddEzHttpClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加HttpClient的支持
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.IQueryableExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.ApplySort``1(System.Linq.IQueryable{``0},System.String)">
+            <summary>
+            进行排序
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="source">  </param>
+            <param name="orderBy"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},WeChatApp.Shared.Interfaces.IPaging)">
+            <summary>
+            分页
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="source"> </param>
+            <param name="paging"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.ToPagedList``1(System.Linq.IQueryable{``0},WeChatApp.Shared.Interfaces.IPaging)">
+            <summary>
+            分页
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="source"> </param>
+            <param name="paging"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.QueryAsync``1(System.Linq.IQueryable{``0},WeChatApp.Shared.RequestBody.WebApi.IParameterBase)">
+            <summary>
+            排序并分页
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="source">     </param>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.Enabled``1(System.Linq.IQueryable{``0})">
+            <summary>
+            获取开启的数据
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.UnDeleted``1(System.Linq.IQueryable{``0})">
+            <summary>
+            未被删除的数据
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.Enabled``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            获取开启的数据
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.UnDeleted``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            未被删除的数据
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.Published``1(System.Linq.IQueryable{``0})">
+            <summary>
+            获取公开的
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.Published``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            获取公开的
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="query"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.IsPublic``1(``0)">
+            <summary>
+            是否公开
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <param name="entity"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.IQueryableExtensions.ToTree``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            转为树形结构
+            </summary>
+            <param name="data"> </param>
+            <typeparam name="T"> </typeparam>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.OptionsExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.OptionsExtensions.AddPrivateOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注入设置
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.ServicesExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.ServicesExtensions.AddPrivateServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注入服务
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Extensions.SwaggerExtensions">
+            <summary>
+            Swagger扩展
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Extensions.SwaggerExtensions.AddSwaggerSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加swagger
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Filters.AsyncAccessTokenFilter">
+            <summary>
+            会话过滤
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Filters.AsyncAccessTokenFilter.#ctor(WeChatApp.WebApp.Filters.Session,WeChatApp.WebApp.Services.IWeComServices,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            </summary>
+            <param name="session">       </param>
+            <param name="weComServices"> </param>
+            <param name="cache">         </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Filters.AsyncAccessTokenFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+            <summary>
+            </summary>
+            <param name="context"> </param>
+            <param name="next">    </param>
+            <returns> </returns>
+            <exception cref="T:System.NotImplementedException"> </exception>
+        </member>
+        <member name="T:WeChatApp.WebApp.Filters.AsyncAuthFilter">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Filters.AsyncAuthFilter.OnAuthorizationAsync(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary>
+            </summary>
+            <param name="context"> </param>
+            <returns> </returns>
+            <exception cref="T:System.NotImplementedException"> </exception>
+        </member>
+        <member name="T:WeChatApp.WebApp.Filters.AsyncExceptionFilter">
+            <summary>
+            全局错误筛选器
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Filters.AsyncExceptionFilter.OnExceptionAsync(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            </summary>
+            <param name="context"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Filters.Session">
+            <summary>
+            用户会话
+            </summary>
+        </member>
+        <member name="P:WeChatApp.WebApp.Filters.Session.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="P:WeChatApp.WebApp.Filters.Session.UserId">
+            <summary>
+            UserId
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.WebApp.Filters.Session.UserName">
+            <summary>
+            用户名
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.WebApp.Filters.Session.WeComUserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:WeChatApp.WebApp.Filters.Session.UserInfo">
+            <summary>
+            User
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:WeChatApp.WebApp.Filters.SwaggerEnumFilter">
+            <summary>
+            swagger文档生成过滤器，用于枚举描述的生成
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Filters.SwaggerEnumFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            实现IDocumentFilter接口的Apply函数
+            </summary>
+            <param name="swaggerDoc"> </param>
+            <param name="context">    </param>
+        </member>
+        <member name="T:WeChatApp.WebApp.HangfireTasks.DemoJob">
+            <summary>
+            测试任务
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.HangfireTasks.DemoJob.Execute">
+            <summary>
+            执行
+            </summary>
+        </member>
+        <member name="T:WeChatApp.WebApp.HangfireTasks.HangfireTask">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.HangfireTasks.HangfireTask.HangfireSevices">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.WebApp.Services.IMessageToastService">
+            <summary>
+            消息推送服务
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IMessageToastService.SendMessageAsync(WeChatApp.Shared.Temp.MessageToastTemp)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="messageTemp"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IMessageToastService.ReSendMessageAsync(System.Guid)">
+            <summary>
+            重发消息
+            </summary>
+            <param name="id"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IMessageToastService.ReSendMessageAsync">
+            <summary>
+            重新发送消息
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Services.IServiceGen">
+            <summary>
+            通用服务
+            </summary>
+        </member>
+        <member name="P:WeChatApp.WebApp.Services.IServiceGen.Db">
+            <summary>
+            Db
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.Query``1">
+            <summary>
+            获取实体检索
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.BeginTrans">
+            <summary>
+            开始事务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.CommitTrans">
+            <summary>
+            提交事务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.Rollback">
+            <summary>
+            回滚事务
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.SaveAsync">
+            <summary>
+            保存
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IServiceGen.Execute(System.String)">
+            <summary>
+            执行sql
+            </summary>
+            <param name="sql"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Services.IWeComServices">
+            <summary>
+            微信接口
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IWeComServices.GetAccessTokenAsync">
+            <summary>
+            获取AccessToken
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.IWeComServices.GetUserInfoAsync(WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Services.ServiceGen">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.#ctor(WeChatApp.WebApp.Data.WeComAppDbContext)">
+            <summary>
+            </summary>
+            <param name="dbContext"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.Query``1">
+            <summary>
+            </summary>
+            <typeparam name="T"> </typeparam>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.BeginTrans">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.CommitTrans">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.Rollback">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.SaveAsync">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.ServiceGen.Execute(System.String)">
+            <summary>
+            </summary>
+            <param name="sql"> </param>
+            <returns> </returns>
+        </member>
+        <member name="T:WeChatApp.WebApp.Services.WeComServices">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.WeComServices.#ctor(Microsoft.Extensions.Options.IOptions{WeChatApp.Shared.Options.WeChatOptions},Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            </summary>
+            <param name="weChatOptions"> </param>
+            <param name="cache">         </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.WeComServices.GetAccessTokenAsync">
+            <summary>
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Services.WeComServices.GetUserInfoAsync(WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters)">
+            <summary>
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+            <exception cref="T:System.Exception"> </exception>
+        </member>
+        <member name="T:WeChatApp.Shared.Extensions.HangfireExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.HangfireExtensions.AddHangfireSupport(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加Hangfire的支持
+            </summary>
+            <param name="services"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.Shared.Extensions.HangfireExtensions.UseHangfire(Microsoft.AspNetCore.Builder.WebApplication)">
+            <summary>
+            使用Hangfire
+            </summary>
+            <param name="app"> </param>
+            <returns> </returns>
+        </member>
+    </members>
+</doc>

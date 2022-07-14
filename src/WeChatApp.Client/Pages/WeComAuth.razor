@@ -1,0 +1,26 @@
+﻿@page "/wecom"
+@using Microsoft.Extensions.Options
+@using WeChatApp.Client.Apis
+@using WeChatApp.Shared
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+
+<h3>WeComAuth</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        var redirect_uri = Configuration["RedirectUri"];
+        var corp_id = Configuration["CorpId"];
+        try{
+            var url = $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={corp_id}&redirect_uri={redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+
+            NavigationManager.NavigateTo(url);
+
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}

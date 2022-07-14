@@ -1,0 +1,184 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject ILoginService LoginService
+@inject IUserService UserService
+
+<MApp AlertParameters="param => { param.Right = true; }">
+    <MAppBar Flat App Color="white" Class="m-bar--underline">
+        <span class="text-h6">积分管理系统</span>
+        <MSpacer></MSpacer>
+        <MButton Text>
+            <a href="https://blazor.masastack.com/">About</a>
+        </MButton>
+    </MAppBar>
+    <MNavigationDrawer @bind-Value="_drawer" @bind-MiniVariant="_mini" Class="deep-purple accent-4" Dark Permanent App>
+        <ChildContent>
+            <MList>
+                <MListItem Class="px-2">
+                    <MListItemAvatar Size="40">
+                        <MImage Src="@("https://randomuser.me/api/portraits/men/85.jpg")"></MImage>
+                    </MListItemAvatar>
+
+                    <MListItemTitle></MListItemTitle>
+
+                    <MButton Icon OnClick="() => _mini = !_mini">
+                        <MIcon>mdi-chevron-left</MIcon>
+                    </MButton>
+                </MListItem>
+
+                <MListItem Link>
+                    <MListItemContent>
+                        <MListItemTitle Class="text-h6">
+                            @_user.Name
+                        </MListItemTitle>
+                        <MListItemSubtitle>@_user.Email</MListItemSubtitle>
+                        <MListItemSubtitle>@_user.Tel</MListItemSubtitle>
+                    </MListItemContent>
+                </MListItem>
+            </MList>
+
+            <MDivider Light></MDivider>
+
+            <MList Dense Nav>
+                @foreach (var nav in _navs)
+                {
+                    <MListItem Link Dark Href="@nav.Href" OnClick="()=>AddTab(nav)">
+                        <MListItemIcon>
+                            <MIcon Dark>@nav.Icon</MIcon>
+                        </MListItemIcon>
+                        <MListItemContent>
+                            <MListItemTitle>@nav.Name</MListItemTitle>
+                        </MListItemContent>
+                    </MListItem>
+                }
+            </MList>
+        </ChildContent>
+
+        <AppendContent>
+            <MList>
+                <MListItem>
+                    <MButton Block Dark OnClick="HandleLogOut">
+                        <MIcon Dark Left>
+                            mdi-logout-variant
+                        </MIcon>
+                        退出登录
+                    </MButton>
+                </MListItem>
+            </MList>
+        </AppendContent>
+    </MNavigationDrawer>
+    <MMain>
+        <MContainer Fluid>
+            <CascadingValue Value="this">
+                <MCard>
+                    <MTabs @bind-Value="_tab" SliderColor="deep-purple" style="margin-bottom: 10px;">
+                        @foreach (var item in _tabItems)
+                        {
+                            <MTab Value="@item.Name" Href="@item.Href" @key="@_tabItems.IndexOf(item)"
+                            OnClick="() => _thisTab = item.Id" Class="rounded-lg" Style="margin-right: 10px;">
+                                @item.Name
+                                @if (@item.Id != 0)
+                                {
+                                    @* <MButton Icon OnClick="()=>RemoveTab(item)"> *@
+                                    @* <MIcon>mdi-close</MIcon> *@
+                                    @* </MButton> *@
+                                    <MIcon Dark Right OnClick="()=>RemoveTab(item)">
+                                        mdi-close
+                                    </MIcon>
+                                }
+                            </MTab>
+                        }
+                    </MTabs>
+                </MCard>
+                @ChildContent
+            </CascadingValue>
+        </MContainer>
+    </MMain>
+</MApp>
+
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+
+    private bool _drawer = true;
+    private bool _mini = true;
+    private int _thisTab = 1;
+
+    private UserDto _user = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await UserService.GetLoginUserAsync<WcResponse<UserDto>>();
+
+        if (result.Code == WcStatus.Success)
+        {
+            _user = result.Data!;
+        }
+        else
+        {
+            await LoginService.Logout();
+        }
+    }
+
+    private class NavItem
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Href { get; set; }
+        public string? Icon { get; set; }
+    }
+
+    private List<NavItem> _navs = new()
+    {
+        new NavItem { Id = 0, Name = "工作台", Href = "/", Icon = "mdi-view-dashboard" },
+        new NavItem { Id = 1, Name = "用户管理", Href = "/usermgr", Icon = "mdi-account-box" },
+        new NavItem { Id = 2, Name = "部门管理", Href = "/deptmgr", Icon = "mdi-graph" },
+        new NavItem { Id = 3, Name = "任务管理", Href = "/worktasks", Icon = "mdi-format-list-checks" },
+        new NavItem { Id = 4, Name = "权限管理", Href = "/permission", Icon = "mdi-account-cog-outline" },
+    };
+
+    private List<NavItem> _tabItems = new()
+    {
+        new NavItem { Id = 0, Name = "工作台", Href = "/", Icon = "mdi-view-dashboard" },
+    };
+
+    private StringNumber _tab = "工作台";
+
+    private void AddTab(NavItem nav)
+    {
+        if (_tabItems.All(x => x.Id != nav.Id))
+        {
+            _tabItems.Add(nav);
+        }
+        _tab = nav.Name;
+        _thisTab = nav.Id;
+    }
+
+    private void RemoveTab(NavItem nav)
+    {
+        var index = _tabItems.IndexOf(nav) - 1;
+        if (nav.Id == 0) return;
+        _tabItems.Remove(nav);
+        if (_thisTab != nav.Id)
+        {
+            var prevTab = _tabItems[(index <= 0 ? 0 : index)];
+            _tab = prevTab.Name;
+            NavigationManager.NavigateTo(prevTab.Href ?? "/");
+        }
+        else
+        {
+            var prevTab = _tabItems[^1];
+            _tab = prevTab.Name;
+            NavigationManager.NavigateTo(prevTab.Href ?? "/");
+        }
+    }
+
+    private async Task HandleLogOut()
+    {
+        await LoginService.Logout();
+        NavigationManager.NavigateTo("");
+    }
+}

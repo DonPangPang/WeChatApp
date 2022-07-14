@@ -1,0 +1,277 @@
+﻿@page "/home"
+@page "/home/{Code}"
+@using WeChatApp.Shared.RequestBody
+@using WeChatApp.Shared.RequestBody.WeCom
+@using WeChatApp.Shared.ResponseBody.WeCom
+@using WeChatApp.Client.Apis
+@using WeChatApp.Shared
+@inject IMemoryDataService _service
+@inject NavigationManager NavigationManager
+@inject IUserService UserService
+@inject HttpClient HttpClient
+
+
+<PageTitle>Home</PageTitle>
+@*<div style="height:100px;background-color:aqua;">
+    <MImage Src="@UserInfoBody?.Avatar" Style="width:60px;height:60px;"></MImage>
+    <span>@UserInfoBody?.Name</span>
+</div>
+<p>@result</p>*@
+
+<MCard Class="overflow-hidden">
+    <MAppBar Absolute
+             Color="#6A76AB"
+             Dark
+             ShrinkOnScroll
+             Prominent
+             Src="https://picsum.photos/1920/1080?random"
+             FadeImgOnScroll
+             ScrollTarget="#scrolling-sheet-3">
+        <ImgContent>
+            <MImage Gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)" @attributes="@context"></MImage>
+        </ImgContent>
+        <ExtensionContent>
+            <MTabs AlignWithTitle>
+                <MTab>Tab 1</MTab>
+                <MTab>Tab 2</MTab>
+                <MTab>Tab 3</MTab>
+            </MTabs>
+        </ExtensionContent>
+    </MAppBar>
+
+    <MSheet Class="overflow-y-auto" MaxHeight="600" Id="scrolling-sheet-3">
+        <MContainer Style="height: 1000px;"></MContainer>
+    </MSheet>
+</MCard>
+
+<MContainer>
+    <MVirtualScroll Items="Items" Class="fill-height fill-width lst-content">
+    <ItemContent>
+        <MListItem>
+            <MCard Style="margin-bottom:15px;width:100%;">
+                <MCardTitle>@context.Name</MCardTitle>
+                <MCardSubtitle>@($"{context.StartTime.ToShortDateString()}-{context.EndTime.ToShortDateString()}")</MCardSubtitle>
+                <MCardText> @context.Descrption</MCardText>
+            </MCard>
+        </MListItem>
+    </ItemContent>
+</MVirtualScroll>
+
+
+<MButton Elevation="2" Fab Dark Large Class="btn-add" Style="bottom:140px;" Color="success" OnClick="async ()=>await RefreshItems()">
+    <MIcon>
+        refresh
+    </MIcon>
+</MButton>
+</MContainer>
+
+
+
+@*<MDialog @bind-Value="dialog" Fullscreen Transition="dialog-bottom-transition">
+    <ActivatorContent>
+        <MButton Elevation="2"
+                 @attributes="@context.Attrs"
+                 Fab Dark Large Class="btn-add" Style="bottom:60px;" Color="cyan" OnClick="async ()=>await AddItem()">
+            <MIcon>
+                add
+            </MIcon>
+        </MButton>
+    </ActivatorContent>
+    <ChildContent>
+        <MCard>
+            <MToolbar Dark
+                      Color="#42A5F5">
+                <MButton Icon
+                         Dark
+                         OnClick="() => dialog = false">
+                    <MIcon>mdi-close</MIcon>
+                </MButton>
+                <MToolbarTitle>添加一个新任务</MToolbarTitle>
+                <MSpacer></MSpacer>
+                <MToolbarItems>
+                    <MButton Dark
+                             Text
+                             OnClick="async () =>await AddItem()">
+                        添加
+                    </MButton>
+                </MToolbarItems>
+            </MToolbar>
+            <MContainer>
+                <MTextField @bind-Value="Item.Name"
+                            Counter="20"
+                            Label="名称"></MTextField>
+                <MTextarea Solo @bind-Value="Item.Descrption"
+                           Name="input-7-4"
+                           Label="描述">
+                </MTextarea>
+                <MRow>
+                    <MCol>
+                        <MMenu @bind-Value="_menu_start"
+                               CloseOnContentClick="false"
+                               NudgeRight="40"
+                               Transition="scale-transition"
+                               OffsetY
+                               MinWidth="@("auto")">
+                            <ActivatorContent>
+                                <MTextField @bind-Value="_prevDate"
+                                            Label="Picker without buttons"
+                                            PrependIcon="mdi-calendar"
+                                            Readonly
+                                            @attributes="context.Attrs"></MTextField>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MDatePicker @bind-Value="_prevDate"
+                                             OnInput="()=>RecordDateTime()"></MDatePicker>
+                            </ChildContent>
+                        </MMenu>
+                    </MCol>
+                    <MCol>
+                        <MMenu @bind-Value="_menu_end"
+                               CloseOnContentClick="false"
+                               NudgeRight="40"
+                               Transition="scale-transition"
+                               OffsetY
+                               MinWidth="@("auto")">
+                            <ActivatorContent>
+                                <MTextField @bind-Value="_date"
+                                            Label="Picker without buttons"
+                                            PrependIcon="mdi-calendar"
+                                            Readonly
+                                            @attributes="context.Attrs"></MTextField>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MDatePicker @bind-Value="_date"
+                                             OnInput="()=>RecordDateTime()"></MDatePicker>
+                            </ChildContent>
+                        </MMenu>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </MCard>
+    </ChildContent>
+</MDialog>*@
+<style>
+    .btn-add {
+        position: absolute;
+        right: 30px;
+    }
+
+    .lst-content {
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        padding-top: 20px;
+    }
+
+    html, body {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+</style>
+
+@code {
+
+    public enum views
+    {
+        index,
+        mytask,
+        my
+    }
+
+    private bool index_view = true;
+    private bool myTask_view = false;
+    private bool my_view = false;
+
+
+    #region 首页
+    #endregion
+
+
+    [Parameter]
+    public string? Code { get; set; }
+
+
+    private DateOnly _prevDate = DateOnly.FromDateTime(DateTime.Now);
+    private DateOnly _date = DateOnly.FromDateTime(DateTime.Now);
+    private bool _menu_start;
+    private bool _menu_end;
+
+    private bool dialog = false;
+
+    private void RecordDateTime()
+    {
+        _menu_start = false;
+        _menu_end = false;
+        Item.StartTime = _prevDate.ToDateTime(TimeOnly.MinValue).Date;
+        Item.EndTime = _date.ToDateTime(TimeOnly.MinValue).Date;
+    }
+
+
+
+    private TaskItem Item = new();
+
+    private string result = "";
+
+    List<TaskItem> Items = new List<TaskItem>();
+
+    private RespUserInfoBody? UserInfoBody = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = _service.GetTaskItemsAsync();
+
+        Code = NavigationManager.Get("code");
+        //result = NavigationManager.Get();
+
+        try
+        {
+            var response = await UserService.GetUserInfoAsync(new GetUserInfoRequestParameters()
+                {
+                    code = Code
+                });
+
+
+            if (response.Code == WcStatus.Success)
+            {
+                UserInfoBody = response.Data?.ToString()?.ToObject<RespUserInfoBody>();
+                result = "T: " + response.Data;
+            }
+            else
+            {
+                result = "F: " + response.ToJson();
+            }
+        }
+        catch (Exception e)
+        {
+            result = "E: " + e.Message;
+        }
+    }
+
+    private async Task AddItemTest()
+    {
+        Items.Add(new TaskItem { Name = "测试Task, 按钮添加", Descrption = $"这就是一个测试Task, {DateTime.Now}", StartTime = DateTime.Now, EndTime = DateTime.Now });
+    }
+
+    private async Task AddItem()
+    {
+        dialog = false;
+        _service.Set(new TaskItem
+            {
+                Name = Item.Name,
+                Descrption = Item.Descrption,
+                StartTime = Item.StartTime,
+                EndTime = Item.EndTime
+            });
+        Item = new();
+
+        await RefreshItems();
+    }
+
+    private async Task RefreshItems()
+    {
+        Items = _service.GetTaskItemsAsync();
+    }
+}
+
+
