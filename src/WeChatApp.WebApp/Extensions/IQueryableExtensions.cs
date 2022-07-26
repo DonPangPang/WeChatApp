@@ -192,16 +192,28 @@ namespace WeChatApp.WebApp.Extensions
                 {
                     tree.Add(item);
                 }
-                else
+                //else
+                //{
+                //    var parent = data.FirstOrDefault(x => x.Id == item.ParentId);
+                //    if (parent != null)
+                //    {
+                //        if (parent.Children == null)
+                //        {
+                //            parent.Children = new List<T>();
+                //        }
+                //        parent.Children.Append(item);
+                //    }
+                //}
+
+                foreach (var it in data)
                 {
-                    var parent = tree.FirstOrDefault(x => x.Id == item.ParentId);
-                    if (parent != null)
+                    if (it.ParentId == item.Id)
                     {
-                        if (parent.Children == null)
+                        if(item.Children == null)
                         {
-                            parent.Children = new List<T>();
+                            item.Children = new List<T>();
                         }
-                        parent.Children.Append(item);
+                        item.Children.Add(it);
                     }
                 }
             }

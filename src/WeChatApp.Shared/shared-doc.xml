@@ -1672,6 +1672,10 @@
             <summary>
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.ResponseBody.WebApi.RespToken.User">
+            <summary>
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.ResponseBody.WeCom.RespAccessTokenBody">
             <summary>
             </summary>

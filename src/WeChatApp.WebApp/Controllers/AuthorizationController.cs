@@ -140,7 +140,7 @@ namespace WeChatApp.WebApp.Controllers
 
             //LoginUserInfo.Set(user);
 
-            return Success(new RespToken { Token = token, RefreshToken = refreshToken });
+            return Success(new RespToken { Token = token, RefreshToken = refreshToken, User = user.MapTo<UserDto>() });
         }
 
         /// <summary>
