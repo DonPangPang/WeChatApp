@@ -16,13 +16,14 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// 账号
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "账号不能为空")]
         public string UserName { get; set; } = null!;
 
         /// <summary>
         /// 密码
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "密码不能为空")]
+        [MinLength(6, ErrorMessage = "最小6字符长度")]
         public string Password { get; set; } = null!;
 
         /// <summary>

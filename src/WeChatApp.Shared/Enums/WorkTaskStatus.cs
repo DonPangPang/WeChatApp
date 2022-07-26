@@ -30,6 +30,12 @@ namespace WeChatApp.Shared.Enums
         PendingPublish = 12,
 
         /// <summary>
+        /// 指派任务
+        /// </summary>
+        [Description("指派任务")]
+        Assign = 122,
+
+        /// <summary>
         /// 驳回
         /// </summary>
         [Description("驳回")]

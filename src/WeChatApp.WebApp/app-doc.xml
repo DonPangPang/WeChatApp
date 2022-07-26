@@ -387,6 +387,13 @@
             <param name="dto"> </param>
             <returns> </returns>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.CreateAssignWorkTaskAsync(WeChatApp.Shared.FormBody.WorkTaskDto)">
+            <summary>
+            创建高层指派给中层的任务
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.ApprovalTask(WeChatApp.Shared.FormBody.WorkTaskApprovalDto)">
             <summary>
             审批任务

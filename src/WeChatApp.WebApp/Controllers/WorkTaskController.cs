@@ -295,6 +295,61 @@ namespace WeChatApp.WebApp.Controllers
         }
 
         /// <summary>
+        /// 创建高层指派给中层的任务
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> CreateAssignWorkTaskAsync(WorkTaskDto dto)
+        {
+            await _serviceGen.BeginTrans();
+            try
+            {
+                var entity = dto.MapTo<WorkTask>();
+                entity.Create();
+
+                await _serviceGen.Db.AddAsync(entity);
+
+                var node = new WorkTaskNode
+                {
+                    Type = Shared.Enums.WorkTaskNodeTypes.Approval,
+                    WorkTaskId = entity.Id,
+                };
+
+                switch (entity.Status)
+                {
+                    case WorkTaskStatus.Assign:
+                        node.Title = "指派任务";
+                        node.Content = $"待指派任务 {entity.Title}";
+                        break;
+
+                    default:
+                        throw new ArgumentException("添加任务状态错误");
+                }
+
+                node.Create();
+
+                await _serviceGen.Db.AddAsync(node);
+
+                await _serviceGen.SaveAsync();
+
+                await _serviceGen.CommitTrans();
+
+                _ = Task.Run(async () =>
+                {
+                    await _messageToastService.SendMessageAsync(entity);
+                });
+
+                return Success("创建成功");
+            }
+            catch
+            {
+                await _serviceGen.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
         /// 审批任务
         /// </summary>
         /// <returns> </returns>
@@ -366,7 +421,7 @@ namespace WeChatApp.WebApp.Controllers
 
             if (task is null) return Fail("没有找到该任务");
 
-            if (task.Status != WorkTaskStatus.PendingPublish) return Fail("该任务不是待发布状态");
+            if (task.Status != WorkTaskStatus.PendingPublish || task.Status != WorkTaskStatus.Assign) return Fail("该任务不是待发布状态");
 
             task.Status = WorkTaskStatus.Active;
 

@@ -3,18 +3,19 @@
 @inject ILocalStorageService LocalStorageService
 @inject NavigationManager NavigationManager
 @inject ILoginService LoginService
+@inject IPopupService PopupService
 
 
 <MApp>
     <MContainer Fluid Style="width: 400px;margin-top: 200px;">
         <h1 style="text-align: center;">积分后台管理</h1>
-        <MForm @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
-            <MTextField @bind-Value="_loginDto.UserName" Counter="10" Label="账号" required></MTextField>
+        <MForm EnableValidation @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
+            <MTextField @bind-Value="_loginDto.UserName" Counter="true" Label="账号" required></MTextField>
             <MTextField @bind-Value="_loginDto.Password" AppendIcon="@(_passwordShow ? "mdi-eye" : "mdi-eye-off")"
-                Type="@(_passwordShow ? "text" : "password")" Label="密码" Hint="至少输入8个字符" Counter="8"
-                OnAppendClick="() => _passwordShow = !_passwordShow">
+                Type="@(_passwordShow ? "text" : "password")" Label="密码" Hint="至少输入6个字符" Counter="true"
+                OnAppendClick="() => _passwordShow = !_passwordShow" required>
             </MTextField>
-            <MButton Color="success" Type="submit">登录</MButton>
+            <MButton Block Color="success" Type="submit">登录</MButton>
         </MForm>
     </MContainer>
 </MApp>
@@ -24,6 +25,16 @@
     private LoginDto _loginDto = new();
     private bool _passwordShow = false;
     private bool _valid = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PopupService.ConfigToast(config =>
+        {
+            config.Position = ToastPosition.TopRight;
+        });
+
+        await base.OnInitializedAsync();
+    }
 
     private async Task HandleLogin()
     {
@@ -38,6 +49,7 @@
         else
         {
             _valid = false;
+            await PopupService.ToastAsync(result.Message, AlertTypes.Error);
             await LoginService.Logout();
             NavigationManager.NavigateTo("");
         }

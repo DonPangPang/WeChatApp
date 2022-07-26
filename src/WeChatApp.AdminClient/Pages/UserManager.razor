@@ -50,9 +50,20 @@
 
                     <MCardText>
                         <MContainer>
-                            <MTextField @bind-Value="_editedItem.Name"
+                            <MRow>
+                                <MCol Cols="12" Sm="8">
+                                    <MTextField @bind-Value="_editedItem.Name"
                                                 Label="姓名"></MTextField>
-                                                <MTextField @bind-Value="_editedItem.Email"
+                                </MCol>
+                                <MCol>
+                                    <MSelect @bind-Value="_editedItem.Gender"
+                                    Items="@GenderDropList"
+                                    Label="性别"
+                                    ItemText="u => u.Label"
+                                    ItemValue="u => u.Value" onselect=""></MSelect>
+                                </MCol>
+                            </MRow>
+                            <MTextField @bind-Value="_editedItem.Email"
                                                 Label="邮箱"></MTextField>
                             <MRow>
                                 <MCol Cols="12"
@@ -225,6 +236,7 @@
     }
 
     private List<EnumItem<Role>> RoleDropList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<Role>().ToList();
+    private List<EnumItem<Gender>> GenderDropList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<Gender>().ToList();
 
     private UserDto _editedItem = new();
 
@@ -241,7 +253,7 @@
     {
         if (_editedIndex > -1)
         {
-            _editedItem.Uid = _editedItem.Name;
+            //_editedItem.Uid = _editedItem.Uid;
             var result = await UserService.EditUserAsync<WcResponse<UserDto>>(_editedItem);
             _message = result.Message ?? "";
             await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);
@@ -249,7 +261,7 @@
         else
         {
             //_users.Append(_editedItem);
-            _editedItem.Uid = _editedItem.Name;
+            _editedItem.Uid = _editedItem.Tel;
             _editedItem.DepartmentId = _activeDept.FirstOrDefault();
             var result = await UserService.AddUserAsync<WcResponse<UserDto>>(_editedItem);
             _message = result.Message ?? "";
@@ -280,9 +292,11 @@
         {
             Id = item.Id,
             Name = item.Name,
+            Uid = item.Uid,
             Email = item.Email,
             Tel = item.Tel,
             Role = item.Role,
+            Gender = item.Gender,
             DepartmentId = item.DepartmentId
         };
         _dialog = true;
@@ -298,6 +312,7 @@
                 Email = item.Email,
                 Tel = item.Tel,
                 Role = item.Role,
+                Gender = item.Gender,
             };
         _dialogDelete = true;
     }

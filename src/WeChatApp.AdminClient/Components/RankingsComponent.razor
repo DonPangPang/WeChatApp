@@ -25,10 +25,10 @@
                             @foreach (var item in items)
                             {
                                 <MListItem Class="" Style="height: 16px;">
-                                    <MListItemIcon>
+                                    <MChip Color="red" Outlined Dark>
                                         @(items.IndexOf(item) + 1)
-                                    </MListItemIcon>
-                                    <MListItemContent>
+                                    </MChip>
+                                    <MListItemContent Style="margin-left: 10px;">
                                         <MListItemTitle>@item.Text</MListItemTitle>
                                     </MListItemContent>
                                 </MListItem>

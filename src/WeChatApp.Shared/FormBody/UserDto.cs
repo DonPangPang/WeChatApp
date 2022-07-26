@@ -24,13 +24,13 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// UserId
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "UserId不能为空")]
         public string Uid { get; set; } = null!;
 
         /// <summary>
         /// 姓名
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "姓名不能为空")]
         [MaxLength(100)]
         public string Name { get; set; } = null!;
 

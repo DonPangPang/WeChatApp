@@ -679,6 +679,11 @@
             待发布
             </summary>
         </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Assign">
+            <summary>
+            指派任务
+            </summary>
+        </member>
         <member name="F:WeChatApp.Shared.Enums.WorkTaskStatus.Overrule">
             <summary>
             驳回
