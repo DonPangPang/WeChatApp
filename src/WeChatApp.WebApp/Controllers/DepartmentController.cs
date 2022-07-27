@@ -30,7 +30,6 @@ namespace WeChatApp.WebApp.Controllers
         /// 获取子集部门
         /// </summary>
         /// <returns> </returns>
-        [Obsolete("暂时不用")]
         [HttpGet]
         public async Task<ActionResult> GetTree()
         {
@@ -58,6 +57,7 @@ namespace WeChatApp.WebApp.Controllers
         /// 获取子集部门(带Level)
         /// </summary>
         /// <returns> </returns>
+        [Obsolete("不建议使用, Level有问题")]
         [HttpGet]
         public async Task<ActionResult> GetDeptTree()
         {
