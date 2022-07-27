@@ -21,5 +21,7 @@ namespace WeChatApp.AdminClient.Services
         Task<T> DeleteDepartmentAsync<T>(DepartmentDto dto);
 
         Task<T> GetDepartmentTreeAsync<T>();
+
+        Task<T> GetDepartmentTreeWithUserAsync<T>();
     }
 }

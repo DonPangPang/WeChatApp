@@ -25,7 +25,7 @@
                 添加
             </MButton>
             <MDialog @bind-Value="_dialog"
-                     MaxWidth="500">
+                     MaxWidth="1000">
                 <MCard>
                     <MCardTitle>
                         <span class="text-h5">@FormTitle</span>
@@ -61,17 +61,35 @@
                                     Items="@WorkTaskTypeList"
                                     Label="任务类型"
                                     ItemText="u => u.Label"
-                                    ItemValue="u => u.Value" onselect=""></MSelect>
+                                    ItemValue="u => u.Value"></MSelect>
                                 </MCol>
                             </MRow>
                             <MTextarea @bind-Value="_editedItem.Content"
                             Label="内容"></MTextarea>
-                            <MTextField @bind-Value="_editedItem.MaxPickUpCount"
+                            <MRow>
+                                <MCol Cols="12" Sm="8">
+                                    <MTextField @bind-Value="_editedItem.MaxPickUpCount"
                                                 Label="参加人数"></MTextField>
+                                </MCol>
+                                <MCol Cols="12" Sm="4">
+                                    <MSelect @bind-Value="_editedItem.Type"
+                                        Items="@WorkTaskTypeDropList"
+                                        Label="发布类型"
+                                        ItemText="u => u.Label"
+                                        ItemValue="u => u.Value"></MSelect>
+                                </MCol>
+                            </MRow>
                             
                             @if(_editedItem.WorkPublishType == WorkPublishType.自定义发布){
-                                <MTextField @bind-Value="_editedItem.MaxPickUpCount"
-                                                Label="参加人数"></MTextField>
+                                <MCard Class="mx-auto">
+                                    <MCardTitle>选择任务成员</MCardTitle>
+                                    <MCardText>
+                                        <MTreeview TItem="TreeItem" TKey="Guid" 
+                                            Selectable @bind-Value="_departmentWithUserKeys" 
+                                            Items="_departmentWithUsers" ItemText="r=>r.Name" 
+                                            ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id"></MTreeview>
+                                    </MCardText>
+                                </MCard>
                             }
                         </MContainer>
                     </MCardText>

@@ -35,6 +35,12 @@ namespace WeChatApp.Shared.FormBody
         public Guid? ParentId { get; set; }
 
         /// <summary>
+        /// 层级
+        /// </summary>
+        /// <value></value>
+        public int Level { get; set; }
+
+        /// <summary>
         /// 子部门
         /// </summary>
         public IEnumerable<DepartmentDto>? Children { get; set; }

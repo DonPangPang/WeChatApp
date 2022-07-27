@@ -27,7 +27,7 @@ namespace WeChatApp.Shared.Enums
         /// <summary>
         /// 审批
         /// </summary>
-        [Description]
+        [Description("审批")]
         Approval = 101,
 
         /// <summary>

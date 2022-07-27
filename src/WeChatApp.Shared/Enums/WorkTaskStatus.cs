@@ -15,6 +15,7 @@ namespace WeChatApp.Shared.Enums
         /// <summary>
         /// 无状态
         /// </summary>
+        [Description("无状态")]
         None = 0,
 
         /// <summary>

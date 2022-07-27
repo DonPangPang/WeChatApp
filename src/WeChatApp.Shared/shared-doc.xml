@@ -116,6 +116,12 @@
             <summary>
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.Entity.Department.Level">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
         <member name="T:WeChatApp.Shared.Entity.LogRecord">
             <summary>
             日志
@@ -806,6 +812,12 @@
             父部门Id
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.Level">
+            <summary>
+            层级
+            </summary>
+            <value></value>
+        </member>
         <member name="P:WeChatApp.Shared.FormBody.DepartmentDto.Children">
             <summary>
             子部门
@@ -1432,6 +1444,12 @@
             </summary>
             <value></value>
         </member>
+        <member name="P:WeChatApp.Shared.Interfaces.ITree`1.Level">
+            <summary>
+            层级
+            </summary>
+            <value></value>
+        </member>
         <member name="T:WeChatApp.Shared.Options.DbOptions">
             <summary>
             数据库设置
@@ -1886,6 +1904,12 @@
         <member name="P:WeChatApp.Shared.Temp.TreeItem.Type">
             <summary>
             节点类型
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:WeChatApp.Shared.Temp.TreeItem.Level">
+            <summary>
+            
             </summary>
             <value></value>
         </member>

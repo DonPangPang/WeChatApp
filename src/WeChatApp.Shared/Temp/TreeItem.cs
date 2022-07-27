@@ -44,6 +44,11 @@ namespace WeChatApp.Shared.Temp
         /// </summary>
         /// <value></value>
         public TreeItemType Type { get; set; } = TreeItemType.Department;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public int Level { get; set; } = 0;
     }
 
     /// <summary>

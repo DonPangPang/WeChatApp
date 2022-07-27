@@ -49,7 +49,7 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// </summary>
         public string? CreateUserUid { get; set; }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,5 +63,12 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// </summary>
         public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        [NotMapped]
+        public int Level { get; set; } = 0;
     }
 }

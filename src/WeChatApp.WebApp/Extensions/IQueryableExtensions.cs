@@ -190,6 +190,7 @@ namespace WeChatApp.WebApp.Extensions
             {
                 if (item.ParentId == null || item.ParentId == Guid.Empty)
                 {
+                    item.Level = 0;
                     tree.Add(item);
                 }
                 //else
@@ -209,10 +210,11 @@ namespace WeChatApp.WebApp.Extensions
                 {
                     if (it.ParentId == item.Id)
                     {
-                        if(item.Children == null)
+                        if (item.Children == null)
                         {
                             item.Children = new List<T>();
                         }
+                        it.Level = item.Level + 1;
                         item.Children.Add(it);
                     }
                 }

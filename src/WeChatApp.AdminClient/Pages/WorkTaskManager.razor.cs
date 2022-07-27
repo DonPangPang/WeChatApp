@@ -13,6 +13,7 @@ using WeChatApp.Shared;
 using WeChatApp.Shared.RequestBody.WebApi;
 using WeChatApp.AdminClient.Extensions;
 using WeChatApp.Shared.Enums;
+using WeChatApp.Shared.Temp;
 
 namespace WeChatApp.AdminClient.Pages
 {
@@ -23,6 +24,8 @@ namespace WeChatApp.AdminClient.Pages
 
 
         private List<EnumItem<WorkPublishType>> WorkTaskTypeList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<WorkPublishType>().ToList();
+        private List<EnumItem<WorkTaskTypes>> WorkTaskTypeDropList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<WorkTaskTypes>().ToList();
+
 
         protected string _search = string.Empty;
 
@@ -69,6 +72,8 @@ namespace WeChatApp.AdminClient.Pages
         protected override async Task OnInitializedAsync()
         {
             await GetDataFromApi();
+
+            await GetDepartmentTreeWithUserFromApiAsync();
 
             await PopupService.ConfigToast(config =>
             {
@@ -118,13 +123,25 @@ namespace WeChatApp.AdminClient.Pages
             _editedIndex = 1;
             _editedItem = new()
             {
-                // Id = item.Id,
-                // Name = item.Name,
-                // Email = item.Email,
-                // Tel = item.Tel,
-                // Role = item.Role,
-                // DepartmentId = item.DepartmentId
+                Id = item.Id,
+                DepartmentId = item.DepartmentId,
+                Title = item.Title,
+                Content = item.Content,
+                MaxPickUpCount = item.MaxPickUpCount,
+                WorkPublishType = item.WorkPublishType,
+                StartTime = item.StartTime,
+                EndTime = item.EndTime,
+                PointsRewards = item.PointsRewards,
+                PickUpUserIds = item.PickUpUserIds,
+                PickUpUserNames = item.PickUpUserNames,
+                Type = item.Type,
             };
+
+            _dates[0] = DateOnly.FromDateTime(_editedItem.StartTime);
+            _dates[1] = DateOnly.FromDateTime(_editedItem.EndTime);
+
+            _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').ToList().Select(x => Guid.Parse(x)).ToList();
+
             _dialog = true;
         }
 
@@ -248,5 +265,28 @@ namespace WeChatApp.AdminClient.Pages
             _editedItem.EndTime = _dates[1].ToDateTime(new TimeOnly());
         }
         #endregion Date
+
+        #region 获取部门人员树状结构
+        [Inject] IDepartmentService DepartmentService { get; set; } = default!;
+
+        private List<TreeItem> _departmentWithUsers = new();
+
+        private List<Guid> _departmentWithUserKeys = new();
+
+        private async Task GetDepartmentTreeWithUserFromApiAsync()
+        {
+            var result = await DepartmentService.GetDepartmentTreeWithUserAsync<WcResponse<IEnumerable<TreeItem>>>();
+
+            if (result.Code == WcStatus.Success)
+            {
+                _departmentWithUsers = result.Data!.ToList();
+            }
+            else
+            {
+                _message = result.Message ?? "";
+                await PopupService.ToastAsync(_message, AlertTypes.Error);
+            }
+        }
+        #endregion 获取部门人员树状结构
     }
 }

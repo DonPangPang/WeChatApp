@@ -30,6 +30,7 @@ namespace WeChatApp.WebApp.Controllers
         /// 获取子集部门
         /// </summary>
         /// <returns> </returns>
+        [Obsolete("暂时不用")]
         [HttpGet]
         public async Task<ActionResult> GetTree()
         {
@@ -46,6 +47,39 @@ namespace WeChatApp.WebApp.Controllers
 
 
                 return Success(returnDto);
+            }
+            catch (Exception e)
+            {
+                return Fail(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取子集部门(带Level)
+        /// </summary>
+        /// <returns> </returns>
+        [HttpGet]
+        public async Task<ActionResult> GetDeptTree()
+        {
+            try
+            {
+                var depts = await _serviceGen.Query<Department>()
+                    // .Where(x => x.ParentId == null || x.ParentId == Guid.Empty)
+                    // .Include(x => x.Children)
+                    .Select(x => new TreeItem
+                    {
+                        Id = x.Id,
+                        Name = x.DepartmentName,
+                        ParentId = x.ParentId,
+                        Type = TreeItemType.Department
+                    }).ToListAsync();
+
+                var tree = depts.ToTree();
+
+                //var returnDto = tree.MapTo<DepartmentDto>();
+
+
+                return Success(tree);
             }
             catch (Exception e)
             {

@@ -26,6 +26,7 @@ namespace WeChatApp.AdminClient.Apis
             { "DeleteDepartment", "/api/Department/DeleteEntity" },
             { "AddDepartment", "/api/Department/CreateEntity" },
             { "GetDepartmentTree", "/api/Department/GetTree" },
+            { "GetDepartmentTreeWithUser", "/api/Department/GetTreeWithUser" },
 
             { "GetWorkTaskList", "/api/WorkTask/GetPagedList" },
             { "GetWorkTask", "/api/WorkTask/GetEntity" },

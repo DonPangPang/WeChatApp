@@ -76,5 +76,14 @@ namespace WeChatApp.AdminClient.Services
 
             return result;
         }
+
+        public async Task<T> GetDepartmentTreeWithUserAsync<T>()
+        {
+            var result = await _HttpFunc.Create()
+                .Url(ApiBase.Get("GetDepartmentTreeWithUser"))
+                .GetAsync<T>();
+
+            return result;
+        }
     }
 }

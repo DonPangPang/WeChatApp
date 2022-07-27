@@ -255,6 +255,12 @@
             </summary>
             <returns> </returns>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.DepartmentController.GetDeptTree">
+            <summary>
+            获取子集部门(带Level)
+            </summary>
+            <returns> </returns>
+        </member>
         <member name="M:WeChatApp.WebApp.Controllers.DepartmentController.GetTreeWithUser">
             <summary>
             附带用户信息的部门列表

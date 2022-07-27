@@ -13,6 +13,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
+	<PropertyGroup>
+		<PublishSingleFile>true</PublishSingleFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Controllers\WorkTaskController.cs~RFf8fa887.TMP" />
 	</ItemGroup>

@@ -32,5 +32,11 @@ namespace WeChatApp.Shared.Interfaces
         /// </summary>
         /// <value></value>
         public string? TreeIds { get; set; }
+
+        /// <summary>
+        /// 层级
+        /// </summary>
+        /// <value></value>
+        public int Level { get; set; }
     }
 }
