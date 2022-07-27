@@ -33,64 +33,87 @@
 
                     <MCardText>
                         <MContainer>
-                            <MTextField @bind-Value="_editedItem.Title"
+                            <MRow>
+                                <MCol>
+                                    <MTextField @bind-Value="_editedItem.Title"
                                                 Label="标题"></MTextField>
-                            <MRow>
-                                <MCol Cols="12" Sm="7">
-                                    <MMenu @bind-Value="_menu"
-                                        CloseOnContentClick="false"
-                                        OnOutsideClick="HandleOutsideClick"
-                                        Transition="scale-transition"
-                                        OffsetY
-                                        MinWidth="@("auto")">
-                                        <ActivatorContent>
-                                            <MTextField Value="DateRangeText"
-                                                        Label="选择时间区间"
-                                                        PrependIcon="mdi-calendar"
-                                                        Readonly
-                                                        @attributes="context.Attrs"></MTextField>
-                                        </ActivatorContent>
-                                        <ChildContent>
-                                            <MDatePicker @bind-Value="_dates"
-                                                Range></MDatePicker>
-                                        </ChildContent>
-                                    </MMenu>
+                                    <MRow>
+                                        <MCol Cols="12" Sm="7">
+                                            <MMenu @bind-Value="_menu"
+                                                CloseOnContentClick="false"
+                                                OnOutsideClick="HandleOutsideClick"
+                                                Transition="scale-transition"
+                                                OffsetY
+                                                MinWidth="@("auto")">
+                                                <ActivatorContent>
+                                                    <MTextField Value="DateRangeText"
+                                                                Label="选择时间区间"
+                                                                PrependIcon="mdi-calendar"
+                                                                Readonly
+                                                                @attributes="context.Attrs"></MTextField>
+                                                </ActivatorContent>
+                                                <ChildContent>
+                                                    <MDatePicker @bind-Value="_dates"
+                                                        Range></MDatePicker>
+                                                </ChildContent>
+                                            </MMenu>
+                                        </MCol>
+                                        <MCol Cols="12" Sm="5">
+                                            <MSelect @bind-Value="_editedItem.WorkPublishType"
+                                            Items="@WorkTaskTypeList"
+                                            Label="任务类型"
+                                            ItemText="u => u.Label"
+                                            ItemValue="u => u.Value"></MSelect>
+                                        </MCol>
+                                    </MRow>
+                                    <MTextarea @bind-Value="_editedItem.Content"
+                                    Label="内容"></MTextarea>
+                                    <MRow>
+                                        <MCol Cols="12" Sm="8">
+                                            <MTextField @bind-Value="_editedItem.MaxPickUpCount"
+                                                        Label="参加人数"></MTextField>
+                                        </MCol>
+                                        <MCol Cols="12" Sm="4">
+                                            <MSelect @bind-Value="_editedItem.Type"
+                                                Items="@WorkTaskTypeDropList"
+                                                Label="发布类型"
+                                                ItemText="u => u.Label"
+                                                ItemValue="u => u.Value"></MSelect>
+                                        </MCol>
+                                    </MRow>
+                                    
+                                    @if(_editedItem.WorkPublishType == WorkPublishType.自定义发布){
+                                        <MCard Class="mx-auto">
+                                            <MCardTitle>选择任务成员</MCardTitle>
+                                            <MCardText>
+                                                <MTreeview TItem="TreeItem" TKey="Guid" 
+                                                    Selectable @bind-Value="_departmentWithUserKeys" 
+                                                    Items="_departmentWithUsers" ItemText="r=>r.Name" 
+                                                    ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id"></MTreeview>
+                                            </MCardText>
+                                        </MCard>
+                                    }
                                 </MCol>
-                                <MCol Cols="12" Sm="5">
-                                    <MSelect @bind-Value="_editedItem.WorkPublishType"
-                                    Items="@WorkTaskTypeList"
-                                    Label="任务类型"
-                                    ItemText="u => u.Label"
-                                    ItemValue="u => u.Value"></MSelect>
+                                <MCol>
+                                    <MCard Class="mx-auto">
+                                        <MToolbar Color="teal"
+                                                Dark>
+                                            <MAppBarNavIcon></MAppBarNavIcon>
+
+                                            <MToolbarTitle>Topics</MToolbarTitle>
+
+                                            <MSpacer></MSpacer>
+
+                                            <MButton Icon>
+                                                <MIcon>mdi-dots-vertical</MIcon>
+                                            </MButton>
+                                        </MToolbar>
+                                        <MList>
+                                        
+                                        </MList>
+                                    </MCard>
                                 </MCol>
                             </MRow>
-                            <MTextarea @bind-Value="_editedItem.Content"
-                            Label="内容"></MTextarea>
-                            <MRow>
-                                <MCol Cols="12" Sm="8">
-                                    <MTextField @bind-Value="_editedItem.MaxPickUpCount"
-                                                Label="参加人数"></MTextField>
-                                </MCol>
-                                <MCol Cols="12" Sm="4">
-                                    <MSelect @bind-Value="_editedItem.Type"
-                                        Items="@WorkTaskTypeDropList"
-                                        Label="发布类型"
-                                        ItemText="u => u.Label"
-                                        ItemValue="u => u.Value"></MSelect>
-                                </MCol>
-                            </MRow>
-                            
-                            @if(_editedItem.WorkPublishType == WorkPublishType.自定义发布){
-                                <MCard Class="mx-auto">
-                                    <MCardTitle>选择任务成员</MCardTitle>
-                                    <MCardText>
-                                        <MTreeview TItem="TreeItem" TKey="Guid" 
-                                            Selectable @bind-Value="_departmentWithUserKeys" 
-                                            Items="_departmentWithUsers" ItemText="r=>r.Name" 
-                                            ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id"></MTreeview>
-                                    </MCardText>
-                                </MCard>
-                            }
                         </MContainer>
                     </MCardText>
 
