@@ -352,7 +352,15 @@
             <param name="session">             </param>
             <param name="messageToastService"> </param>
         </member>
-        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTasksAsync(WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoParameters)">
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskIndex(WeChatApp.Shared.RequestBody.WebApi.WorkTaskIndexParameters)">
+            <summary>
+            工作任务主页
+            </summary>
+            <param name="parameters"> </param>
+            <returns> </returns>
+            <exception cref="T:System.ArgumentNullException"> </exception>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTasksAsync(WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoGroupParameters)">
             <summary>
             获取任务列表(带分页)
             </summary>
@@ -393,12 +401,19 @@
             <param name="dto"> </param>
             <returns> </returns>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.UpdateWorkTaskAsync(WeChatApp.Shared.FormBody.WorkTaskDto)">
+            <summary>
+            更新任务
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
         <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.CreateAssignWorkTaskAsync(WeChatApp.Shared.FormBody.WorkTaskDto)">
             <summary>
             创建高层指派给中层的任务
             </summary>
-            <param name="dto"></param>
-            <returns></returns>
+            <param name="dto"> </param>
+            <returns> </returns>
         </member>
         <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.ApprovalTask(WeChatApp.Shared.FormBody.WorkTaskApprovalDto)">
             <summary>

@@ -1644,7 +1644,29 @@
             <summary>
             任务状态, 如果不传就是全部状态的任务
             </summary>
-            <value></value>
+            <value> </value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoGroupParameters">
+            <summary>
+            工作任务请求参数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoGroupParameters.Status">
+            <summary>
+            任务状态, 如果不传就是全部状态的任务
+            </summary>
+            <value> </value>
+        </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskIndexParameters">
+            <summary>
+            工作任务主页请求参数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskIndexParameters.Status">
+            <summary>
+            任务状态, 如果不传就是全部状态的任务
+            </summary>
+            <value> </value>
         </member>
         <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskItemDtoParameters">
             <summary>

@@ -16,7 +16,7 @@ builder.Services.AddMasaBlazor();
 // });
 builder.Services.AddHttpClient(ApiVars.ApiBase, x =>
 {
-    x.BaseAddress = new Uri("http://localhost:10500/");
+    x.BaseAddress = new Uri("http://192.168.31.39:10500/");
 });
 
 builder.Services.AddSingleton<WeatherForecastService>();

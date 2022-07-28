@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +23,6 @@ namespace WeChatApp.Shared.Extensions
         {
             return string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
         }
-
 
         public static bool IsEmpty(this DateTime? dt)
         {

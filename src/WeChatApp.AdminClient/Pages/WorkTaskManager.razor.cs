@@ -288,5 +288,56 @@ namespace WeChatApp.AdminClient.Pages
             }
         }
         #endregion 获取部门人员树状结构
+
+        #region 添加节点
+
+        private bool _isShowNodeModel = false;
+        private WorkTaskNodeDto _node = new();
+
+        private bool _nodeModelMenu = false;
+        private DateOnly _nodeDate = DateOnly.FromDateTime(DateTime.Now);
+
+        private void EditWorkTaskNode(WorkTaskNodeDto node)
+        {
+            
+        }
+
+        private void AddWorkTaskNode()
+        {
+            
+        }
+
+        private void HandleOnSaveNode()
+        {
+            
+        }
+
+        private void HandleOnCancelNode()
+        {
+            _isShowNodeModel = false;
+        }
+        
+        private void HandleOnAddWorkTaskNode()
+        {
+            _isShowNodeModel = true;
+        }
+
+        private void NodeModelMenuCancel()
+        {
+            _nodeModelMenu = false;
+        }
+
+        private async Task NodeModelMenuOk()
+        {
+            if (!(_nodeDate > _dates[0] && _nodeDate < _dates[1]))
+            {
+                await PopupService.ToastErrorAsync("选择日期不在任务时间区间内");
+                _nodeModelMenu = false;
+                return;
+            }
+            _node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
+        }
+
+        #endregion
     }
 }

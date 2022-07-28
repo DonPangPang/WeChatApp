@@ -36,14 +36,17 @@ namespace WeChatApp.WebApp.Controllers
         }
 
         /// <summary>
-        /// 获取任务列表(带分页)
+        /// 工作任务主页
         /// </summary>
         /// <param name="parameters"> </param>
         /// <returns> </returns>
+        /// <exception cref="ArgumentNullException"> </exception>
         [HttpGet]
-        public async Task<ActionResult> GetWorkTasksAsync([FromQuery] WorkTaskDtoParameters parameters)
+        public async Task<ActionResult> GetWorkTaskIndex([FromQuery] WorkTaskIndexParameters parameters)
         {
             var query = _serviceGen.Query<WorkTask>();
+
+            var pickingTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).CountAsync();
 
             var activeTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Active).CountAsync();
 
@@ -65,14 +68,78 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => x.Status == parameters.Status);
             }
 
-            var res = await query.QueryAsync(parameters);
+            //var res = await query.QueryAsync(parameters);
+
+            var filterNode = new List<WorkTaskNodeTypes> { WorkTaskNodeTypes.Report, WorkTaskNodeTypes.None };
+
+            var nodeQuery = _serviceGen.Query<WorkTaskNode>();
+
+            var nodes = await nodeQuery.Where(x => !filterNode.Contains(x.Type)).QueryAsync(parameters);
+
+            var workIds = nodes.Select(x => x.WorkTaskId).ToList();
+
+            var works = await _serviceGen.Query<WorkTask>()
+                .Where(x => workIds.Contains(x.Id)).AsNoTracking().ToListAsync();
+
+            var result = new List<PorjDyname>();
+
+            foreach (var node in nodes)
+            {
+                result.Add(new PorjDyname
+                {
+                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault(),
+                    Node = node,
+                });
+            }
 
             return Success("获取成功", new
             {
+                pickingTaskCount,
                 activeTaskCount,
                 totalTaskCount,
                 endTaskCount,
-                res
+                result
+            });
+        }
+
+        private class PorjDyname
+        {
+            public WorkTask? WorkTask { get; set; }
+            public WorkTaskNode? Node { get; set; }
+        }
+
+        /// <summary>
+        /// 获取任务列表(带分页)
+        /// </summary>
+        /// <param name="parameters"> </param>
+        /// <returns> </returns>
+        [HttpPost]
+        public async Task<ActionResult> GetWorkTasksAsync(WorkTaskDtoGroupParameters parameters)
+        {
+            var query = _serviceGen.Query<WorkTask>();
+
+            query = _session.UserInfo!.Role switch
+            {
+                Role.高层管理员 => query,
+                Role.中层管理员 => query.Where(x => x.CreateUserId == _session.UserInfo.Id),
+                Role.普通成员 => query.Where(x => x.WorkPublishType == WorkPublishType.全局发布 ||
+                        (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)),
+                _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
+            };
+
+            query = query.Where(x => parameters.Status.Contains(x.Status));
+
+            var res = await query.QueryAsync(parameters);
+
+            var result = res.GroupBy(x => x.Status).Select(x => new
+            {
+                Status = x.Key,
+                Data = x.ToList()
+            });
+
+            return Success("获取成功", new
+            {
+                result
             });
         }
 
@@ -249,6 +316,83 @@ namespace WeChatApp.WebApp.Controllers
                 {
                     Type = Shared.Enums.WorkTaskNodeTypes.Approval,
                     WorkTaskId = entity.Id,
+                    NodeTime = DateTime.Now,
+                };
+
+                switch (entity.Status)
+                {
+                    case WorkTaskStatus.PendingReview:
+                        node.Title = "待审核";
+                        node.Content = $"待审核任务 {entity.Title}";
+                        break;
+
+                    case WorkTaskStatus.PendingPublish:
+                        node.Title = "待发布";
+                        node.Content = $"待发布任务 {entity.Title}";
+                        break;
+
+                    case WorkTaskStatus.Publish:
+                        node.Title = "已发布";
+                        node.Content = $"已发布任务 {entity.Title}";
+                        break;
+
+                    default:
+                        await _serviceGen.Rollback();
+                        throw new ArgumentException("添加任务状态错误");
+                }
+
+                node.Create();
+
+                await _serviceGen.Db.AddAsync(node);
+
+                if (entity.Nodes != null)
+                {
+                    foreach (var item in entity.Nodes)
+                    {
+                        item.Create();
+                    }
+
+                    await _serviceGen.Db.AddRangeAsync(entity.Nodes);
+                }
+
+                await _serviceGen.SaveAsync();
+
+                await _serviceGen.CommitTrans();
+
+                _ = Task.Run(async () =>
+                {
+                    await _messageToastService.SendMessageAsync(entity);
+                });
+
+                return Success("创建成功");
+            }
+            catch
+            {
+                await _serviceGen.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 更新任务
+        /// </summary>
+        /// <param name="dto"> </param>
+        /// <returns> </returns>
+        [HttpPost]
+        public async Task<ActionResult> UpdateWorkTaskAsync(WorkTaskDto dto)
+        {
+            await _serviceGen.BeginTrans();
+            try
+            {
+                var entity = dto.MapTo<WorkTask>();
+
+                _serviceGen.Db.Update(entity);
+
+                var node = new WorkTaskNode
+                {
+                    Type = Shared.Enums.WorkTaskNodeTypes.Approval,
+                    WorkTaskId = entity.Id,
+                    NodeTime = DateTime.Now,
                 };
 
                 switch (entity.Status)
@@ -269,12 +413,46 @@ namespace WeChatApp.WebApp.Controllers
                         break;
 
                     default:
+                        await _serviceGen.Rollback();
                         throw new ArgumentException("添加任务状态错误");
                 }
 
                 node.Create();
 
                 await _serviceGen.Db.AddAsync(node);
+
+                var elderNodes = await _serviceGen.Query<WorkTaskNode>()
+                    .Where(x => x.WorkTaskId == entity.Id)
+                    .ToListAsync();
+
+                if (entity.Nodes != null)
+                {
+                    foreach (var item in entity.Nodes)
+                    {
+                        if (item.Id == Guid.Empty)
+                        {
+                            item.Create();
+
+                            await _serviceGen.Db.AddAsync(item);
+                        }
+                        else
+                        {
+                            var elderNode = elderNodes.Where((x => x.Id == item.Id)).FirstOrDefault();
+
+                            item.Map(elderNode);
+
+                            if (elderNode is not null) _serviceGen.Db.Update(elderNode);
+                            else throw new ArgumentNullException($"{item.Title} 任务节点异常");
+                        }
+                    }
+
+                    foreach (var item in elderNodes.Where(item => !entity.Nodes.Select(x => x.Id).Contains(item.Id)))
+                    {
+                        _serviceGen.Db.Remove(item);
+                    }
+
+                    await _serviceGen.Db.AddRangeAsync(entity.Nodes);
+                }
 
                 await _serviceGen.SaveAsync();
 
@@ -297,8 +475,8 @@ namespace WeChatApp.WebApp.Controllers
         /// <summary>
         /// 创建高层指派给中层的任务
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <param name="dto"> </param>
+        /// <returns> </returns>
         [HttpPost]
         public async Task<ActionResult> CreateAssignWorkTaskAsync(WorkTaskDto dto)
         {
@@ -465,7 +643,7 @@ namespace WeChatApp.WebApp.Controllers
             }
 
             var userIds = string.Join(",", dto);
-
+            task.Status = WorkTaskStatus.Active;
             task.PickUpUserIds = task.PickUpUserIds + "," + userIds;
 
             _serviceGen.Db.Update(task);
