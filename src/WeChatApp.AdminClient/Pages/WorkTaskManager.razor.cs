@@ -51,9 +51,7 @@ namespace WeChatApp.AdminClient.Pages
                 return _editedIndex == -1 ? "添加" : "编辑";
             }
         }
-
-        protected DateOnly _picker = DateOnly.FromDateTime(DateTime.Now);
-
+        
         AlertTypes type = 0;
         protected string _message = string.Empty;
         ToastPosition position = ToastPosition.TopRight;
@@ -137,8 +135,7 @@ namespace WeChatApp.AdminClient.Pages
                 Type = item.Type,
             };
 
-            _dates[0] = DateOnly.FromDateTime(_editedItem.StartTime);
-            _dates[1] = DateOnly.FromDateTime(_editedItem.EndTime);
+            _workTaskDate = DateOnly.FromDateTime(_editedItem.EndTime);
 
             _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').ToList().Select(x => Guid.Parse(x)).ToList();
 
@@ -177,7 +174,7 @@ namespace WeChatApp.AdminClient.Pages
             new() { Text = "任务类型", Align = "center", Value = nameof(WorkTaskDto.Type), Sortable = false },
             new() { Text = "任务名称", Align = "center", Value = nameof(WorkTaskDto.Title), Sortable = false },
             new() { Text = "任务内容", Align = "center", Value = nameof(WorkTaskDto.Content), Sortable = false },
-            new() { Text = "时间", Align = "center", Value = "time", Sortable = false},
+            new() { Text = "结束时间", Align = "center", Value = "time", Sortable = false},
             new() { Text = "积分", Align = "center", Value = nameof(WorkTaskDto.PointsRewards), Sortable = false },
             new() { Text = "任务接取", Align = "center", Value = "pick", Sortable = false },
             new() { Text = "任务状态", Align = "center", Value = nameof(WorkTaskDto.Status), Sortable = false },
@@ -252,18 +249,22 @@ namespace WeChatApp.AdminClient.Pages
         }
 
         #region Date
-        public string DateRangeText => string.Join(" ~ ", _dates.Select(date => date.ToString("yyyy-MM-dd")));
+        
         private bool _menu;
-        private List<DateOnly> _dates = new List<DateOnly>
+
+        private DateOnly _workTaskDate = DateOnly.FromDateTime(DateTime.Now);
+
+        private void HandleWorkTaskMenuOk()
         {
-            DateOnly.FromDateTime(DateTime.Now),
-            DateOnly.FromDateTime(DateTime.Now)
-        };
-        public void HandleOutsideClick()
-        {
-            _editedItem.StartTime = _dates[0].ToDateTime(new TimeOnly());
-            _editedItem.EndTime = _dates[1].ToDateTime(new TimeOnly());
+            _menu = false;
+            _editedItem.EndTime = _workTaskDate.ToDateTime(new TimeOnly());
         }
+
+        private void HandleWorkTaskMenuCancel()
+        {
+            _menu = false;
+        }
+        
         #endregion Date
 
         #region 获取部门人员树状结构
@@ -309,7 +310,7 @@ namespace WeChatApp.AdminClient.Pages
 
         private void HandleOnSaveNode()
         {
-            
+            _isShowNodeModel = false;
         }
 
         private void HandleOnCancelNode()
@@ -320,6 +321,7 @@ namespace WeChatApp.AdminClient.Pages
         private void HandleOnAddWorkTaskNode()
         {
             _isShowNodeModel = true;
+            _nodeDate = DateOnly.FromDateTime(DateTime.Now);
         }
 
         private void NodeModelMenuCancel()
@@ -329,13 +331,14 @@ namespace WeChatApp.AdminClient.Pages
 
         private async Task NodeModelMenuOk()
         {
-            if (!(_nodeDate > _dates[0] && _nodeDate < _dates[1]))
+            if (_nodeDate > _workTaskDate)
             {
                 await PopupService.ToastErrorAsync("选择日期不在任务时间区间内");
                 _nodeModelMenu = false;
                 return;
             }
-            _node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
+            //_node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
+            _nodeModelMenu = false;
         }
 
         #endregion

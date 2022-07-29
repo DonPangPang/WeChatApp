@@ -11,12 +11,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddMasaBlazor();
 // builder.Services.AddScoped(sp => new HttpClient
 // {
-//     //BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-//     BaseAddress = new Uri("http://localhost:10500/")
+//     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 // });
 builder.Services.AddHttpClient(ApiVars.ApiBase, x =>
 {
-    x.BaseAddress = new Uri("http://192.168.31.39:10500/");
+    x.BaseAddress = new Uri("http://127.0.0.1:10500");
+    //x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
 
 builder.Services.AddSingleton<WeatherForecastService>();

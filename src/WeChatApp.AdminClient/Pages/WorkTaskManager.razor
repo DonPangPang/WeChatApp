@@ -10,7 +10,8 @@
                 <MToolbarTitle>任务</MToolbarTitle>
                 <MDivider Class="mx-4"
                           Inset
-                          Vertical></MDivider>
+                          Vertical>
+                </MDivider>
                 <MTextField @bind-Value="_search"
                             AppendIcon="mdi-magnify"
                             Label="搜索"
@@ -24,127 +25,12 @@
                          OnClick="AddItem">
                     添加
                 </MButton>
-                <MDialog @bind-Value="_dialog"
-                         MaxWidth="1000">
-                    <MCard>
-                        <MCardTitle>
-                            <span class="text-h5">@FormTitle</span>
-                        </MCardTitle>
-                        <MCardText>
-                            <MContainer>
-                                <MRow>
-                                    <MCol>
-                                        <MTextField @bind-Value="_editedItem.Title"
-                                                    Label="标题"></MTextField>
-                                        <MRow>
-                                            <MCol Cols="12" Sm="7">
-                                                <MMenu @bind-Value="_menu"
-                                                       CloseOnContentClick="false"
-                                                       OnOutsideClick="HandleOutsideClick"
-                                                       Transition="scale-transition"
-                                                       OffsetY
-                                                       MinWidth="@("auto")">
-                                                    <ActivatorContent>
-                                                        <MTextField Value="DateRangeText"
-                                                                    Label="选择时间区间"
-                                                                    PrependIcon="mdi-calendar"
-                                                                    Readonly
-                                                                    @attributes="context.Attrs"></MTextField>
-                                                    </ActivatorContent>
-                                                    <ChildContent>
-                                                        <MDatePicker @bind-Value="_dates"
-                                                                     Range></MDatePicker>
-                                                    </ChildContent>
-                                                </MMenu>
-                                            </MCol>
-                                            <MCol Cols="12" Sm="5">
-                                                <MSelect @bind-Value="_editedItem.WorkPublishType"
-                                                         Items="@WorkTaskTypeList"
-                                                         Label="任务类型"
-                                                         ItemText="u => u.Label"
-                                                         ItemValue="u => u.Value"></MSelect>
-                                            </MCol>
-                                        </MRow>
-                                        <MTextarea @bind-Value="_editedItem.Content"
-                                                   Label="内容"></MTextarea>
-                                        <MRow>
-                                            <MCol Cols="12" Sm="8">
-                                                <MTextField @bind-Value="_editedItem.MaxPickUpCount"
-                                                            Label="参加人数"></MTextField>
-                                            </MCol>
-                                            <MCol Cols="12" Sm="4">
-                                                <MSelect @bind-Value="_editedItem.Type"
-                                                         Items="@WorkTaskTypeDropList"
-                                                         Label="发布类型"
-                                                         ItemText="u => u.Label"
-                                                         ItemValue="u => u.Value"></MSelect>
-                                            </MCol>
-                                        </MRow>
-                                    
-                                        @if(_editedItem.WorkPublishType == WorkPublishType.自定义发布){
-                                            <MCard Class="mx-auto">
-                                                <MCardTitle>选择任务成员</MCardTitle>
-                                                <MCardText>
-                                                    <MTreeview TItem="TreeItem" TKey="Guid" 
-                                                               Selectable @bind-Value="_departmentWithUserKeys" 
-                                                               Items="_departmentWithUsers" ItemText="r=>r.Name" 
-                                                               ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id"></MTreeview>
-                                                </MCardText>
-                                            </MCard>
-                                        }
-                                    </MCol>
-                                    <MCol>
-                                        <MCard Class="mx-auto">
-                                            <MToolbar Color="teal"
-                                                      Dark>
-                                                <div>任务节点</div>
 
-                                                <MSpacer></MSpacer>
-
-                                                <MButton Icon OnClick="HandleOnAddWorkTaskNode">
-                                                    <MIcon>mdi-plus</MIcon>
-                                                </MButton>
-                                            </MToolbar>
-                                            <MList MinHeight="200">
-                                        
-                                            </MList>
-                                        </MCard>
-                                    </MCol>
-                                </MRow>
-                            </MContainer>
-                        </MCardText>
-
-                        <MCardActions>
-                            <MSpacer></MSpacer>
-                            <MButton Color="blue darken-1"
-                                     Text
-                                     OnClick="Close">
-                                取消
-                            </MButton>
-                            <MButton Color="blue darken-1"
-                                     Text
-                                     OnClick="Save">
-                                保存
-                            </MButton>
-                        </MCardActions>
-                    </MCard>
-                </MDialog>
-                @* <MDialog @bind-Value="_dialogDelete" MaxWidth="500">
-                <MCard>
-                    <MCardTitle Class="text-h5">确定要删除这条记录?</MCardTitle>
-                    <MCardActions>
-                        <MSpacer></MSpacer>
-                        <MButton Color="blue darken-1" Text OnClick="CloseDelete">取消</MButton>
-                        <MButton Color="blue darken-1" Text OnClick="DeleteItemConfirm">确定</MButton>
-                        <MSpacer></MSpacer>
-                    </MCardActions>
-                </MCard>
-            </MDialog> *@
-                <PConfirm  Visible="_dialogDelete"
-                           Title="确认操作"
-                           Type="type"
-                           OnCancel="CloseDelete"
-                           OnOk="DeleteItemConfirm">
+                <PConfirm Visible="_dialogDelete"
+                          Title="确认操作"
+                          Type="type"
+                          OnCancel="CloseDelete"
+                          OnOk="DeleteItemConfirm">
                     您确认该操作吗？
                 </PConfirm>
             </MToolbar>
@@ -156,7 +42,7 @@
             }
             else if (context.Header.Value == "time")
             {
-                @($"{context.Item.StartTime.ToShortDateString()}-{@context.Item.EndTime.ToShortDateString()}")
+                @($"{@context.Item.EndTime.ToShortDateString()}")
             }
             else if (context.Header.Value == "pick")
             {
@@ -172,7 +58,7 @@
             }
             else if (context.Header.Value == "details")
             {
-                <MButton Small OnClick="async ()=>await HandelDetail(context.Item.Id)">详情</MButton>
+                <MButton Small OnClick="async () => await HandelDetail(context.Item.Id)">详情</MButton>
             }
             else if (context.Header.Value == "actions")
             {
@@ -194,67 +80,261 @@
     </MDataTable>
 </MCard>
 
+<MDialog @bind-Value="_dialog"
+         MaxWidth="1000">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+        <MCardText>
+            <MContainer>
+                <MRow>
+                    <MCol>
+                        <MTextField @bind-Value="_editedItem.Title"
+                                    Label="标题"
+                                    Dense
+                                    Outlined>
+                        </MTextField>
+                        <MRow>
+                            <MCol Cols="12" Sm="7">
+                                <MMenu @bind-Value="_menu"
+                                       CloseOnContentClick="false"
+                                       Transition="scale-transition"
+                                       OffsetY
+                                       MinWidth="@("auto")">
+                                    <ActivatorContent>
+                                        <MTextField @bind-Value="_workTaskDate"
+                                                    Label="结束时间"
+                                                    PrependIcon="mdi-calendar"
+                                                    Readonly
+                                                    Dense
+                                                    Outlined
+                                                    HideDetails="@("auto")"
+                                                    @attributes="context.Attrs">
+                                        </MTextField>
+                                    </ActivatorContent>
+                                    <ChildContent>
+                                        <MDatePicker @bind-Value="_workTaskDate"
+                                                     OnInput="() => _menu = false">
+                                        </MDatePicker>
+                                    </ChildContent>
+                                </MMenu>
+                            </MCol>
+                            <MCol Cols="12" Sm="5">
+                                <MSelect @bind-Value="_editedItem.WorkPublishType"
+                                         Items="@WorkTaskTypeList"
+                                         Label="任务类型"
+                                         Dense
+                                         Outlined
+                                         ItemText="u => u.Label"
+                                         ItemValue="u => u.Value">
+                                </MSelect>
+                            </MCol>
+                        </MRow>
+                        <MTextarea @bind-Value="_editedItem.Content"
+                                   Label="内容"
+                                   Dense
+                                   Outlined>
+                        </MTextarea>
+                        <MRow>
+                            <MCol Cols="12" Sm="8">
+                                <MTextField @bind-Value="_editedItem.MaxPickUpCount"
+                                            Label="参加人数"
+                                            Dense Outlined>
+                                </MTextField>
+                            </MCol>
+                            <MCol Cols="12" Sm="4">
+                                <MSelect @bind-Value="_editedItem.Type"
+                                         Items="@WorkTaskTypeDropList"
+                                         Label="发布类型"
+                                         ItemText="u => u.Label"
+                                         ItemValue="u => u.Value"
+                                         Dense Outlined>
+                                </MSelect>
+                            </MCol>
+                        </MRow>
 
-<PModal @bind-Value="_isShowNodeModel"
-        FormModel="_node"
-        Persistent
-        Title="添加任务节点"
-        Width="500"
-        OnSave="HandleOnSaveNode"
-        OnCancel="HandleOnCancelNode">
-    <MRow>
-        <MCol Cols="12">
-            <MRow>
-                <MCol Cols="12" Sm="7">
-                    <MTextField @bind-Value="_node.Title"
-                                Label="标题"
-                                Dense
-                                Outlined
-                                HideDetails="@("auto")" />
-                </MCol>
-                <MCol Cols="12" Sm="5">
-                    <MMenu @bind-Value="_nodeModelMenu"
-                                   CloseOnContentClick="false"
-                                   Transition="scale-transition"
-                                   OffsetY
-                                   MinWidth="@("auto")">
-                                <ActivatorContent>
-                                    <MTextField @bind-Value="_nodeDate"
-                                                Label="Picker in menu"
-                                                PrependIcon="mdi-calendar"
-                                                Readonly
-                                                Dense
-                                                Outlined
-                                                HideDetails="@("auto")"
-                                                @attributes="context.Attrs"></MTextField>
-                                </ActivatorContent>
-                                <ChildContent>
-                                    <MDatePicker @bind-Value="_nodeDate"
-                                                 NoTitle
-                                                 Scrollable>
-                                        <MSpacer></MSpacer>
-                                        <MButton Text
-                                                 Color="primary"
-                                                 OnClick="NodeModelMenuCancel">
-                                            Cancel
-                                        </MButton>
-                                        <MButton Text
-                                                 Color="primary"
-                                                 OnClick="async()=>await NodeModelMenuOk()">
-                                            OK
-                                        </MButton>
-                                    </MDatePicker>
-                                </ChildContent>
-                            </MMenu>
-                </MCol>
-            </MRow>
-        </MCol>
-        <MCol Cols="12">
-            <MTextarea @bind-Value="_node.Content"
-                        Label="内容"
-                        Dense
-                        Outlined
-                        HideDetails="@("auto")" />
-        </MCol>
-    </MRow>
-</PModal>
+                        @if (_editedItem.WorkPublishType == WorkPublishType.自定义发布)
+                        {
+                            <MCard Class="mx-auto">
+                                <MCardTitle>选择任务成员</MCardTitle>
+                                <MCardText>
+                                    <MTreeview TItem="TreeItem" TKey="Guid"
+                                               Selectable @bind-Value="_departmentWithUserKeys"
+                                               Items="_departmentWithUsers" ItemText="r => r.Name"
+                                               ItemChildren="r => r.Children?.ToList()" ItemKey="r => r.Id">
+                                    </MTreeview>
+                                </MCardText>
+                            </MCard>
+                        }
+                    </MCol>
+                    <MCol>
+                        <MCard Class="mx-auto">
+                            <MToolbar Color="teal"
+                                      Dark>
+                                <div>任务节点</div>
+
+                                <MSpacer></MSpacer>
+
+                                <MButton Icon OnClick="HandleOnAddWorkTaskNode">
+                                    <MIcon>mdi-plus</MIcon>
+                                </MButton>
+                            </MToolbar>
+                            <MList MinHeight="200">
+
+                            </MList>
+                        </MCard>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </MCardText>
+
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="Close">
+                取消
+            </MButton>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="Save">
+                保存
+            </MButton>
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+<MDialog @bind-Value="_isShowNodeModel" MaxWidth="500">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+        <MCardText>
+            <MContainer>
+                <MRow>
+                    <MCol Cols="12">
+                        <MRow>
+                            <MCol Cols="12" Sm="7">
+                                <MTextField @bind-Value="_node.Title"
+                                            Label="标题"
+                                            Dense
+                                            Outlined
+                                            HideDetails="@("auto")"/>
+                            </MCol>
+                            <MCol Cols="12" Sm="5">
+                                <MMenu @bind-Value="_nodeModelMenu"
+                                       CloseOnContentClick="false"
+                                       Transition="scale-transition"
+                                       OffsetY
+                                       MinWidth="@("auto")">
+                                    <ActivatorContent>
+                                        <MTextField @bind-Value="_nodeDate"
+                                                    Label="节点时间"
+                                                    PrependIcon="mdi-calendar"
+                                                    Readonly
+                                                    Dense
+                                                    Outlined
+                                                    HideDetails="@("auto")"
+                                                    @attributes="context.Attrs">
+                                        </MTextField>
+                                    </ActivatorContent>
+                                    <ChildContent>
+                                        <MDatePicker @bind-Value="_nodeDate"
+                                                     OnInput="() => _nodeModelMenu = false">
+                                        </MDatePicker>
+                                    </ChildContent>
+                                </MMenu>
+                            </MCol>
+                        </MRow>
+                    </MCol>
+                    <MCol Cols="12">
+                        <MTextarea @bind-Value="_node.Content"
+                                   Label="内容"
+                                   Dense
+                                   Outlined
+                                   HideDetails="@("auto")"/>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </MCardText>
+        <MCardActions>
+                    <MSpacer></MSpacer>
+                    <MButton Color="blue darken-1"
+                             Text
+                             OnClick="HandleOnCancelNode">
+                        取消
+                    </MButton>
+                    <MButton Color="blue darken-1"
+                             Text
+                             OnClick="HandleOnSaveNode">
+                        保存
+                    </MButton>
+                </MCardActions>
+    </MCard>
+</MDialog>
+
+@* <PModal @bind-Value="_isShowNodeModel" *@
+@*         FormModel="_node" *@
+@*         Persistent *@
+@*         Title="添加任务节点" *@
+@*         Width="500" *@
+@*         OnSave="HandleOnSaveNode" *@
+@*         OnCancel="HandleOnCancelNode"> *@
+@*     <ChildContent> *@
+@*         <MRow> *@
+@*             <MCol Cols="12"> *@
+@*                 <MRow> *@
+@*                     <MCol Cols="12" Sm="7"> *@
+@*                         <MTextField @bind-Value="_node.Title" *@
+@*                                     Label="标题" *@
+@*                                     Dense *@
+@*                                     Outlined *@
+@*                                     HideDetails="@("auto")"/> *@
+@*                     </MCol> *@
+@*                     <MCol Cols="12" Sm="5"> *@
+@*                         <MMenu @bind-Value="_nodeModelMenu" *@
+@*                                CloseOnContentClick="false" *@
+@*                                Transition="scale-transition" *@
+@*                                OffsetY *@
+@*                                MinWidth="@("auto")"> *@
+@*                             <ActivatorContent> *@
+@*                                 <MTextField @bind-Value="_nodeDate" *@
+@*                                             Label="节点时间" *@
+@*                                             PrependIcon="mdi-calendar" *@
+@*                                             Readonly *@
+@*                                             Dense *@
+@*                                             Outlined *@
+@*                                             HideDetails="@("auto")" *@
+@*                                             @attributes="context.Attrs"> *@
+@*                                 </MTextField> *@
+@*                             </ActivatorContent> *@
+@*                             <ChildContent> *@
+@*                                 <MDatePicker @bind-Value="_nodeDate" *@
+@*                                              OnInput="() => _nodeModelMenu = false"> *@
+@*                                 </MDatePicker> *@
+@*                             </ChildContent> *@
+@*                         </MMenu> *@
+@*                     </MCol> *@
+@*                 </MRow> *@
+@*             </MCol> *@
+@*             <MCol Cols="12"> *@
+@*                 <MTextarea @bind-Value="_node.Content" *@
+@*                            Label="内容" *@
+@*                            Dense *@
+@*                            Outlined *@
+@*                            HideDetails="@("auto")"/> *@
+@*             </MCol> *@
+@*         </MRow> *@
+@*     </ChildContent> *@
+@*     <CancelContent Context="cancel"> *@
+@*         <MButton Color="blue darken-1" Text OnClick="cancel.Click" Disabled="cancel.Loading"> *@
+@*             取消 *@
+@*         </MButton> *@
+@*     </CancelContent> *@
+@*     <SaveContent Context="save"> *@
+@*         <MButton Color="blue darken-1" Text OnClick="save.Click" Disabled="save.Loading" Loading="save.Loading"> *@
+@*             保存 *@
+@*         </MButton> *@
+@*     </SaveContent> *@
+@* </PModal> *@

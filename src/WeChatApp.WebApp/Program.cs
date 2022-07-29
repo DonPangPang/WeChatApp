@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(opts =>
+builder.Services.AddControllersWithViews(opts =>
 {
     opts.Filters.Add<AsyncAccessTokenFilter>();
     opts.Filters.Add<AsyncExceptionFilter>();
@@ -51,6 +51,8 @@ builder.Services.AddControllers(opts =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddRazorPages();
+
 // 添加设置
 builder.Services.AddSwaggerSetup();
 builder.Services.AddPrivateOptions();
@@ -63,15 +65,23 @@ builder.Services.AddAutoMapper();
 builder.Services.AddSqlServer();
 builder.Services.AddHangfireSupport();
 
-builder.WebHost.UseUrls("http://*:10500/");
+builder.WebHost.UseUrls("http://0.0.0.0:10500/");
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseWebAssemblyDebugging();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
+app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseSwagger();
@@ -85,5 +95,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var defaultFilesOptions = new DefaultFilesOptions();
+defaultFilesOptions.DefaultFileNames.Clear();
+defaultFilesOptions.DefaultFileNames.Add("index.html");
+app.UseDefaultFiles(defaultFilesOptions);
+app.UseStaticFiles();
 
 app.Run();
