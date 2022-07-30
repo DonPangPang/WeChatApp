@@ -11,6 +11,7 @@ using WeChatApp.Shared.RequestBody.WebApi;
 using WeChatApp.WebApp.Extensions;
 using WeChatApp.WebApp.Filters;
 using WeChatApp.WebApp.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WeChatApp.WebApp.Controllers
 {
@@ -109,6 +110,36 @@ namespace WeChatApp.WebApp.Controllers
         }
 
         /// <summary>
+        /// 用户获取可接取的任务
+        /// </summary>
+        /// <returns> </returns>
+        /// <remarks>
+        /// 1. 全局发布的任务
+        /// 2. 科室任务, 用户属于当前科室
+        /// 3. 自定义任务, 自定义任务指定给当前用户
+        /// </remarks>
+        [HttpGet]
+        public async Task<ActionResult> GetPickingWorkTaskListAsync()
+        {
+            var query = _serviceGen.Query<WorkTask>();
+
+            if (_session.UserInfo is null)
+            {
+                return Fail("用户信息丢失");
+            }
+
+            query = query.Where(x => (x.WorkPublishType == WorkPublishType.全局发布) ||
+                    (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
+                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())));
+
+            var pickingTask = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).ToListAsync();
+
+            var res = pickingTask.MapTo<WorkTaskDto>();
+
+            return Success(res); ;
+        }
+
+        /// <summary>
         /// 获取任务列表(带分页)
         /// </summary>
         /// <param name="parameters"> </param>
@@ -127,7 +158,10 @@ namespace WeChatApp.WebApp.Controllers
                 _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
             };
 
-            query = query.Where(x => parameters.Status.Contains(x.Status));
+            if (parameters.Status is not null && parameters.Status.Any())
+            {
+                query = query.Where(x => parameters.Status.Contains(x.Status));
+            }
 
             var res = await query.QueryAsync(parameters);
 

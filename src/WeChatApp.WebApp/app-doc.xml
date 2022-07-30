@@ -360,6 +360,17 @@
             <returns> </returns>
             <exception cref="T:System.ArgumentNullException"> </exception>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetPickingWorkTaskListAsync">
+            <summary>
+            用户获取可接取的任务
+            </summary>
+            <returns> </returns>
+            <remarks>
+            1. 全局发布的任务
+            2. 科室任务, 用户属于当前科室
+            3. 自定义任务, 自定义任务指定给当前用户
+            </remarks>
+        </member>
         <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTasksAsync(WeChatApp.Shared.RequestBody.WebApi.WorkTaskDtoGroupParameters)">
             <summary>
             获取任务列表(带分页)

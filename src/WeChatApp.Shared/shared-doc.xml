@@ -1011,13 +1011,13 @@
             <summary>
             最高抢单人数
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.WorkPublishType">
             <summary>
             任务发布类型
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.StartTime">
             <summary>
@@ -1116,6 +1116,11 @@
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.ModifyTime">
             <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PickCount">
+            <summary>
+            接取人数
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.FormBody.WorkTaskNodeDto">

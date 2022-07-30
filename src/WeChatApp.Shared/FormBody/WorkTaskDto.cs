@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WeChatApp.Shared.Entity;
 using WeChatApp.Shared.Enums;
 using WeChatApp.Shared.Temp;
+using WeChatApp.Shared.Extensions;
 
 namespace WeChatApp.Shared.FormBody
 {
@@ -43,13 +44,13 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// 最高抢单人数
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public int MaxPickUpCount { get; set; } = 0;
 
         /// <summary>
         /// 任务发布类型
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public WorkPublishType WorkPublishType { get; set; } = WorkPublishType.科室发布;
 
         /// <summary>
@@ -150,5 +151,10 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// </summary>
         public DateTime ModifyTime { get; set; }
+
+        /// <summary>
+        /// 接取人数
+        /// </summary>
+        public int PickCount => PickUpUserIds.IsEmpty() ? 0 : PickUpUserIds!.Split(",").Length;
     }
 }

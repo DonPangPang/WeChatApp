@@ -205,136 +205,135 @@
     </MCard>
 </MDialog>
 
-<MDialog @bind-Value="_isShowNodeModel" MaxWidth="500">
-    <MCard>
-        <MCardTitle>
-            <span class="text-h5">@FormTitle</span>
-        </MCardTitle>
-        <MCardText>
-            <MContainer>
-                <MRow>
-                    <MCol Cols="12">
-                        <MRow>
-                            <MCol Cols="12" Sm="7">
-                                <MTextField @bind-Value="_node.Title"
-                                            Label="标题"
-                                            Dense
-                                            Outlined
-                                            HideDetails="@("auto")"/>
-                            </MCol>
-                            <MCol Cols="12" Sm="5">
-                                <MMenu @bind-Value="_nodeModelMenu"
-                                       CloseOnContentClick="false"
-                                       Transition="scale-transition"
-                                       OffsetY
-                                       MinWidth="@("auto")">
-                                    <ActivatorContent>
-                                        <MTextField @bind-Value="_nodeDate"
-                                                    Label="节点时间"
-                                                    PrependIcon="mdi-calendar"
-                                                    Readonly
-                                                    Dense
-                                                    Outlined
-                                                    HideDetails="@("auto")"
-                                                    @attributes="context.Attrs">
-                                        </MTextField>
-                                    </ActivatorContent>
-                                    <ChildContent>
-                                        <MDatePicker @bind-Value="_nodeDate"
-                                                     OnInput="() => _nodeModelMenu = false">
-                                        </MDatePicker>
-                                    </ChildContent>
-                                </MMenu>
-                            </MCol>
-                        </MRow>
-                    </MCol>
-                    <MCol Cols="12">
-                        <MTextarea @bind-Value="_node.Content"
-                                   Label="内容"
-                                   Dense
-                                   Outlined
-                                   HideDetails="@("auto")"/>
-                    </MCol>
-                </MRow>
-            </MContainer>
-        </MCardText>
-        <MCardActions>
-                    <MSpacer></MSpacer>
-                    <MButton Color="blue darken-1"
-                             Text
-                             OnClick="HandleOnCancelNode">
-                        取消
-                    </MButton>
-                    <MButton Color="blue darken-1"
-                             Text
-                             OnClick="HandleOnSaveNode">
-                        保存
-                    </MButton>
-                </MCardActions>
-    </MCard>
-</MDialog>
-
-@* <PModal @bind-Value="_isShowNodeModel" *@
-@*         FormModel="_node" *@
-@*         Persistent *@
-@*         Title="添加任务节点" *@
-@*         Width="500" *@
-@*         OnSave="HandleOnSaveNode" *@
-@*         OnCancel="HandleOnCancelNode"> *@
-@*     <ChildContent> *@
-@*         <MRow> *@
-@*             <MCol Cols="12"> *@
+@* <MDialog @bind-Value="_isShowNodeModel" MaxWidth="500"> *@
+@*     <MCard> *@
+@*         <MCardTitle> *@
+@*             <span class="text-h5">@FormTitle</span> *@
+@*         </MCardTitle> *@
+@*         <MCardText> *@
+@*             <MContainer> *@
 @*                 <MRow> *@
-@*                     <MCol Cols="12" Sm="7"> *@
-@*                         <MTextField @bind-Value="_node.Title" *@
-@*                                     Label="标题" *@
-@*                                     Dense *@
-@*                                     Outlined *@
-@*                                     HideDetails="@("auto")"/> *@
-@*                     </MCol> *@
-@*                     <MCol Cols="12" Sm="5"> *@
-@*                         <MMenu @bind-Value="_nodeModelMenu" *@
-@*                                CloseOnContentClick="false" *@
-@*                                Transition="scale-transition" *@
-@*                                OffsetY *@
-@*                                MinWidth="@("auto")"> *@
-@*                             <ActivatorContent> *@
-@*                                 <MTextField @bind-Value="_nodeDate" *@
-@*                                             Label="节点时间" *@
-@*                                             PrependIcon="mdi-calendar" *@
-@*                                             Readonly *@
+@*                     <MCol Cols="12"> *@
+@*                         <MRow> *@
+@*                             <MCol Cols="12" Sm="7"> *@
+@*                                 <MTextField @bind-Value="_node.Title" *@
+@*                                             Label="标题" *@
 @*                                             Dense *@
 @*                                             Outlined *@
-@*                                             HideDetails="@("auto")" *@
-@*                                             @attributes="context.Attrs"> *@
-@*                                 </MTextField> *@
-@*                             </ActivatorContent> *@
-@*                             <ChildContent> *@
-@*                                 <MDatePicker @bind-Value="_nodeDate" *@
-@*                                              OnInput="() => _nodeModelMenu = false"> *@
-@*                                 </MDatePicker> *@
-@*                             </ChildContent> *@
-@*                         </MMenu> *@
+@*                                             HideDetails="@("auto")"/> *@
+@*                             </MCol> *@
+@*                             <MCol Cols="12" Sm="5"> *@
+@*                                 <MMenu @bind-Value="_nodeModelMenu" *@
+@*                                        CloseOnContentClick="false" *@
+@*                                        Transition="scale-transition" *@
+@*                                        OffsetY *@
+@*                                        MinWidth="@("auto")"> *@
+@*                                     <ActivatorContent> *@
+@*                                         <MTextField @bind-Value="_nodeDate" *@
+@*                                                     Label="节点时间" *@
+@*                                                     PrependIcon="mdi-calendar" *@
+@*                                                     Readonly *@
+@*                                                     Dense *@
+@*                                                     Outlined *@
+@*                                                     HideDetails="@("auto")" *@
+@*                                                     @attributes="context.Attrs"> *@
+@*                                         </MTextField> *@
+@*                                     </ActivatorContent> *@
+@*                                     <ChildContent> *@
+@*                                         <MDatePicker @bind-Value="_nodeDate" *@
+@*                                                      OnInput="() => _nodeModelMenu = false"> *@
+@*                                         </MDatePicker> *@
+@*                                     </ChildContent> *@
+@*                                 </MMenu> *@
+@*                             </MCol> *@
+@*                         </MRow> *@
+@*                     </MCol> *@
+@*                     <MCol Cols="12"> *@
+@*                         <MTextarea @bind-Value="_node.Content" *@
+@*                                    Label="内容" *@
+@*                                    Dense *@
+@*                                    Outlined *@
+@*                                    HideDetails="@("auto")"/> *@
 @*                     </MCol> *@
 @*                 </MRow> *@
-@*             </MCol> *@
-@*             <MCol Cols="12"> *@
-@*                 <MTextarea @bind-Value="_node.Content" *@
-@*                            Label="内容" *@
-@*                            Dense *@
-@*                            Outlined *@
-@*                            HideDetails="@("auto")"/> *@
-@*             </MCol> *@
-@*         </MRow> *@
-@*     </ChildContent> *@
-@*     <CancelContent Context="cancel"> *@
-@*         <MButton Color="blue darken-1" Text OnClick="cancel.Click" Disabled="cancel.Loading"> *@
-@*             取消 *@
-@*         </MButton> *@
-@*     </CancelContent> *@
-@*     <SaveContent Context="save"> *@
-@*         <MButton Color="blue darken-1" Text OnClick="save.Click" Disabled="save.Loading" Loading="save.Loading"> *@
-@*             保存 *@
-@*         </MButton> *@
-@*     </SaveContent> *@
-@* </PModal> *@
+@*             </MContainer> *@
+@*         </MCardText> *@
+@*         <MCardActions> *@
+@*                     <MSpacer></MSpacer> *@
+@*                     <MButton Color="blue darken-1" *@
+@*                              Text *@
+@*                              OnClick="HandleOnCancelNode"> *@
+@*                         取消 *@
+@*                     </MButton> *@
+@*                     <MButton Color="blue darken-1" *@
+@*                              Text *@
+@*                              OnClick="HandleOnSaveNode"> *@
+@*                         保存 *@
+@*                     </MButton> *@
+@*                 </MCardActions> *@
+@*     </MCard> *@
+@* </MDialog> *@
+
+<PModal @bind-Value="_isShowNodeModel"
+        Persistent
+        Title="添加任务节点"
+        Width="500"
+        OnSave="HandleOnSaveNode"
+        OnCancel="HandleOnCancelNode">
+    <ChildContent>
+        <MRow>
+            <MCol Cols="12">
+                <MRow>
+                    <MCol Cols="12" Sm="7">
+                        <MTextField @bind-Value="_node.Title"
+                                    Label="标题"
+                                    Dense
+                                    Outlined
+                                    HideDetails="@("auto")"/>
+                    </MCol>
+                    <MCol Cols="12" Sm="5">
+                        <MMenu @bind-Value="_nodeModelMenu"
+                               CloseOnContentClick="false"
+                               Transition="scale-transition"
+                               OffsetY
+                               MinWidth="@("auto")">
+                            <ActivatorContent>
+                                <MTextField @bind-Value="_nodeDate"
+                                            Label="节点时间"
+                                            PrependIcon="mdi-calendar"
+                                            Readonly
+                                            Dense
+                                            Outlined
+                                            HideDetails="@("auto")"
+                                            @attributes="context.Attrs">
+                                </MTextField>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MDatePicker @bind-Value="_nodeDate"
+                                             OnInput="() => _nodeModelMenu = false">
+                                </MDatePicker>
+                            </ChildContent>
+                        </MMenu>
+                    </MCol>
+                </MRow>
+            </MCol>
+            <MCol Cols="12">
+                <MTextarea @bind-Value="_node.Content"
+                           Label="内容"
+                           Dense
+                           Outlined
+                           HideDetails="@("auto")"/>
+            </MCol>
+        </MRow>
+    </ChildContent>
+    <CancelContent Context="cancel">
+        <MButton Color="blue darken-1" Text OnClick="cancel.Click" Disabled="cancel.Loading">
+            取消
+        </MButton>
+    </CancelContent>
+    <SaveContent Context="save">
+        <MButton Color="blue darken-1" Text OnClick="save.Click" Disabled="save.Loading" Loading="save.Loading">
+            保存
+        </MButton>
+    </SaveContent>
+</PModal>
