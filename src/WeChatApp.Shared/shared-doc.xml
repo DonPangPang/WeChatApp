@@ -289,6 +289,11 @@
             </summary>
             <value></value>
         </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.Level">
+            <summary>
+            项目难易程度
+            </summary>
+        </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.Title">
             <summary>
             工作标题
@@ -408,6 +413,16 @@
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyTime">
             <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.OverProgress">
+            <summary>
+            总进度
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CurrentProgress">
+            <summary>
+            当前进度
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.Entity.WorkTaskNode">
@@ -613,6 +628,26 @@
         <member name="F:WeChatApp.Shared.Enums.WorkPublishType.自定义发布">
             <summary>
             自定义发布
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Enums.WorkTaskHardLevel">
+            <summary>
+            工作任务难易度
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskHardLevel.Easy">
+            <summary>
+            简单
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskHardLevel.Normal">
+            <summary>
+            一般
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.Enums.WorkTaskHardLevel.Hard">
+            <summary>
+            困难
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.Enums.WorkTaskNodeTypes">
@@ -991,6 +1026,11 @@
             </summary>
             <value> </value>
         </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.Level">
+            <summary>
+            项目难易程度
+            </summary>
+        </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.DepartmentId">
             <summary>
             部门Id
@@ -1121,6 +1161,16 @@
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PickCount">
             <summary>
             接取人数
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.OverProgress">
+            <summary>
+            总进度
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CurrentProgress">
+            <summary>
+            当前进度
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.FormBody.WorkTaskNodeDto">

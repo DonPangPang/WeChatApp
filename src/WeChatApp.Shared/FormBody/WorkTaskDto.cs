@@ -23,6 +23,11 @@ namespace WeChatApp.Shared.FormBody
         /// </summary>
         /// <value> </value>
         public Guid Id { get; set; }
+        
+        /// <summary>
+        /// 项目难易程度
+        /// </summary>
+        public WorkTaskHardLevel Level { get; set; } = WorkTaskHardLevel.Easy;
 
         /// <summary>
         /// 部门Id
@@ -156,5 +161,15 @@ namespace WeChatApp.Shared.FormBody
         /// 接取人数
         /// </summary>
         public int PickCount => PickUpUserIds.IsEmpty() ? 0 : PickUpUserIds!.Split(",").Length;
+
+        /// <summary>
+        /// 总进度
+        /// </summary>
+        public int OverProgress { get; set; } = 0;
+
+        /// <summary>
+        /// 当前进度
+        /// </summary>
+        public int CurrentProgress { get; set; } = 0;
     }
 }

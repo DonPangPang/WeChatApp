@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -30,6 +31,12 @@ namespace WeChatApp.Shared.Entity
         /// <value></value>
         [Required]
         public Guid DepartmentId { get; set; }
+
+        /// <summary>
+        /// 项目难易程度
+        /// </summary>
+        [DefaultValue(WorkTaskHardLevel.Easy)]
+        public WorkTaskHardLevel Level { get; set; } = WorkTaskHardLevel.Easy;
 
         /// <summary>
         /// 工作标题
@@ -168,5 +175,17 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// </summary>
         public DateTime ModifyTime { get; set; }
+        
+        /// <summary>
+        /// 总进度
+        /// </summary>
+        [NotMapped]
+        public int OverProgress { get; set; } = 0;
+
+        /// <summary>
+        /// 当前进度
+        /// </summary>
+        [NotMapped]
+        public int CurrentProgress { get; set; } = 0;
     }
 }

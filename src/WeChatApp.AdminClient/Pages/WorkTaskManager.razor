@@ -40,21 +40,29 @@
             {
                 @(_workTasks.ToList().IndexOf(context.Item) + 1)
             }
+            else if (context.Header.Value is nameof(WorkTaskDto.Level))
+            {
+                @($"{context.Item.Level.GetDescription()}")
+            }
+            else if (context.Header.Value is nameof(WorkTaskDto.Type))
+            {
+                @($"{context.Item.Type.GetDescription()}")
+            }
+            else if (context.Header.Value is nameof(WorkTaskDto.Status))
+            {
+                @($"{context.Item.Status.GetDescription()}")
+            }
             else if (context.Header.Value == "time")
             {
                 @($"{@context.Item.EndTime.ToShortDateString()}")
             }
             else if (context.Header.Value == "pick")
             {
-                @($"{(context.Item.PickUpUserIds ?? "").Split(",").Length}/{context.Item.MaxPickUpCount}")
-            }
-            else if (context.Header.Value == nameof(WorkTaskDto.Status))
-            {
-                @context.Value
+                @($"{context.Item.PickCount}/{context.Item.MaxPickUpCount}")
             }
             else if (context.Header.Value == nameof(WorkTaskDto.IsPublicNodes))
             {
-                @context.Value
+                @(context.Item.IsPublicNodes ? "是":"否")
             }
             else if (context.Header.Value == "details")
             {
@@ -81,7 +89,7 @@
 </MCard>
 
 <MDialog @bind-Value="_dialog"
-         MaxWidth="1000">
+         MaxWidth="1000" Scrollable>
     <MCard>
         <MCardTitle>
             <span class="text-h5">@FormTitle</span>
@@ -115,7 +123,10 @@
                                     </ActivatorContent>
                                     <ChildContent>
                                         <MDatePicker @bind-Value="_workTaskDate"
-                                                     OnInput="() => _menu = false">
+                                                     ShowAdjacentMonths
+                                                     TitleDateFormat="x => x.FirstOrDefault().ToShortDateString()"
+                                                     OnInput="() => _menu = false"
+                                                     Locale="zh-CN">
                                         </MDatePicker>
                                     </ChildContent>
                                 </MMenu>
@@ -127,7 +138,8 @@
                                          Dense
                                          Outlined
                                          ItemText="u => u.Label"
-                                         ItemValue="u => u.Value">
+                                         ItemValue="u => u.Value"
+                                         MenuProps="@(props => { props.OffsetY = true; })">
                                 </MSelect>
                             </MCol>
                         </MRow>
@@ -149,6 +161,7 @@
                                          Label="发布类型"
                                          ItemText="u => u.Label"
                                          ItemValue="u => u.Value"
+                                         MenuProps="@(props => { props.OffsetY = true; })"
                                          Dense Outlined>
                                 </MSelect>
                             </MCol>
@@ -180,9 +193,31 @@
                                     <MIcon>mdi-plus</MIcon>
                                 </MButton>
                             </MToolbar>
-                            <MList MinHeight="200">
+                            <MVirtualScroll TItem="WorkTaskNodeDto" Height="300" OverscanCount="5" Items="_workTaskNodes.OrderBy(x => x.NodeTime).ToList()">
+                                <ItemContent>
+                                    <MListItem>
+                                        <MListItemAvatar>
+                                            <MIcon>
+                                                mdi-resistor-nodes
+                                            </MIcon>
+                                        </MListItemAvatar>
+                                        <MListItemContent>
+                                            <MListItemTitle>@context.Title</MListItemTitle>
+                                            <MListItemSubtitle>@context.NodeTime.Value.ToShortDateString()</MListItemSubtitle>
+                                        </MListItemContent>
+                                        <MListItemAction>
+                                            <MButton Icon OnClick="() => EditWorkTaskNode(context)">
+                                                <MIcon Color="grey lighten-1">mdi-circle-edit-outline</MIcon>
+                                            </MButton>
+                                            <MButton Icon OnClick="() => DeleteWorkTaskNode(context)">
+                                                <MIcon Color="grey lighten-1">mdi-delete-sweep-outline</MIcon>
+                                            </MButton>
+                                        </MListItemAction>
+                                    </MListItem>
+                                    <MDivider Inset></MDivider>
+                                </ItemContent>
 
-                            </MList>
+                            </MVirtualScroll>
                         </MCard>
                     </MCol>
                 </MRow>
@@ -276,9 +311,9 @@
 
 <PModal @bind-Value="_isShowNodeModel"
         Persistent
-        Title="添加任务节点"
+        Title="@($"{NodeFormTitle}任务节点")"
         Width="500"
-        OnSave="HandleOnSaveNode"
+        OnSave="async () => await HandleOnSaveNode()"
         OnCancel="HandleOnCancelNode">
     <ChildContent>
         <MRow>
@@ -310,7 +345,10 @@
                             </ActivatorContent>
                             <ChildContent>
                                 <MDatePicker @bind-Value="_nodeDate"
-                                             OnInput="() => _nodeModelMenu = false">
+                                             ShowAdjacentMonths
+                                             TitleDateFormat="x => x.FirstOrDefault().ToShortDateString()"
+                                             OnInput="() => _nodeModelMenu = false"
+                                             Locale="zh-CN">
                                 </MDatePicker>
                             </ChildContent>
                         </MMenu>

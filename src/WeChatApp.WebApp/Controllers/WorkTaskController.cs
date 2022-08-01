@@ -88,7 +88,7 @@ namespace WeChatApp.WebApp.Controllers
             {
                 result.Add(new PorjDyname
                 {
-                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault(),
+                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault().MapTo<WorkTaskDto>(),
                     Node = node,
                 });
             }
@@ -105,7 +105,7 @@ namespace WeChatApp.WebApp.Controllers
 
         private class PorjDyname
         {
-            public WorkTask? WorkTask { get; set; }
+            public WorkTaskDto? WorkTask { get; set; }
             public WorkTaskNode? Node { get; set; }
         }
 
@@ -168,7 +168,7 @@ namespace WeChatApp.WebApp.Controllers
             var result = res.GroupBy(x => x.Status).Select(x => new
             {
                 Status = x.Key,
-                Data = x.ToList()
+                Data = x.ToList().MapTo<WorkTaskDto>()
             });
 
             return Success("获取成功", new
@@ -193,11 +193,18 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => x.Status == parameters.Status);
             }
 
-            var res = await query.Where(x => x.PickUpUserIds.Contains(_session.UserId.ToString())).QueryAsync(parameters);
+            var res = await query.Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString())).QueryAsync(parameters);
+            
+            var reuslt = await query.Include(x=>x.Nodes)!
+                .ThenInclude(t=>t.Items)
+                .Where(x => (x.PickUpUserIds ?? "")
+                .Contains(_session.UserId.ToString())).QueryAsync(parameters);
 
             foreach (var item in res)
             {
-                var reportNodeIds = await _serviceGen.Query<WorkTaskNode>().Where(x => x.WorkTaskId == item.Id).Select(x => x.Id).ToListAsync();
+                var reportNodeIds = await _serviceGen.Query<WorkTaskNode>()
+                    .Where(x=>x.Type == WorkTaskNodeTypes.Report)
+                    .Where(x => x.WorkTaskId == item.Id).Select(x => x.Id).ToListAsync();
                 var reportNodeItemsCount = await _serviceGen.Query<WorkTaskNodeItem>()
                     .Where(x => reportNodeIds.Contains(x.WorkTaskNodeId) && x.CreateUserId == _session.UserId).CountAsync();
 
@@ -205,9 +212,13 @@ namespace WeChatApp.WebApp.Controllers
                 {
                     item.Status = WorkTaskStatus.Finished;
                 }
+
+                item.OverProgress = reportNodeIds.Count;
+                item.CurrentProgress = reportNodeItemsCount;
+
             }
 
-            return Success("获取成功", res);
+            return Success("获取成功", res.MapTo<WorkTaskDto>());
         }
 
         /// <summary>

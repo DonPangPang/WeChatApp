@@ -171,6 +171,7 @@ namespace WeChatApp.AdminClient.Pages
         protected List<DataTableHeader<WorkTaskDto>> _headers = new List<DataTableHeader<WorkTaskDto>>
         {
             new() { Text = "序号", Align = "center", Value = "serial", Sortable = false },
+            new() { Text = "难度级别", Align = "center", Value = nameof(WorkTaskDto.Level), Sortable = false},
             new() { Text = "任务类型", Align = "center", Value = nameof(WorkTaskDto.Type), Sortable = false },
             new() { Text = "任务名称", Align = "center", Value = nameof(WorkTaskDto.Title), Sortable = false },
             new() { Text = "任务内容", Align = "center", Value = nameof(WorkTaskDto.Content), Sortable = false },
@@ -292,6 +293,16 @@ namespace WeChatApp.AdminClient.Pages
 
         #region 添加节点
 
+        private int _editNodeIndex = -1;
+        
+        public string NodeFormTitle
+        {
+            get
+            {
+                return _editNodeIndex == -1 ? "添加" : "编辑";
+            }
+        }
+        
         private bool _isShowNodeModel = false;
         private WorkTaskNodeDto _node = new();
 
@@ -300,28 +311,51 @@ namespace WeChatApp.AdminClient.Pages
 
         private void EditWorkTaskNode(WorkTaskNodeDto node)
         {
+            _editNodeIndex = 0;
+            _node = node;
+            _isShowNodeModel = true;
             
+            _nodeDate = DateOnly.FromDateTime(node.NodeTime ?? DateTime.Now);
         }
 
-        private void AddWorkTaskNode()
+        private void DeleteWorkTaskNode(WorkTaskNodeDto node)
         {
-            
+            _workTaskNodes.Remove(node);
         }
 
-        private void HandleOnSaveNode()
+        private async Task HandleOnSaveNode()
         {
+            
+            if (_nodeDate > _workTaskDate)
+            {
+                await PopupService.ToastErrorAsync("选择日期不在任务时间区间内");
+                return;
+            }
+            _node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
+
+            if (_editNodeIndex == -1)
+            {
+                _workTaskNodes.Add(_node);
+            }
+            
             _isShowNodeModel = false;
+
+            _node = new();
         }
 
         private void HandleOnCancelNode()
         {
             _isShowNodeModel = false;
+
+            _node = new();
         }
         
         private void HandleOnAddWorkTaskNode()
         {
+            _editNodeIndex = -1;
             _isShowNodeModel = true;
-            _nodeDate = DateOnly.FromDateTime(DateTime.Now);
+
+            //_node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
         }
 
         private void NodeModelMenuCancel()
@@ -331,15 +365,13 @@ namespace WeChatApp.AdminClient.Pages
 
         private async Task NodeModelMenuOk()
         {
-            if (_nodeDate > _workTaskDate)
-            {
-                await PopupService.ToastErrorAsync("选择日期不在任务时间区间内");
-                _nodeModelMenu = false;
-                return;
-            }
+            
             //_node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
             _nodeModelMenu = false;
         }
+
+        private List<WorkTaskNodeDto> _workTaskNodes = new();
+
 
         #endregion
     }
