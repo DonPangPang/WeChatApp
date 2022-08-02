@@ -128,9 +128,9 @@ namespace WeChatApp.WebApp.Controllers
                 return Fail("用户信息丢失");
             }
 
-            query = query.Where(x => (x.WorkPublishType == WorkPublishType.全局发布) ||
+            query = query.Where(x => (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) && ((x.WorkPublishType == WorkPublishType.全局发布) ||
                     (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
-                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())));
+                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString()))));
 
             var pickingTask = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).ToListAsync();
 
@@ -194,16 +194,16 @@ namespace WeChatApp.WebApp.Controllers
             }
 
             var res = await query.Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString())).QueryAsync(parameters);
-            
-            var reuslt = await query.Include(x=>x.Nodes)!
-                .ThenInclude(t=>t.Items)
+
+            var reuslt = await query.Include(x => x.Nodes)!
+                .ThenInclude(t => t.Items)
                 .Where(x => (x.PickUpUserIds ?? "")
                 .Contains(_session.UserId.ToString())).QueryAsync(parameters);
 
             foreach (var item in res)
             {
                 var reportNodeIds = await _serviceGen.Query<WorkTaskNode>()
-                    .Where(x=>x.Type == WorkTaskNodeTypes.Report)
+                    .Where(x => x.Type == WorkTaskNodeTypes.Report)
                     .Where(x => x.WorkTaskId == item.Id).Select(x => x.Id).ToListAsync();
                 var reportNodeItemsCount = await _serviceGen.Query<WorkTaskNodeItem>()
                     .Where(x => reportNodeIds.Contains(x.WorkTaskNodeId) && x.CreateUserId == _session.UserId).CountAsync();
@@ -215,7 +215,6 @@ namespace WeChatApp.WebApp.Controllers
 
                 item.OverProgress = reportNodeIds.Count;
                 item.CurrentProgress = reportNodeItemsCount;
-
             }
 
             return Success("获取成功", res.MapTo<WorkTaskDto>());
@@ -665,8 +664,8 @@ namespace WeChatApp.WebApp.Controllers
         /// 抢单/指定
         /// </summary>
         /// <returns> </returns>
-        [HttpGet]
-        public async Task<IActionResult> PickupWorkTask([FromBody] PickUpWorkTaskDto dto)
+        [HttpPost]
+        public async Task<IActionResult> PickupWorkTask(PickUpWorkTaskDto dto)
         {
             if (dto is null) return Fail("参数错误");
 
