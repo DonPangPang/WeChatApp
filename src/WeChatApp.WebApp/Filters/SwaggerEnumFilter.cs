@@ -27,9 +27,9 @@ namespace WeChatApp.WebApp.Filters
             {
                 var property = item.Value;
                 var typeName = item.Key;
-                Type itemType = null;
                 if (property.Enum != null && property.Enum.Count > 0)
                 {
+                    Type? itemType = null;
                     if (dict.ContainsKey(typeName))
                     {
                         itemType = dict[typeName];
@@ -43,7 +43,7 @@ namespace WeChatApp.WebApp.Filters
                     {
                         list.Add((OpenApiInteger)val);
                     }
-                    property.Description += DescribeEnum(itemType, list);
+                    property.Description += DescribeEnum(itemType!, list);
                 }
             }
         }

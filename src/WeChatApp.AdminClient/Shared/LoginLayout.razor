@@ -16,11 +16,21 @@
                 OnAppendClick="() => _passwordShow = !_passwordShow" required>
             </MTextField>
             <MButton Block Color="success" Type="submit">登录</MButton>
+            
+            <MOverlay Value="_overlay">
+                    <MProgressCircular indeterminate
+                                       Size="64"></MProgressCircular></MOverlay>
         </MForm>
     </MContainer>
 </MApp>
 
 @code {
+
+    #region 加载动画
+
+    bool _overlay = false;
+
+    #endregion
 
     private LoginDto _loginDto = new();
     private bool _passwordShow = false;
@@ -38,6 +48,7 @@
 
     private async Task HandleLogin()
     {
+        _overlay = true;
         _loginDto.ClientUA = ClientUA.PC;
         var result = await UserService.LoginAsync<WcResponse<RespToken>>(_loginDto);
 
@@ -57,6 +68,10 @@
         Console.WriteLine(result.Message);
 
         await GetUserLoginInfo();
+        Task.WaitAll();
+        _overlay = false;
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task GetUserLoginInfo()

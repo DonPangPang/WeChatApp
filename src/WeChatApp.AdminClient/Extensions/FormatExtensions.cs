@@ -23,7 +23,7 @@ namespace WeChatApp.AdminClient.Extensions
         public static string GetDescription(this Enum em)
         {
             Type type = em.GetType();
-            FieldInfo fd = type.GetField(em.ToString());
+            FieldInfo? fd = type.GetField(em.ToString());
             if (fd == null)
                 return string.Empty;
             object[] attrs = fd.GetCustomAttributes(typeof(DescriptionAttribute), false);

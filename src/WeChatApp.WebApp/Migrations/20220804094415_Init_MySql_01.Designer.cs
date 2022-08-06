@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeChatApp.WebApp.Data;
@@ -12,48 +11,46 @@ using WeChatApp.WebApp.Data;
 namespace WeChatApp.WebApp.Migrations
 {
     [DbContext(typeof(WeComAppDbContext))]
-    [Migration("20220707063617_InitDb03")]
-    partial class InitDb03
+    [Migration("20220804094415_Init_MySql_01")]
+    partial class Init_MySql_01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("WeChatApp.Shared.Entity.BonusPointRecord", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("BonusPoints")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("CreateUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CreateUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreateUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("PickUpUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("PickUpUserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("WorkTaskId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -64,29 +61,29 @@ namespace WeChatApp.WebApp.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("CreateUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CreateUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreateUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("TreeIds")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -168,30 +165,85 @@ namespace WeChatApp.WebApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WeChatApp.Shared.Entity.LogRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("LogLevel")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LogTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Module")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogRecord");
+                });
+
+            modelBuilder.Entity("WeChatApp.Shared.Entity.MessageToast", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsPush")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageToast");
+                });
+
             modelBuilder.Entity("WeChatApp.Shared.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("DepartmentId")
                         .IsRequired()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsSuper")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -199,11 +251,11 @@ namespace WeChatApp.WebApp.Migrations
                     b.Property<string>("Tel")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Uid")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -215,6 +267,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("45d16a4c-4a1c-4cd9-a0ba-6af0b86bbaf6"),
                             DepartmentId = new Guid("eab4c639-14a5-4458-91ba-ed77f6a955f5"),
                             Email = "liubei@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "刘备",
                             Password = "123456",
@@ -227,6 +280,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("45d16a4c-4a1c-4cd9-a0ba-6af0b86bbaf7"),
                             DepartmentId = new Guid("eab4c639-14a5-4458-91ba-ed77f6a955f5"),
                             Email = "guanyu@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "关羽",
                             Password = "123456",
@@ -239,6 +293,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("45d16a4c-4a1c-4cd9-a0ba-6af0b86bbaf8"),
                             DepartmentId = new Guid("eab4c639-14a5-4458-91ba-ed77f6a955f5"),
                             Email = "zhangfei@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "张飞",
                             Password = "123456",
@@ -251,6 +306,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("45d16a4c-4a1c-4cd9-a0ba-6af0b86bbaf9"),
                             DepartmentId = new Guid("eab4c639-14a5-4458-91ba-ed77f6a955f5"),
                             Email = "zhugeliang@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "诸葛亮",
                             Password = "123456",
@@ -263,6 +319,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("45d16a4c-4a1c-4cd9-a0ba-7af0b86bbaf8"),
                             DepartmentId = new Guid("170758b4-c800-4895-b373-02488fd9c6c0"),
                             Email = "zhaozilong@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "赵子龙",
                             Password = "123456",
@@ -275,6 +332,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("8898ae8f-78c0-48f8-8e6a-f5894e9a4ec4"),
                             DepartmentId = new Guid("170758b4-c800-4895-b373-02488fd9c6c0"),
                             Email = "zhangsan@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "张三",
                             Password = "123456",
@@ -287,6 +345,7 @@ namespace WeChatApp.WebApp.Migrations
                             Id = new Guid("8898ae8f-78c0-48f8-8e6a-f5894e9a4ec5"),
                             DepartmentId = new Guid("170758b4-c800-4895-b373-02488fd9c6c0"),
                             Email = "zhaozilong@qq.com",
+                            Gender = 1,
                             IsSuper = false,
                             Name = "lisi",
                             Password = "123456",
@@ -300,50 +359,56 @@ namespace WeChatApp.WebApp.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("CreateUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CreateUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreateUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<bool>("IsPublicNodes")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxPickUpCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifyTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("ModifyUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ModifyUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ModifyUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PickUpUserIds")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PickUpUserNames")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("PointsRewards")
                         .HasColumnType("decimal(10,2)");
@@ -352,28 +417,30 @@ namespace WeChatApp.WebApp.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("PublicEndTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("PublicStartTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Timespan")
+                    b.Property<DateTime>("Timespan")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkPublishType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -385,37 +452,37 @@ namespace WeChatApp.WebApp.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("CreateUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CreateUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreateUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImageSources")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("NodeTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<Guid>("WorkTaskId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -428,34 +495,34 @@ namespace WeChatApp.WebApp.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<Guid?>("CreateUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CreateUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreateUserUid")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImageSources")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("WorkTaskId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("WorkTaskNodeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 

@@ -1,4 +1,5 @@
 ﻿@page "/worktasks"
+@using WeChatApp.Shared.Entity
 
 <MCard>
     <MDataTable Headers="_headers" Items="_workTasks" OnOptionsUpdate="HandleOnOptionsUpdate"
@@ -42,7 +43,13 @@
             }
             else if (context.Header.Value is nameof(WorkTaskDto.Level))
             {
-                @($"{context.Item.Level.GetDescription()}")
+                <MChip Color="@context.Item.Level.GetColor()" Label Outlined Dark>
+                    @($"{context.Item.Level.GetDescription()}")
+                </MChip>
+            }
+            else if (context.Header.Value is nameof(WorkTaskDto.WorkPublishType))
+            {
+                @($"{context.Item.WorkPublishType.GetDescription()}")
             }
             else if (context.Header.Value is nameof(WorkTaskDto.Type))
             {
@@ -193,7 +200,7 @@
                                     <MIcon>mdi-plus</MIcon>
                                 </MButton>
                             </MToolbar>
-                            <MVirtualScroll TItem="WorkTaskNodeDto" Height="300" OverscanCount="5" Items="_workTaskNodes.OrderBy(x => x.NodeTime).ToList()">
+                            <MVirtualScroll TItem="WorkTaskNode" Height="300" OverscanCount="5" Items="_editedItem.Nodes!.OrderBy(x =>x.Type).ThenBy(x=>x.NodeTime).ToList()">
                                 <ItemContent>
                                     <MListItem>
                                         <MListItemAvatar>
@@ -203,7 +210,7 @@
                                         </MListItemAvatar>
                                         <MListItemContent>
                                             <MListItemTitle>@context.Title</MListItemTitle>
-                                            <MListItemSubtitle>@context.NodeTime.Value.ToShortDateString()</MListItemSubtitle>
+                                            <MListItemSubtitle>@context.NodeTime!.Value.ToShortDateString()</MListItemSubtitle>
                                         </MListItemContent>
                                         <MListItemAction>
                                             <MButton Icon OnClick="() => EditWorkTaskNode(context)">

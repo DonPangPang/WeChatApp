@@ -23,7 +23,7 @@ namespace WeChatApp.Shared.FormBody
         /// </summary>
         /// <value> </value>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// 项目难易程度
         /// </summary>
@@ -160,7 +160,7 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// 接取人数
         /// </summary>
-        public int PickCount => PickUpUserIds.IsEmpty() ? 0 : PickUpUserIds!.Split(",").Length;
+        public int PickCount => PickUpUserIds.IsEmpty() ? 0 : PickUpUserIds!.Split(",").Where(x => x != string.Empty).Count();
 
         /// <summary>
         /// 总进度

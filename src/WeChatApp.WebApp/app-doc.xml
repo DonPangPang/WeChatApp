@@ -228,12 +228,12 @@
         </member>
         <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetBonusPointRecordsAsync(WeChatApp.Shared.RequestBody.WebApi.BonusPointRecordDtoParameters)">
             <summary>
-            获取积分记录(带分页)
+            获取积分记录
             </summary>
             <param name="parameters"> </param>
             <returns> </returns>
         </member>
-        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetRankings">
+        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetRankings(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             获取排名
             </summary>
@@ -351,6 +351,13 @@
             <param name="serviceGen">          </param>
             <param name="session">             </param>
             <param name="messageToastService"> </param>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskListAsync(WeChatApp.Shared.RequestBody.WebApi.ParameterBase)">
+            <summary>
+            获取工作任务列表(带分页, 所有数据)
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
         </member>
         <member name="M:WeChatApp.WebApp.Controllers.WorkTaskController.GetWorkTaskIndex(WeChatApp.Shared.RequestBody.WebApi.WorkTaskIndexParameters)">
             <summary>
@@ -803,6 +810,11 @@
         </member>
         <member name="M:WeChatApp.WebApp.HangfireTasks.HangfireTask.HangfireSevices">
             <summary>
+            </summary>
+        </member>
+        <member name="M:WeChatApp.WebApp.HangfireTasks.WorkTaskJob.Execute">
+            <summary>
+            执行
             </summary>
         </member>
         <member name="T:WeChatApp.WebApp.Services.IMessageToastService">

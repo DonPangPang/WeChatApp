@@ -23,6 +23,16 @@ namespace WeChatApp.Shared.Options
         public string Password { get; set; } = null!;
 
         /// <summary>
+        /// 启用Redis
+        /// </summary>
+        public bool EnableRedis { get; set; } = false;
+
+        /// <summary>
+        /// 连接字符串
+        /// </summary>
+        public string ConnectionString { get; set; } = default!;
+
+        /// <summary>
         /// </summary>
         public HangfireOptions Value => this;
     }

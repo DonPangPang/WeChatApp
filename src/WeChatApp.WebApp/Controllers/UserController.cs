@@ -57,7 +57,7 @@ public class UserController : ApiController<User, UserDto>
     /// </summary>
     /// <returns> </returns>
     [HttpGet]
-    public ActionResult GetUserInfo()
+    public async Task<ActionResult> GetUserInfo()
     {
         var userId = _session.UserId;
 
@@ -68,7 +68,43 @@ public class UserController : ApiController<User, UserDto>
 
         //var user = await _serviceGen.Query<User>().Where(x => x.Id == userId).FirstOrDefaultAsync();
         var user = _session.UserInfo;
+
         var userInfo = user!.MapTo<UserDto>();
+
+        var score = await _serviceGen.Query<BonusPointRecord>()
+            .Where(x => x.PickUpUserId == user!.Id)
+            .SumAsync(x => x.BonusPoints);
+
+        var dept = await _serviceGen.Query<Department>()
+            .Where(x => x.Id == user!.DepartmentId)
+            .FirstOrDefaultAsync();
+
+        var globalRank = (await _serviceGen.Query<BonusPointRecord>()
+                .GroupBy(x => x.PickUpUserId)
+                .Select(x=>new{Id = x.Key, Sorce = x.Sum(t=>t.BonusPoints)})
+                .OrderByDescending(x => x.Sorce)
+                .ToListAsync())
+            .Select((x, row) =>new {Row = row+1, Id = x.Id})
+            .FirstOrDefault(x => x.Id == user!.Id)!.Row;
+
+        var userIds = await _serviceGen.Query<User>()
+            .Where(x => x.DepartmentId == user!.DepartmentId)
+            .Select(x => x.Id).ToListAsync();
+        
+        var departmentRank = (await _serviceGen.Query<BonusPointRecord>()
+                .Where(x=>userIds.Contains(x.PickUpUserId))
+                .GroupBy(x => x.PickUpUserId)
+                .Select(x => new { Id = x.Key, Sorce = x.Sum(t => t.BonusPoints) })
+                .OrderByDescending(x => x.Sorce)
+                .ToListAsync())
+            .Select((x, row) =>new {Row = row+1, Id = x.Id})
+            .FirstOrDefault(x => x.Id == user!.Id)!.Row;
+        
+
+        userInfo.Score = score;
+        userInfo.DepartmentName = (dept ?? new Department()).DepartmentName;
+        userInfo.GlobalRank = globalRank;
+        userInfo.DepartmentRank = departmentRank;
 
         return Success("获取用户信息成功", userInfo);
     }

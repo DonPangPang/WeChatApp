@@ -49,7 +49,7 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => x.WorkTaskId == parameters.WorkTaskId);
             }
 
-            if (parameters.WorkTaskNodeId.IsEmpty())
+            if (!parameters.WorkTaskNodeId.IsEmpty())
             {
                 query = query.Where(x => x.WorkTaskNodeId == parameters.WorkTaskNodeId);
             }

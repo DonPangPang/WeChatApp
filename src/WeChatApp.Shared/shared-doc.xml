@@ -459,19 +459,19 @@
             <summary>
             图片
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.Items">
             <summary>
             子节点
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.NodeTime">
             <summary>
             节点时间
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserUid">
             <summary>
@@ -479,9 +479,8 @@
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserId">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTaskNode.CreateUserName">
             <summary>
@@ -823,6 +822,49 @@
             <summary>
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.BonusPoints">
+            <summary>
+            积分
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.PickUpUserId">
+            <summary>
+            积分认领人
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.PickUpUserName">
+            <summary>
+            积分认领人姓名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.WorkTaskId">
+            <summary>
+            任务Id
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.CreateUserId">
+            <summary>
+            </summary>
+            <value> </value>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.BonusPointRecordDto.WorkTaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.FormBody.DepartmentDto">
             <summary>
             部门
@@ -991,6 +1033,26 @@
         <member name="P:WeChatApp.Shared.FormBody.UserDto.DepartmentId">
             <summary>
             部门
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.DepartmentName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.Score">
+            <summary>
+            积分
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.GlobalRank">
+            <summary>
+            全局排名
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.UserDto.DepartmentRank">
+            <summary>
+            部门排名
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.FormBody.WorkTaskApprovalDto">
@@ -1248,61 +1310,57 @@
             <summary>
             Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.WorkTaskId">
             <summary>
             任务Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.WorkTaskNodeId">
             <summary>
             工作任务节点Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.Title">
             <summary>
             标题
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.Content">
             <summary>
             内容
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.ImageSources">
             <summary>
             图片路径
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserUid">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserId">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateUserName">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskNodeItemDto.CreateTime">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="T:WeChatApp.Shared.GlobalVars.GlobalVars">
             <summary>
@@ -1512,25 +1570,22 @@
         </member>
         <member name="P:WeChatApp.Shared.Options.DbOptions.DbSettings">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Options.DbOptions.Value">
             <summary>
-            
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.Options.DbSetting">
             <summary>
-            
             </summary>
         </member>
         <member name="P:WeChatApp.Shared.Options.DbSetting.DbType">
             <summary>
             数据库类型
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Options.DbSetting.ConnectionString">
             <summary>
@@ -1541,7 +1596,7 @@
             <summary>
             是否启用
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="T:WeChatApp.Shared.Options.HangfireOptions">
             <summary>
@@ -1556,6 +1611,16 @@
         <member name="P:WeChatApp.Shared.Options.HangfireOptions.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.HangfireOptions.EnableRedis">
+            <summary>
+            启用Redis
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Options.HangfireOptions.ConnectionString">
+            <summary>
+            连接字符串
             </summary>
         </member>
         <member name="P:WeChatApp.Shared.Options.HangfireOptions.Value">

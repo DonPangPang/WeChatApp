@@ -14,29 +14,30 @@ using WeChatApp.Shared.RequestBody.WebApi;
 using WeChatApp.AdminClient.Extensions;
 using WeChatApp.Shared.Enums;
 using WeChatApp.Shared.Temp;
+using WeChatApp.Shared.Entity;
 
 namespace WeChatApp.AdminClient.Pages
 {
     public partial class WorkTaskManager : ComponentBase
     {
-        [Inject] IPopupService PopupService { get; set; } = default!;
-        [Inject] IWorkTaskService WorkTaskService { get; set; } = default!;
-
+        [Inject] private IPopupService PopupService { get; set; } = default!;
+        [Inject] private IWorkTaskService WorkTaskService { get; set; } = default!;
 
         private List<EnumItem<WorkPublishType>> WorkTaskTypeList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<WorkPublishType>().ToList();
         private List<EnumItem<WorkTaskTypes>> WorkTaskTypeDropList = WeChatApp.AdminClient.Extensions.FormatExtensions.ToEnumList<WorkTaskTypes>().ToList();
-
 
         protected string _search = string.Empty;
 
         protected int _totalCount = 0;
         protected IEnumerable<WorkTaskDto> _workTasks = new List<WorkTaskDto>();
         protected bool _loading = true;
+
         protected DataOptions _options = new DataOptions()
         {
             Page = 1,
             ItemsPerPage = 10
         };
+
         protected int _serial = 1;
 
         protected bool _dialog = false;
@@ -51,17 +52,18 @@ namespace WeChatApp.AdminClient.Pages
                 return _editedIndex == -1 ? "添加" : "编辑";
             }
         }
-        
-        AlertTypes type = 0;
+
+        private AlertTypes type = 0;
         protected string _message = string.Empty;
-        ToastPosition position = ToastPosition.TopRight;
-        void Show(AlertTypes t = 0)
+        private ToastPosition position = ToastPosition.TopRight;
+
+        private void Show(AlertTypes t = 0)
         {
             type = t;
             _dialogDelete = true;
         }
 
-        async Task AlertShow(AlertTypes t = 0)
+        private async Task AlertShow(AlertTypes t = 0)
         {
             type = t;
             await PopupService.ToastAsync(_message, type);
@@ -133,11 +135,12 @@ namespace WeChatApp.AdminClient.Pages
                 PickUpUserIds = item.PickUpUserIds,
                 PickUpUserNames = item.PickUpUserNames,
                 Type = item.Type,
+                Nodes = item.Nodes,
             };
 
             _workTaskDate = DateOnly.FromDateTime(_editedItem.EndTime);
 
-            _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').ToList().Select(x => Guid.Parse(x)).ToList();
+            _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').Where(x=>x != string.Empty).ToList().Select(x => Guid.Parse(x)).ToList();
 
             _dialog = true;
         }
@@ -168,11 +171,13 @@ namespace WeChatApp.AdminClient.Pages
             _editedItem = new();
             _editedIndex = -1;
         }
+
         protected List<DataTableHeader<WorkTaskDto>> _headers = new List<DataTableHeader<WorkTaskDto>>
         {
             new() { Text = "序号", Align = "center", Value = "serial", Sortable = false },
             new() { Text = "难度级别", Align = "center", Value = nameof(WorkTaskDto.Level), Sortable = false},
-            new() { Text = "任务类型", Align = "center", Value = nameof(WorkTaskDto.Type), Sortable = false },
+            new() { Text = "任务类型", Align = "center", Value = nameof(WorkTaskDto.WorkPublishType), Sortable = false },
+            new() { Text = "发布类型", Align = "center", Value = nameof(WorkTaskDto.Type), Sortable = false },
             new() { Text = "任务名称", Align = "center", Value = nameof(WorkTaskDto.Title), Sortable = false },
             new() { Text = "任务内容", Align = "center", Value = nameof(WorkTaskDto.Content), Sortable = false },
             new() { Text = "结束时间", Align = "center", Value = "time", Sortable = false},
@@ -181,7 +186,7 @@ namespace WeChatApp.AdminClient.Pages
             new() { Text = "任务状态", Align = "center", Value = nameof(WorkTaskDto.Status), Sortable = false },
             new() { Text = "创建人", Align = "center", Value = nameof(WorkTaskDto.CreateUserName), Sortable = false },
             new() { Text = "创建时间", Align = "center", Value = nameof(WorkTaskDto.CreateTime), Sortable = false },
-            new() { Text = "公开节点", Align = "center", Value = nameof(WorkTaskDto.IsPublicNodes), Sortable = false },
+            //new() { Text = "公开节点", Align = "center", Value = nameof(WorkTaskDto.IsPublicNodes), Sortable = false },
             new() { Text = "详情", Align = "center", Value = "details", Sortable = false },
             new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
         };
@@ -250,7 +255,7 @@ namespace WeChatApp.AdminClient.Pages
         }
 
         #region Date
-        
+
         private bool _menu;
 
         private DateOnly _workTaskDate = DateOnly.FromDateTime(DateTime.Now);
@@ -265,11 +270,12 @@ namespace WeChatApp.AdminClient.Pages
         {
             _menu = false;
         }
-        
+
         #endregion Date
 
         #region 获取部门人员树状结构
-        [Inject] IDepartmentService DepartmentService { get; set; } = default!;
+
+        [Inject] private IDepartmentService DepartmentService { get; set; } = default!;
 
         private List<TreeItem> _departmentWithUsers = new();
 
@@ -289,12 +295,13 @@ namespace WeChatApp.AdminClient.Pages
                 await PopupService.ToastAsync(_message, AlertTypes.Error);
             }
         }
+
         #endregion 获取部门人员树状结构
 
         #region 添加节点
 
         private int _editNodeIndex = -1;
-        
+
         public string NodeFormTitle
         {
             get
@@ -302,42 +309,41 @@ namespace WeChatApp.AdminClient.Pages
                 return _editNodeIndex == -1 ? "添加" : "编辑";
             }
         }
-        
+
         private bool _isShowNodeModel = false;
-        private WorkTaskNodeDto _node = new();
+        private WorkTaskNode _node = new();
 
         private bool _nodeModelMenu = false;
         private DateOnly _nodeDate = DateOnly.FromDateTime(DateTime.Now);
 
-        private void EditWorkTaskNode(WorkTaskNodeDto node)
+        private void EditWorkTaskNode(WorkTaskNode node)
         {
             _editNodeIndex = 0;
             _node = node;
             _isShowNodeModel = true;
-            
+
             _nodeDate = DateOnly.FromDateTime(node.NodeTime ?? DateTime.Now);
         }
 
-        private void DeleteWorkTaskNode(WorkTaskNodeDto node)
+        private void DeleteWorkTaskNode(WorkTaskNode node)
         {
-            _workTaskNodes.Remove(node);
+            _editedItem.Nodes!.Remove(node);
         }
 
         private async Task HandleOnSaveNode()
         {
-            
             if (_nodeDate > _workTaskDate)
             {
-                await PopupService.ToastErrorAsync("选择日期不在任务时间区间内");
+                await PopupService.ToastAsync("选择日期不在任务时间区间内", AlertTypes.Error);
                 return;
             }
             _node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
 
             if (_editNodeIndex == -1)
             {
-                _workTaskNodes.Add(_node);
+                _editedItem.Nodes!.Add(_node);
             }
-            
+
             _isShowNodeModel = false;
 
             _node = new();
@@ -349,7 +355,7 @@ namespace WeChatApp.AdminClient.Pages
 
             _node = new();
         }
-        
+
         private void HandleOnAddWorkTaskNode()
         {
             _editNodeIndex = -1;
@@ -365,14 +371,10 @@ namespace WeChatApp.AdminClient.Pages
 
         private async Task NodeModelMenuOk()
         {
-            
             //_node.NodeTime = _nodeDate.ToDateTime(new TimeOnly());
             _nodeModelMenu = false;
         }
 
-        private List<WorkTaskNodeDto> _workTaskNodes = new();
-
-
-        #endregion
+        #endregion 添加节点
     }
 }

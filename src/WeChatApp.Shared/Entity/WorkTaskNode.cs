@@ -45,19 +45,19 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// 图片
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public string? ImageSources { get; set; }
 
         /// <summary>
         /// 子节点
         /// </summary>
-        /// <value></value>
-        public ICollection<WorkTaskNodeItem>? Items { get; set; }
+        /// <value> </value>
+        public ICollection<WorkTaskNodeItem>? Items { get; set; } = new List<WorkTaskNodeItem>();
 
         /// <summary>
         /// 节点时间
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public DateTime? NodeTime { get; set; }
 
         /// <summary>
@@ -65,9 +65,8 @@ namespace WeChatApp.Shared.Entity
         public string? CreateUserUid { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public Guid? CreateUserId { get; set; }
 
         /// <summary>

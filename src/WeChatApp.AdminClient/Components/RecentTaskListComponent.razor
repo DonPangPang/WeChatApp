@@ -8,7 +8,7 @@
 
             <MList Disabled>
                 <MListItemGroup>
-                    @foreach (var item in items)
+                    @foreach (var item in _items)
                     {
                         <MListItem Style="height: 16px;">
                             <MListItemContent>
@@ -37,19 +37,18 @@
     }
 
     #region Department
-    AlertTypes type = 0;
+    AlertTypes _type = 0;
 
     void Show(AlertTypes t = 0)
     {
-        type = t;
+        _type = t;
         _dialogDelete = true;
     }
 
-    ToastPosition position = ToastPosition.TopRight;
     async Task AlertShow(AlertTypes t = 0)
     {
-        type = t;
-        await PopupService.ToastAsync(_message, type);
+        _type = t;
+        await PopupService.ToastAsync(_message, _type);
     }
 
     private bool _dialog;
@@ -71,7 +70,7 @@
     }
     #endregion Department
 
-    List<Item> items = new List<Item>
+    List<Item> _items = new List<Item>
 {
 new Item { Text= "Real-Time", Icon= "mdi-account" },
 new Item { Text= "Audience", Icon= "mdi-account" },
@@ -83,7 +82,7 @@ new Item { Text= "Conversions", Icon= "mdi-account" }
 
     class Item
     {
-        public string Text { get; set; }
-        public string Icon { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
     }
 }

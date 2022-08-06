@@ -11,28 +11,26 @@ namespace WeChatApp.Shared.Options
     /// </summary>
     public class DbOptions : IOptions<DbOptions>
     {
+        /// <summary>
+        /// </summary>
+        /// <value> </value>
+        public IEnumerable<DbSetting> DbSettings { get; set; } = null!;
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
-        public IEnumerable<DbSetting> DbSettings { get; set; } = null!;
-        /// <summary>
-        /// 
         /// </summary>
         public DbOptions Value => this;
     }
 
     /// <summary>
-    /// 
     /// </summary>
     public class DbSetting
     {
         /// <summary>
         /// 数据库类型
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public string DbType { get; set; } = "SqlServer";
+
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
@@ -41,7 +39,7 @@ namespace WeChatApp.Shared.Options
         /// <summary>
         /// 是否启用
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public bool IsEnable { get; set; } = false;
     }
 }

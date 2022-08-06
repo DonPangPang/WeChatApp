@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Asn1.Cmp;
 using System.Text;
 using WeChatApp.Shared;
 using WeChatApp.Shared.Extensions;

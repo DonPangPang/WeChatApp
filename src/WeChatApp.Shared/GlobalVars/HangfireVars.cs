@@ -13,6 +13,6 @@ namespace WeChatApp.Shared.GlobalVars
         /// <summary>
         /// 默认架构
         /// </summary>
-        public const string DefaultSchemaName = "dbo";
+        public const string DefaultSchemaName = "Hangfire";
     }
 }

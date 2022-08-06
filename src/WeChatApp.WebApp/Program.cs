@@ -62,10 +62,10 @@ builder.Services.AddMemoryCache();
 builder.Services.AddAuthSetup();
 builder.Services.AddCorsSetup();
 builder.Services.AddAutoMapper();
-builder.Services.AddSqlServer();
+builder.Services.AddDatabase();
 builder.Services.AddHangfireSupport();
 
-builder.WebHost.UseUrls("http://0.0.0.0:10500/");
+builder.WebHost.UseUrls("http://*:8014/");
 
 var app = builder.Build();
 

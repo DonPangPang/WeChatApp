@@ -72,22 +72,22 @@ namespace WeChatApp.AdminClient.Auth
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-            keyValuePairs.TryGetValue(ClaimTypes.Role, out object roles);
+            keyValuePairs!.TryGetValue(ClaimTypes.Role, out object? roles);
 
             if (roles != null)
             {
-                if (roles.ToString().Trim().StartsWith("["))
+                if (roles.ToString()!.Trim().StartsWith("["))
                 {
-                    var parsedRoles = JsonSerializer.Deserialize<string[]>(roles.ToString());
+                    var parsedRoles = JsonSerializer.Deserialize<string[]>(roles.ToString()!);
 
-                    foreach (var parsedRole in parsedRoles)
+                    foreach (var parsedRole in parsedRoles!)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, parsedRole));
                     }
                 }
                 else
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, roles.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Role, roles.ToString()!));
                 }
 
                 keyValuePairs.Remove(ClaimTypes.Role);

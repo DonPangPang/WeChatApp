@@ -46,9 +46,9 @@ namespace WeChatApp.WebApp.WebSocket
                    {
                        await _sessionManager.TryRemoveAsync(((WsSession)s).UserId);
                    })
-                   .UseWebSocketMessageHandler(async (s, v) =>
-                   {
-                   })
+                   // .UseWebSocketMessageHandler(async (s, v) =>
+                   // {
+                   // })
                    .UseInProcSessionContainer()
                    .BuildAsServer();
 

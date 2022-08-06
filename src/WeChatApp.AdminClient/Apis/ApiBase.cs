@@ -28,7 +28,7 @@ namespace WeChatApp.AdminClient.Apis
             { "GetDepartmentTree", "/api/Department/GetTree" },
             { "GetDepartmentTreeWithUser", "/api/Department/GetTreeWithUser" },
 
-            { "GetWorkTaskList", "/api/WorkTask/GetPagedList" },
+            { "GetWorkTaskList", "/api/WorkTask/GetWorkTaskList" },
             { "GetWorkTask", "/api/WorkTask/GetEntity" },
             { "AddWorkTask", "/api/WorkTask/CreateEntity" },
             { "EditWorkTask", "/api/WorkTask/UpdateEntity" },

@@ -1,4 +1,7 @@
-﻿namespace WeChatApp.WebApp.HangfireTasks
+﻿using Hangfire;
+using WeChatApp.Shared.Extensions;
+
+namespace WeChatApp.WebApp.HangfireTasks
 {
     /// <summary>
     /// </summary>
@@ -24,6 +27,14 @@
             //连续性允许您通过将多个后台任务链接在一起来定义复杂的工作流。
             //var id = BackgroundJob.Enqueue(() => Console.WriteLine("Hello, "));
             //BackgroundJob.ContinueWith(id, () => Console.WriteLine("world!"));
+
+            RecurringJob.AddOrUpdate<WorkTaskJob>(x => x.Execute(), Cron.Daily, TimeZoneInfo.Local);
+        }
+
+        public static void AddTimingJob(DateTime date, Action action)
+        {
+            var days = Math.Abs(date.DateDiff(DateTime.Now));
+            BackgroundJob.Schedule(() => action(), TimeSpan.FromDays(days));
         }
     }
 }

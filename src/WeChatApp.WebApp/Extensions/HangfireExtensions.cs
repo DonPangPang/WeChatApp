@@ -1,6 +1,8 @@
 ﻿using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.BasicAuthorization;
+using Hangfire.MySql;
+using System.Data;
 using WeChatApp.Shared.GlobalVars;
 using WeChatApp.Shared.Options;
 using WeChatApp.WebApp.HangfireTasks;
@@ -20,20 +22,63 @@ namespace WeChatApp.Shared.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
             IConfiguration configuration = services.BuildServiceProvider().GetService<IConfiguration>()!;
-            var connectionString = configuration.GetConnectionString("SqlServer");
-            //注册Hangfire定时任务
-            services.AddHangfire(x => x.UseSqlServerStorage(connectionString, new Hangfire.SqlServer.SqlServerStorageOptions
-            {
-                UseRecommendedIsolationLevel = true, // 事务隔离级别。默认是读取已提交。
-                QueuePollInterval = TimeSpan.FromSeconds(15),             //- 作业队列轮询间隔。默认值为15秒。
-                JobExpirationCheckInterval = TimeSpan.FromHours(1),       //- 作业到期检查间隔（管理过期记录）。默认值为1小时。
-                CountersAggregateInterval = TimeSpan.FromMinutes(5),      //- 聚合计数器的间隔。默认为5分钟。
-                PrepareSchemaIfNecessary = true,                          //- 如果设置为true，则创建数据库表。默认是true。
-                DashboardJobListLimit = 50000,                            //- 仪表板作业列表限制。默认值为50000。
-                TransactionTimeout = TimeSpan.FromMinutes(1),             //- 交易超时。默认为1分钟。
-                SchemaName = HangfireVars.DefaultSchemaName,              //- 数据库表名称。默认值为dbo。
 
-            }));
+            var dbOptions = configuration.GetSection("DbOptions").Get<DbOptions>();
+
+            var hangFire = configuration.GetSection("HangfireOptions").Get<HangfireOptions>();
+
+            var db = dbOptions.DbSettings.FirstOrDefault(x => x.IsEnable);
+
+            //var connectionString = configuration.GetConnectionString("SqlServer");
+            ////注册Hangfire定时任务
+            //services.AddHangfire(x => x.UseSqlServerStorage(connectionString, new Hangfire.SqlServer.SqlServerStorageOptions
+            //{
+            //    UseRecommendedIsolationLevel = true, // 事务隔离级别。默认是读取已提交。
+            //    QueuePollInterval = TimeSpan.FromSeconds(15),             //- 作业队列轮询间隔。默认值为15秒。
+            //    JobExpirationCheckInterval = TimeSpan.FromHours(1),       //- 作业到期检查间隔（管理过期记录）。默认值为1小时。
+            //    CountersAggregateInterval = TimeSpan.FromMinutes(5),      //- 聚合计数器的间隔。默认为5分钟。
+            //    PrepareSchemaIfNecessary = true,                          //- 如果设置为true，则创建数据库表。默认是true。
+            //    DashboardJobListLimit = 50000,                            //- 仪表板作业列表限制。默认值为50000。
+            //    TransactionTimeout = TimeSpan.FromMinutes(1),             //- 交易超时。默认为1分钟。
+            //    SchemaName = HangfireVars.DefaultSchemaName,              //- 数据库表名称。默认值为dbo。
+
+            //}));
+
+            if (hangFire.EnableRedis)
+            {
+                services.AddHangfire(x => x.UseRedisStorage(hangFire.ConnectionString));
+            }
+            else
+            {
+                if (db!.DbType == "MySql")
+                {
+                    services.AddHangfire(x => x.UseStorage(new MySqlStorage(db.ConnectionString, new MySqlStorageOptions
+                    {
+                        TransactionIsolationLevel = (System.Transactions.IsolationLevel?)IsolationLevel.ReadUncommitted, // 事务隔离级别。默认是读取已提交。
+                        QueuePollInterval = TimeSpan.FromSeconds(15),             //- 作业队列轮询间隔。默认值为15秒。
+                        JobExpirationCheckInterval = TimeSpan.FromHours(1),       //- 作业到期检查间隔（管理过期记录）。默认值为1小时。
+                        CountersAggregateInterval = TimeSpan.FromMinutes(5),      //- 聚合计数器的间隔。默认为5分钟。
+                        PrepareSchemaIfNecessary = true,                          //- 如果设置为true，则创建数据库表。默认是true。
+                        DashboardJobListLimit = 50000,                            //- 仪表板作业列表限制。默认值为50000。
+                        TransactionTimeout = TimeSpan.FromMinutes(1),             //- 交易超时。默认为1分钟。
+                        TablesPrefix = "Hangfire"                                  //- 数据库中表的前缀。默认为none
+                    })));
+                }
+                else if (db!.DbType == "SqlServer")
+                {
+                    services.AddHangfire(x => x.UseSqlServerStorage(db.ConnectionString, new Hangfire.SqlServer.SqlServerStorageOptions
+                    {
+                        UseRecommendedIsolationLevel = true, // 事务隔离级别。默认是读取已提交。
+                        QueuePollInterval = TimeSpan.FromSeconds(15),             //- 作业队列轮询间隔。默认值为15秒。
+                        JobExpirationCheckInterval = TimeSpan.FromHours(1),       //- 作业到期检查间隔（管理过期记录）。默认值为1小时。
+                        CountersAggregateInterval = TimeSpan.FromMinutes(5),      //- 聚合计数器的间隔。默认为5分钟。
+                        PrepareSchemaIfNecessary = true,                          //- 如果设置为true，则创建数据库表。默认是true。
+                        DashboardJobListLimit = 50000,                            //- 仪表板作业列表限制。默认值为50000。
+                        TransactionTimeout = TimeSpan.FromMinutes(1),             //- 交易超时。默认为1分钟。
+                        SchemaName = HangfireVars.DefaultSchemaName,              //- 数据库表名称。默认值为dbo。
+                    }));
+                }
+            }
 
             services.AddHangfireServer(options =>
             {
@@ -74,8 +119,7 @@ namespace WeChatApp.Shared.Extensions
                     {
                         new BasicAuthAuthorizationUser
                         {
-                            // Login = ho.UserName,
-                            // PasswordClear = ho.Password
+                            // Login = ho.UserName, PasswordClear = ho.Password
                             Login = "admin",
                             PasswordClear = "admin"
                         }

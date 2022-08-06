@@ -78,5 +78,25 @@ namespace WeChatApp.Shared.FormBody
         /// 部门
         /// </summary>
         public Guid? DepartmentId { get; set; }
+        
+        /// <summary>
+        /// 部门名称
+        /// </summary>
+        public string DepartmentName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 积分
+        /// </summary>
+        public decimal Score { get; set; } = 0;
+
+        /// <summary>
+        /// 全局排名
+        /// </summary>
+        public int GlobalRank { get; set; } = 0;
+        
+        /// <summary>
+        /// 部门排名
+        /// </summary>
+        public int DepartmentRank { get; set; } = 0;
     }
 }

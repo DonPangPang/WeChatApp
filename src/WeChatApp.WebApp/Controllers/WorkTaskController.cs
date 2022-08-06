@@ -10,6 +10,7 @@ using WeChatApp.Shared.Interfaces;
 using WeChatApp.Shared.RequestBody.WebApi;
 using WeChatApp.WebApp.Extensions;
 using WeChatApp.WebApp.Filters;
+using WeChatApp.WebApp.HangfireTasks;
 using WeChatApp.WebApp.Services;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -34,6 +35,21 @@ namespace WeChatApp.WebApp.Controllers
             _serviceGen = serviceGen;
             _session = session;
             _messageToastService = messageToastService;
+        }
+
+        /// <summary>
+        /// 获取工作任务列表(带分页, 所有数据)
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> GetWorkTaskListAsync([FromQuery] ParameterBase parameter)
+        {
+            var res = await _serviceGen.Query<WorkTask>()
+                .Include(x=>x.Nodes)
+                .QueryAsync(parameter);
+
+            return Success("获取成功", res);
         }
 
         /// <summary>
@@ -88,7 +104,7 @@ namespace WeChatApp.WebApp.Controllers
             {
                 result.Add(new PorjDyname
                 {
-                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault().MapTo<WorkTaskDto>(),
+                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault()?.MapTo<WorkTaskDto>(),
                     Node = node,
                 });
             }
@@ -128,9 +144,10 @@ namespace WeChatApp.WebApp.Controllers
                 return Fail("用户信息丢失");
             }
 
-            query = query.Where(x => (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) && ((x.WorkPublishType == WorkPublishType.全局发布) ||
-                    (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
-                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString()))));
+            query = query.Where(x =>
+                (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) && (x.WorkPublishType == WorkPublishType.全局发布 ||
+                (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)) &&
+                !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString()));
 
             var pickingTask = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).ToListAsync();
 
@@ -163,7 +180,7 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => parameters.Status.Contains(x.Status));
             }
 
-            var res = await query.QueryAsync(parameters);
+            var res = await query.Include(x => x.Nodes).QueryAsync(parameters);
 
             var result = res.GroupBy(x => x.Status).Select(x => new
             {
@@ -193,12 +210,15 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => x.Status == parameters.Status);
             }
 
-            var res = await query.Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString())).QueryAsync(parameters);
+            var res = await query
+                .Include(x => x.Nodes)!
+                .ThenInclude(t => t.Items.Where(j => j.CreateUserId == _session.UserId))
+                .Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString())).QueryAsync(parameters);
 
-            var reuslt = await query.Include(x => x.Nodes)!
-                .ThenInclude(t => t.Items)
-                .Where(x => (x.PickUpUserIds ?? "")
-                .Contains(_session.UserId.ToString())).QueryAsync(parameters);
+            //var reuslt = await query.Include(x => x.Nodes)!
+            //    .ThenInclude(t => t.Items.Where(j => j.CreateUserId == _session.UserId))
+            //    .Where(x => (x.PickUpUserIds ?? "")
+            //    .Contains(_session.UserId.ToString())).QueryAsync(parameters);
 
             foreach (var item in res)
             {
@@ -266,6 +286,7 @@ namespace WeChatApp.WebApp.Controllers
         public async Task<ActionResult> GetWorkTaskWithNodesAsync(Guid id)
         {
             var res = await _serviceGen.Query<WorkTask>()
+                //.Include(x => x.Nodes)
                 .Where(x => x.Id.Equals(id))
                 .FirstOrDefaultAsync();
 
@@ -287,13 +308,18 @@ namespace WeChatApp.WebApp.Controllers
                 Score = userScore.Where(x => x.PickUpUserId == x.Id).Select(x => x.BonusPoints).FirstOrDefault(0)
             }).ToList();
 
-            if (res.IsPublicNodes || res.IsPublic())
-            {
-                var nodes = await _serviceGen.Query<WorkTaskNode>()
+            //if (res.IsPublicNodes || res.IsPublic())
+            //{
+            //    var nodes = await _serviceGen.Query<WorkTaskNode>()
+            //        .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
+
+            //    dto.Nodes = nodes.OrderBy(x => x.Type).ToList();
+            //}
+
+            var nodes = await _serviceGen.Query<WorkTaskNode>()
                     .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
 
-                dto.Nodes = nodes.OrderBy(x => x.Type).ToList();
-            }
+            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x=>x.NodeTime).ToList();
 
             return Success("获取成功", dto);
         }
@@ -316,7 +342,7 @@ namespace WeChatApp.WebApp.Controllers
                 .Where(x => (res.PickUpUserIds ?? "").Contains(x.Id.ToString())).ToListAsync();
 
             var userScore = await _serviceGen.Query<BonusPointRecord>()
-                   .Where(x => x.WorkTaskId == res.Id)
+                   .Where(x => x.WorkTaskId == id)
                    .ToListAsync();
 
             var dto = res.MapTo<WorkTaskDto>();
@@ -325,17 +351,23 @@ namespace WeChatApp.WebApp.Controllers
             {
                 UserId = x.Id,
                 Name = x.Name,
-                Score = userScore.Where(x => x.PickUpUserId == x.Id).Select(x => x.BonusPoints).FirstOrDefault(0)
+                Score = userScore.Where(t => t.PickUpUserId == x.Id).Select(x => x.BonusPoints).FirstOrDefault(0)
             }).ToList();
 
-            if (res.IsPublicNodes || res.IsPublic())
-            {
-                var nodes = await _serviceGen.Query<WorkTaskNode>()
+            //if (res.IsPublicNodes || res.IsPublic())
+            //{
+            //    var nodes = await _serviceGen.Query<WorkTaskNode>()
+            //        .Include(x => x.Items)
+            //        .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
+
+            //    dto.Nodes = nodes.OrderBy(x => x.Type).ToList();
+            //}
+
+            var nodes = await _serviceGen.Query<WorkTaskNode>()
                     .Include(x => x.Items)
                     .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
 
-                dto.Nodes = nodes.OrderBy(x => x.Type).ToList();
-            }
+            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x=>x.NodeTime).ToList();
 
             return Success("获取成功", dto);
         }
@@ -654,6 +686,7 @@ namespace WeChatApp.WebApp.Controllers
             if (res)
             {
                 _ = Task.Run(async () => await _messageToastService.SendMessageAsync(task));
+
                 return Success("发布成功");
             }
 
@@ -686,7 +719,7 @@ namespace WeChatApp.WebApp.Controllers
                 return Fail("到达抢单上限");
             }
 
-            var userIds = string.Join(",", dto);
+            var userIds = string.Join(",", dto.PickUpUserIds);
             task.Status = WorkTaskStatus.Active;
             task.PickUpUserIds = task.PickUpUserIds + "," + userIds;
 

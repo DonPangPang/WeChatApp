@@ -56,7 +56,7 @@ namespace WeChatApp.Shared.Extensions
 
         public static bool IsEmpty(this Guid? id)
         {
-            return id is null || id.IsEmpty();
+            return id is null || id == Guid.Empty;
         }
 
         public static bool IsEmpty(this bool? value)

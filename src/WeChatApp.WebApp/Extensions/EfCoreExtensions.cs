@@ -5,6 +5,7 @@ using WeChatApp.Shared.Entity;
 using WeChatApp.Shared.Interfaces;
 using WeChatApp.Shared.Options;
 using WeChatApp.WebApp.Data;
+using WeChatApp.Shared;
 
 namespace WeChatApp.WebApp.Extensions
 {
@@ -40,12 +41,11 @@ namespace WeChatApp.WebApp.Extensions
         public static IServiceCollection AddDatabase(this IServiceCollection services)
         {
             IConfiguration configuration = services.BuildServiceProvider().GetService<IConfiguration>()!;
-            var dbOptions = configuration.Get<DbOptions>().Value;
+            var dbOptions = configuration.GetSection("DbOptions").Get<DbOptions>();
 
             var db = dbOptions.DbSettings.FirstOrDefault(x => x.IsEnable);
 
             if (db is null) throw new ArgumentNullException("服务端配置错误, 失去数据库连接.");
-
             services.AddDbContext<WeComAppDbContext>(opts =>
             {
                 switch (db.DbType)
@@ -57,12 +57,18 @@ namespace WeChatApp.WebApp.Extensions
                             x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                         });
                         break;
+
                     case "MySql":
-                        opts.UseMySQL(db.ConnectionString, x =>
+                        opts.UseMySql(db.ConnectionString, new MySqlServerVersion(new Version(5, 0)), x =>
                         {
                             x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                         });
+                        //opts.UseMySQL(db.ConnectionString, x =>
+                        //{
+                        //    x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        //});
                         break;
+
                     case "PostgreSql":
                         opts.UseNpgsql(db.ConnectionString, x =>
                         {
