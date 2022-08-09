@@ -81,30 +81,29 @@ public class UserController : ApiController<User, UserDto>
 
         var globalRank = (await _serviceGen.Query<BonusPointRecord>()
                 .GroupBy(x => x.PickUpUserId)
-                .Select(x=>new{Id = x.Key, Sorce = x.Sum(t=>t.BonusPoints)})
+                .Select(x => new { Id = x.Key, Sorce = x.Sum(t => t.BonusPoints) })
                 .OrderByDescending(x => x.Sorce)
                 .ToListAsync())
-            .Select((x, row) =>new {Row = row+1, Id = x.Id})
-            .FirstOrDefault(x => x.Id == user!.Id)!.Row;
+            .Select((x, row) => new { Row = row + 1, Id = x.Id })
+            .FirstOrDefault(x => x.Id == user!.Id);
 
         var userIds = await _serviceGen.Query<User>()
             .Where(x => x.DepartmentId == user!.DepartmentId)
             .Select(x => x.Id).ToListAsync();
-        
+
         var departmentRank = (await _serviceGen.Query<BonusPointRecord>()
-                .Where(x=>userIds.Contains(x.PickUpUserId))
+                .Where(x => userIds.Contains(x.PickUpUserId))
                 .GroupBy(x => x.PickUpUserId)
                 .Select(x => new { Id = x.Key, Sorce = x.Sum(t => t.BonusPoints) })
                 .OrderByDescending(x => x.Sorce)
                 .ToListAsync())
-            .Select((x, row) =>new {Row = row+1, Id = x.Id})
-            .FirstOrDefault(x => x.Id == user!.Id)!.Row;
-        
+            .Select((x, row) => new { Row = row + 1, Id = x.Id })
+            .FirstOrDefault(x => x.Id == user!.Id);
 
         userInfo.Score = score;
         userInfo.DepartmentName = (dept ?? new Department()).DepartmentName;
-        userInfo.GlobalRank = globalRank;
-        userInfo.DepartmentRank = departmentRank;
+        userInfo.GlobalRank = globalRank is null ? 0 : globalRank.Row;
+        userInfo.DepartmentRank = departmentRank is null ? 0 : departmentRank.Row;
 
         return Success("获取用户信息成功", userInfo);
     }

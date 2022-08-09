@@ -18,7 +18,7 @@ namespace WeChatApp.WebApp.HangfireTasks
         /// </summary>
         public async Task Execute()
         {
-            var tasks = await _serviceGen.Query<WorkTask>().Where(x => x.EndTime >= DateTime.Now.Date)
+            var tasks = await _serviceGen.Query<WorkTask>().Where(x => x.EndTime <= DateTime.Now.Date)
                 .ToListAsync();
 
             foreach (var item in tasks)
@@ -26,10 +26,8 @@ namespace WeChatApp.WebApp.HangfireTasks
                 item.Status = Shared.Enums.WorkTaskStatus.End;
             }
 
-            await Task.Run(() =>
-            {
-                _serviceGen.Db.UpdateRange(tasks);
-            });
+            _serviceGen.Db.UpdateRange(tasks);
+            await _serviceGen.Db.SaveChangesAsync();
         }
     }
 }

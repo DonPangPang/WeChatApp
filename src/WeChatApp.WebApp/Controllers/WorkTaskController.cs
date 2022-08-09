@@ -40,13 +40,13 @@ namespace WeChatApp.WebApp.Controllers
         /// <summary>
         /// 获取工作任务列表(带分页, 所有数据)
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
+        /// <param name="parameter"> </param>
+        /// <returns> </returns>
         [HttpGet]
         public async Task<ActionResult> GetWorkTaskListAsync([FromQuery] ParameterBase parameter)
         {
             var res = await _serviceGen.Query<WorkTask>()
-                .Include(x=>x.Nodes)
+                .Include(x => x.Nodes)
                 .QueryAsync(parameter);
 
             return Success("获取成功", res);
@@ -319,7 +319,7 @@ namespace WeChatApp.WebApp.Controllers
             var nodes = await _serviceGen.Query<WorkTaskNode>()
                     .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
 
-            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x=>x.NodeTime).ToList();
+            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x => x.NodeTime).ToList();
 
             return Success("获取成功", dto);
         }
@@ -367,7 +367,7 @@ namespace WeChatApp.WebApp.Controllers
                     .Include(x => x.Items)
                     .Where(x => x.WorkTaskId.Equals(id)).ToListAsync();
 
-            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x=>x.NodeTime).ToList();
+            dto.Nodes = nodes.OrderBy(x => x.Type).ThenBy(x => x.NodeTime).ToList();
 
             return Success("获取成功", dto);
         }
@@ -566,7 +566,7 @@ namespace WeChatApp.WebApp.Controllers
 
                 var node = new WorkTaskNode
                 {
-                    Type = Shared.Enums.WorkTaskNodeTypes.Approval,
+                    Type = Shared.Enums.WorkTaskNodeTypes.Assigned,
                     WorkTaskId = entity.Id,
                 };
 
