@@ -18,7 +18,7 @@ namespace WeChatApp.WebApp.HangfireTasks
         /// </summary>
         public async Task Execute()
         {
-            var tasks = await _serviceGen.Query<WorkTask>().Where(x => x.EndTime <= DateTime.Now.Date)
+            var tasks = await _serviceGen.Query<WorkTask>().Where(x => x.EndTime <= DateTime.Now.Date && x.EndTime > DateTime.MinValue)
                 .ToListAsync();
 
             foreach (var item in tasks)

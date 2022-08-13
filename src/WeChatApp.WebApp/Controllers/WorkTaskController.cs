@@ -510,7 +510,7 @@ namespace WeChatApp.WebApp.Controllers
             await _serviceGen.BeginTrans();
             try
             {
-                var entity = dto.MapTo<WorkTask>();
+                var entity = dto;
 
                 var node = new WorkTaskNode
                 {
@@ -611,7 +611,7 @@ namespace WeChatApp.WebApp.Controllers
 
                 _ = Task.Run(async () =>
                 {
-                    await _messageToastService.SendMessageAsync(entity);
+                    //await _messageToastService.SendMessageAsync(entity);
                 });
 
                 return Success("修改成功");
