@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SkiaSharp;
 using WeChatApp.Shared.Interfaces;
 using WeChatApp.WebApp.Data;
 
@@ -68,6 +69,11 @@ namespace WeChatApp.WebApp.Services
         public async Task<int> Execute(string sql)
         {
             return await _dbContext.Database.ExecuteSqlRawAsync(sql);
+        }
+
+        public void Update<T>(T entity) where T : class, IEntity
+        {
+            _dbContext.Entry<T>(entity).State = EntityState.Modified;
         }
     }
 }

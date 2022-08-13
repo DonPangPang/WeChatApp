@@ -50,5 +50,7 @@ namespace WeChatApp.WebApp.Services
         /// <param name="sql"> </param>
         /// <returns> </returns>
         Task<int> Execute(string sql);
+
+        void Update<T>(T entity) where T : class, IEntity;
     }
 }

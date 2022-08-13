@@ -279,15 +279,14 @@
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.Id">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.DepartmentId">
             <summary>
             部门Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.Level">
             <summary>
@@ -308,13 +307,13 @@
             <summary>
             任务发布类型
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.MaxPickUpCount">
             <summary>
             最高抢单人数
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.StartTime">
             <summary>
@@ -336,11 +335,21 @@
             积分结算
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CanPickUserIds">
+            <summary>
+            能抢单人的Id集合, 逗号分隔
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.WorkTask.CanPickUserNames">
+            <summary>
+            能抢单人的姓名集合, 逗号分隔
+            </summary>
+        </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.PickUpUserIds">
             <summary>
             接取人Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.PickUpUserNames">
             <summary>
@@ -397,15 +406,14 @@
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.CreateUserId">
             <summary>
-            
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyUserId">
             <summary>
             修改人Id
             </summary>
-            <value></value>
+            <value> </value>
         </member>
         <member name="P:WeChatApp.Shared.Entity.WorkTask.ModifyUserName">
             <summary>
@@ -1141,6 +1149,16 @@
             积分结算
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CanPickUserIds">
+            <summary>
+            能抢单人的Id集合, 逗号分隔
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.CanPickUserNames">
+            <summary>
+            能抢单人的姓名集合, 逗号分隔
+            </summary>
+        </member>
         <member name="P:WeChatApp.Shared.FormBody.WorkTaskDto.PickUpUserIds">
             <summary>
             接取人Id
@@ -1390,6 +1408,15 @@
         <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.ClientUserInfo">
             <summary>
             用户信息
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.GlobalTaskAssign">
+            <summary>
+            全局任务指定人员名称
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.DeptTaskAssign">
+            <summary>
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.GlobalVars.ApiVars">

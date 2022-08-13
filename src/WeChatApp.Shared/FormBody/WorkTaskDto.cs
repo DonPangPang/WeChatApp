@@ -38,13 +38,12 @@ namespace WeChatApp.Shared.FormBody
         /// <summary>
         /// 工作标题
         /// </summary>
-        public string Title { get; set; } = null!;
+        public string Title { get; set; } = String.Empty;
 
         /// <summary>
         /// 工作内容
         /// </summary>
-        [Required]
-        public string Content { get; set; } = null!;
+        public string Content { get; set; } = String.Empty;
 
         /// <summary>
         /// 最高抢单人数
@@ -77,6 +76,16 @@ namespace WeChatApp.Shared.FormBody
         /// 积分结算
         /// </summary>
         public decimal PointsSettlement { get; set; } = 0;
+
+        /// <summary>
+        /// 能抢单人的Id集合, 逗号分隔
+        /// </summary>
+        public string? CanPickUserIds { get; set; }
+
+        /// <summary>
+        /// 能抢单人的姓名集合, 逗号分隔
+        /// </summary>
+        public string? CanPickUserNames { get; set; }
 
         /// <summary>
         /// 接取人Id

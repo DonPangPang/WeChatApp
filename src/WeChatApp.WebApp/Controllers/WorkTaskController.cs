@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Pang.AutoMapperMiddleware;
+using SkiaSharp;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using WeChatApp.Shared.Entity;
 using WeChatApp.Shared.Enums;
 using WeChatApp.Shared.Extensions;
 using WeChatApp.Shared.FormBody;
+using WeChatApp.Shared.GlobalVars;
 using WeChatApp.Shared.Interfaces;
 using WeChatApp.Shared.RequestBody.WebApi;
 using WeChatApp.WebApp.Extensions;
 using WeChatApp.WebApp.Filters;
 using WeChatApp.WebApp.HangfireTasks;
 using WeChatApp.WebApp.Services;
+using static Dapper.SqlMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WeChatApp.WebApp.Controllers
@@ -71,19 +76,19 @@ namespace WeChatApp.WebApp.Controllers
 
             var endTaskCount = await query.Where(x => x.Status == WorkTaskStatus.End).CountAsync();
 
-            query = _session.UserInfo!.Role switch
-            {
-                Role.高层管理员 => query,
-                Role.中层管理员 => query.Where(x => x.CreateUserId == _session.UserInfo.Id),
-                Role.普通成员 => query.Where(x => x.WorkPublishType == WorkPublishType.全局发布 ||
-                        (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)),
-                _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
-            };
+            //query = _session.UserInfo!.Role switch
+            //{
+            //    Role.高层管理员 => query,
+            //    Role.中层管理员 => query.Where(x => x.CreateUserId == _session.UserInfo.Id),
+            //    Role.普通成员 => query.Where(x => x.WorkPublishType == WorkPublishType.全局发布 ||
+            //            (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)),
+            //    _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
+            //};
 
-            if (parameters.Status != WorkTaskStatus.None)
-            {
-                query = query.Where(x => x.Status == parameters.Status);
-            }
+            //if (parameters.Status != WorkTaskStatus.None)
+            //{
+            //    query = query.Where(x => x.Status == parameters.Status);
+            //}
 
             //var res = await query.QueryAsync(parameters);
 
@@ -91,23 +96,46 @@ namespace WeChatApp.WebApp.Controllers
 
             var nodeQuery = _serviceGen.Query<WorkTaskNode>();
 
-            var nodes = await nodeQuery.Where(x => !filterNode.Contains(x.Type)).QueryAsync(parameters);
+            //var nodes = await nodeQuery.Where(x => !filterNode.Contains(x.Type))
+            //    .QueryAsync(parameters);
 
-            var workIds = nodes.Select(x => x.WorkTaskId).ToList();
+            var nodes_query = nodeQuery.Where(x => !filterNode.Contains(x.Type))
+                .Join(_serviceGen.Query<WorkTask>(), node => node.WorkTaskId, workTask => workTask.Id,
+                (node, workTask) => new { node, workTask });
 
-            var works = await _serviceGen.Query<WorkTask>()
-                .Where(x => workIds.Contains(x.Id)).AsNoTracking().ToListAsync();
-
-            var result = new List<PorjDyname>();
-
-            foreach (var node in nodes)
+            nodes_query = _session.UserInfo!.Role switch
             {
-                result.Add(new PorjDyname
-                {
-                    WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault()?.MapTo<WorkTaskDto>(),
-                    Node = node,
-                });
+                Role.高层管理员 => nodes_query,
+                Role.中层管理员 => nodes_query.Where(@x => @x.workTask.DepartmentId == _session.UserInfo.DepartmentId || x.workTask.CreateUserId == _session.UserId),
+                Role.普通成员 => nodes_query.Where(@x => @x.workTask.WorkPublishType == WorkPublishType.全局发布 ||
+                        (@x.workTask.WorkPublishType == WorkPublishType.科室发布 && @x.workTask.DepartmentId == _session.UserInfo.DepartmentId)),
+                _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
+            };
+
+            nodes_query = nodes_query.OrderByDescending(@x => @x.node.CreateTime);
+
+            if (parameters is IPaging)
+            {
+                nodeQuery.Skip((parameters.Page - 1) * parameters.PageSize).Take(parameters.PageSize);
             }
+
+            var result = await nodes_query.ToListAsync();
+
+            //var workIds = nodes.Select(x => x.WorkTaskId).ToList();
+
+            //var works = await _serviceGen.Query<WorkTask>()
+            //    .Where(x => workIds.Contains(x.Id)).AsNoTracking().ToListAsync();
+
+            //var result = new List<PorjDyname>();
+
+            //foreach (var node in nodes)
+            //{
+            //    result.Add(new PorjDyname
+            //    {
+            //        WorkTask = works.Where(x => x.Id == node.WorkTaskId).FirstOrDefault()?.MapTo<WorkTaskDto>(),
+            //        Node = node,
+            //    });
+            //}
 
             return Success("获取成功", new
             {
@@ -145,9 +173,11 @@ namespace WeChatApp.WebApp.Controllers
             }
 
             query = query.Where(x =>
-                (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) && (x.WorkPublishType == WorkPublishType.全局发布 ||
-                (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)) &&
-                !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString()));
+                (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) &&
+                    (x.WorkPublishType == WorkPublishType.全局发布 && x.PickUpUserNames != GlobalVars.GlobalTaskAssign ||
+                    (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
+                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.CanPickUserIds ?? "").Contains(_session.UserInfo.Id.ToString())) &&
+                !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())));
 
             var pickingTask = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).ToListAsync();
 
@@ -390,7 +420,7 @@ namespace WeChatApp.WebApp.Controllers
 
                 var node = new WorkTaskNode
                 {
-                    Type = Shared.Enums.WorkTaskNodeTypes.Approval,
+                    Type = Shared.Enums.WorkTaskNodeTypes.Publish,
                     WorkTaskId = entity.Id,
                     NodeTime = DateTime.Now,
                 };
@@ -410,6 +440,26 @@ namespace WeChatApp.WebApp.Controllers
                     case WorkTaskStatus.Publish:
                         node.Title = "已发布";
                         node.Content = $"已发布任务 {entity.Title}";
+                        break;
+
+                    case WorkTaskStatus.Active:
+                        node.Title = "指派任务";
+                        node.Content = $"已指派任务 {entity.Title}";
+
+                        if (entity.WorkPublishType == WorkPublishType.自定义发布) break;
+
+                        var user_query = _serviceGen.Query<User>().Where(x => x.Role == Role.普通成员);
+
+                        if (!entity.DepartmentId.IsEmpty())
+                        {
+                            user_query = user_query.Where(x => x.DepartmentId == entity.DepartmentId);
+                        }
+
+                        var users = await user_query.ToListAsync();
+
+                        entity.PickUpUserIds = string.Join(",", users.Select(x => x.Id).ToList());
+                        entity.PickUpUserNames = GlobalVars.GlobalTaskAssign;
+
                         break;
 
                     default:
@@ -462,11 +512,9 @@ namespace WeChatApp.WebApp.Controllers
             {
                 var entity = dto.MapTo<WorkTask>();
 
-                _serviceGen.Db.Update(entity);
-
                 var node = new WorkTaskNode
                 {
-                    Type = Shared.Enums.WorkTaskNodeTypes.Approval,
+                    Type = Shared.Enums.WorkTaskNodeTypes.Modify,
                     WorkTaskId = entity.Id,
                     NodeTime = DateTime.Now,
                 };
@@ -483,9 +531,28 @@ namespace WeChatApp.WebApp.Controllers
                         node.Content = $"待发布任务 {entity.Title}";
                         break;
 
-                    case WorkTaskStatus.Active:
+                    case WorkTaskStatus.Publish:
                         node.Title = "已发布";
                         node.Content = $"已发布任务 {entity.Title}";
+                        break;
+
+                    case WorkTaskStatus.Active:
+                        node.Title = "指派任务";
+                        node.Content = $"已指派任务 {entity.Title}";
+
+                        if (entity.WorkPublishType == WorkPublishType.自定义发布) break;
+
+                        var user_query = _serviceGen.Query<User>().Where(x => x.Role == Role.普通成员);
+
+                        if (!entity.DepartmentId.IsEmpty())
+                        {
+                            user_query = user_query.Where(x => x.DepartmentId == entity.DepartmentId);
+                        }
+
+                        var users = await user_query.ToListAsync();
+
+                        entity.PickUpUserIds = string.Join(",", users.Select(x => x.Id).ToList());
+                        entity.PickUpUserNames = GlobalVars.GlobalTaskAssign;
                         break;
 
                     default:
@@ -493,42 +560,50 @@ namespace WeChatApp.WebApp.Controllers
                         throw new ArgumentException("添加任务状态错误");
                 }
 
-                node.Create();
+                var elderEntity = await _serviceGen.Query<WorkTask>()
+                    .Where(x => x.Id == entity.Id)
+                    .Include(x => x.Nodes).FirstOrDefaultAsync();
 
-                await _serviceGen.Db.AddAsync(node);
+                if (elderEntity is null) throw new Exception("1");
 
-                var elderNodes = await _serviceGen.Query<WorkTaskNode>()
-                    .Where(x => x.WorkTaskId == entity.Id)
-                    .ToListAsync();
+                entity.Nodes!.Add(node);
+                entity.Map(elderEntity);
 
-                if (entity.Nodes != null)
-                {
-                    foreach (var item in entity.Nodes)
-                    {
-                        if (item.Id == Guid.Empty)
-                        {
-                            item.Create();
+                elderEntity.Nodes = entity.Nodes;
 
-                            await _serviceGen.Db.AddAsync(item);
-                        }
-                        else
-                        {
-                            var elderNode = elderNodes.Where((x => x.Id == item.Id)).FirstOrDefault();
+                _serviceGen.Update(elderEntity);
 
-                            item.Map(elderNode);
+                //node.Create();
 
-                            if (elderNode is not null) _serviceGen.Db.Update(elderNode);
-                            else throw new ArgumentNullException($"{item.Title} 任务节点异常");
-                        }
-                    }
+                //await _serviceGen.Db.AddAsync(node);
 
-                    foreach (var item in elderNodes.Where(item => !entity.Nodes.Select(x => x.Id).Contains(item.Id)))
-                    {
-                        _serviceGen.Db.Remove(item);
-                    }
+                //var elderNodes = await _serviceGen.Query<WorkTaskNode>()
+                //    .Where(x => x.WorkTaskId == entity.Id)
+                //    .ToListAsync();
 
-                    await _serviceGen.Db.AddRangeAsync(entity.Nodes);
-                }
+                //if (entity.Nodes != null)
+                //{
+                //    foreach (var item in entity.Nodes)
+                //    {
+                //        if (item.Id == Guid.Empty)
+                //        {
+                //            //item.Create();
+
+                // await _serviceGen.Db.AddAsync(item); } else { var elderNode = elderNodes.Where((x
+                // => x.Id == item.Id)).FirstOrDefault();
+
+                // item.Map(elderNode);
+
+                // if (elderNode is not null) _serviceGen.Db.Update(elderNode); else throw new
+                // ArgumentNullException($"{item.Title} 任务节点异常"); } }
+
+                // foreach (var item in elderNodes.Where(item => !entity.Nodes.Select(x =>
+                // x.Id).Contains(item.Id))) { _serviceGen.Db.Remove(item); }
+
+                //    await _serviceGen.Db.AddRangeAsync(entity.Nodes);
+                //}
+
+                //_serviceGen.Update(entity);
 
                 await _serviceGen.SaveAsync();
 
@@ -539,9 +614,9 @@ namespace WeChatApp.WebApp.Controllers
                     await _messageToastService.SendMessageAsync(entity);
                 });
 
-                return Success("创建成功");
+                return Success("修改成功");
             }
-            catch
+            catch (Exception e)
             {
                 await _serviceGen.Rollback();
                 throw;
@@ -624,14 +699,14 @@ namespace WeChatApp.WebApp.Controllers
                 {
                     Type = Shared.Enums.WorkTaskNodeTypes.Approval,
                     WorkTaskId = task.Id,
+                    NodeTime = DateTime.Now
                 };
 
                 if (dto.ApprovalResult)
                 {
-                    task.Status = WorkTaskStatus.PendingPublish;
-
-                    node.Title = "待发布";
-                    node.Content = $"待发布任务 {task.Title}";
+                    task.Status = WorkTaskStatus.Publish;
+                    node.Title = "审批通过, 已发布";
+                    node.Content = $"已发布任务 {task.Title}";
                 }
                 else
                 {
@@ -721,7 +796,7 @@ namespace WeChatApp.WebApp.Controllers
 
             var userIds = string.Join(",", dto.PickUpUserIds);
             task.Status = WorkTaskStatus.Active;
-            task.PickUpUserIds = task.PickUpUserIds + "," + userIds;
+            task.PickUpUserIds = string.Join(",", (task.PickUpUserIds + "," + userIds).Split(",").Where(x => !string.IsNullOrEmpty(x.Trim())).ToList());
 
             _serviceGen.Db.Update(task);
 

@@ -29,4 +29,13 @@ public static class GlobalVars
     /// 用户信息
     /// </summary>
     public const string ClientUserInfo = "client_userInfo";
+
+    /// <summary>
+    /// 全局任务指定人员名称
+    /// </summary>
+    public const string GlobalTaskAssign = "指派人员";
+
+    /// <summary>
+    /// </summary>
+    public const string DeptTaskAssign = "全部人员";
 }

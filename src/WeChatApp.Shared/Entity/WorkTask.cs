@@ -18,9 +18,8 @@ namespace WeChatApp.Shared.Entity
     public class WorkTask : IEntity, ICreator, IModifyed, IPublic
     {
         /// <summary>
-        /// 
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         [Key]
         [Required]
         public Guid Id { get; set; }
@@ -28,7 +27,7 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// 部门Id
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         [Required]
         public Guid DepartmentId { get; set; }
 
@@ -53,13 +52,13 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// 任务发布类型
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public WorkPublishType WorkPublishType { get; set; } = WorkPublishType.科室发布;
 
         /// <summary>
         /// 最高抢单人数
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         [Required]
         public int MaxPickUpCount { get; set; } = 0;
 
@@ -85,21 +84,34 @@ namespace WeChatApp.Shared.Entity
         [Column(TypeName = "decimal(10,2)")]
         public decimal PointsSettlement { get; set; } = 0;
 
-        // /// <summary>
-        // /// 接取人Uid
-        // /// </summary>
+        // ///
+        // <summary>
+        // /// 接取人Uid ///
+        // </summary>
         // public string? PickUpUserUid { get; set; }
 
-        // /// <summary>
-        // /// 接取人Id
-        // /// </summary>
-        // /// <value></value>
+        // ///
+        // <summary>
+        // /// 接取人Id ///
+        // </summary>
+        // ///
+        // <value> </value>
         // public Guid? PickUpUserId { get; set; }
+
+        /// <summary>
+        /// 能抢单人的Id集合, 逗号分隔
+        /// </summary>
+        public string? CanPickUserIds { get; set; }
+
+        /// <summary>
+        /// 能抢单人的姓名集合, 逗号分隔
+        /// </summary>
+        public string? CanPickUserNames { get; set; }
 
         /// <summary>
         /// 接取人Id
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public string? PickUpUserIds { get; set; }
 
         /// <summary>
@@ -157,15 +169,14 @@ namespace WeChatApp.Shared.Entity
         public string? ModifyUserUid { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public Guid? CreateUserId { get; set; }
 
         /// <summary>
         /// 修改人Id
         /// </summary>
-        /// <value></value>
+        /// <value> </value>
         public Guid? ModifyUserId { get; set; }
 
         /// <summary>
@@ -175,7 +186,7 @@ namespace WeChatApp.Shared.Entity
         /// <summary>
         /// </summary>
         public DateTime ModifyTime { get; set; }
-        
+
         /// <summary>
         /// 总进度
         /// </summary>
