@@ -38,4 +38,14 @@ public static class GlobalVars
     /// <summary>
     /// </summary>
     public const string DeptTaskAssign = "全部人员";
+
+    /// <summary>
+    /// 安装包上传路径
+    /// </summary>
+    public const string ApksPath = "uploads/apks/";
+
+    /// <summary>
+    /// 图片上传路径
+    /// </summary>
+    public const string ImagesPath = "uploads/images/";
 }

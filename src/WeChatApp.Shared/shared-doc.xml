@@ -15,6 +15,69 @@
             </summary>
             <value></value>
         </member>
+        <member name="T:WeChatApp.Shared.Entity.ConfigValue">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.Entity.AppHistory">
+            <summary>
+            App记录
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.Remark">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.Version">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.Description">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.Source">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.CreateUserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.ModifyUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.ModifyUserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.ModifyUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.Entity.AppHistory.ModifyTime">
+            <summary>
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.Entity.BonusPointRecord">
             <summary>
             积分记录
@@ -821,6 +884,85 @@
             <param name="e"></param>
             <returns></returns>
         </member>
+        <member name="T:WeChatApp.Shared.FormBody.AppHistoryDto">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.Remark">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.ConfigValue">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.Version">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.Description">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.Source">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.CreateUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.CreateUserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.CreateUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.CreateTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.ModifyUserUid">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.ModifyUserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.ModifyUserName">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryDto.ModifyTime">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:WeChatApp.Shared.FormBody.AppHistoryUploadDto">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryUploadDto.Version">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryUploadDto.Descrption">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryUploadDto.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.FormBody.BonusPointRecordDto">
             <summary>
             积分记录
@@ -1417,6 +1559,16 @@
         </member>
         <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.DeptTaskAssign">
             <summary>
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.ApksPath">
+            <summary>
+            安装包上传路径
+            </summary>
+        </member>
+        <member name="F:WeChatApp.Shared.GlobalVars.GlobalVars.ImagesPath">
+            <summary>
+            图片上传路径
             </summary>
         </member>
         <member name="T:WeChatApp.Shared.GlobalVars.ApiVars">

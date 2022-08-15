@@ -174,16 +174,17 @@ namespace WeChatApp.WebApp.Controllers
 
             query = query.Where(x =>
                 (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) &&
-                    (x.WorkPublishType == WorkPublishType.全局发布 && x.PickUpUserNames != GlobalVars.GlobalTaskAssign ||
+                    ((x.WorkPublishType == WorkPublishType.全局发布 && x.PickUpUserNames != GlobalVars.GlobalTaskAssign) ||
                     (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
-                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.CanPickUserIds ?? "").Contains(_session.UserInfo.Id.ToString())) &&
-                !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())));
+                    (x.WorkPublishType == WorkPublishType.自定义发布 && (x.CanPickUserIds ?? "").Contains(_session.UserInfo.Id.ToString()))) &&
+                !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())
+            );
 
-            var pickingTask = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).ToListAsync();
+            var pickingTask = await query.ToListAsync();
 
             var res = pickingTask.MapTo<WorkTaskDto>();
 
-            return Success(res); ;
+            return Success(res.Where(x => x.PickCount < x.MaxPickUpCount).ToList()); ;
         }
 
         /// <summary>

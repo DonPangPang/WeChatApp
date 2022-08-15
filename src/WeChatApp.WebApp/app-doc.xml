@@ -172,6 +172,27 @@
             <param name="data"></param>
             <returns></returns>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AppHistoryController.GetNewestVersion">
+            <summary>
+            获取最新版本的文件
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AppHistoryController.AddAppVersion(WeChatApp.Shared.FormBody.AppHistoryUploadDto)">
+            <summary>
+            添加一个版本
+            </summary>
+            <param name="dto"> </param>
+            <returns> </returns>
+        </member>
+        <member name="M:WeChatApp.WebApp.Controllers.AppHistoryController.UploadAppVersion(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            上传最新版本的apk
+            </summary>
+            <param name="files"> </param>
+            <param name="dto">   </param>
+            <returns> </returns>
+        </member>
         <member name="T:WeChatApp.WebApp.Controllers.AuthorizationController">
             <summary>
             注册用户信息

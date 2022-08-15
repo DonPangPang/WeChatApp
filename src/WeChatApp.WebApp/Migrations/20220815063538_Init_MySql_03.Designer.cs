@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeChatApp.WebApp.Data;
 
@@ -10,9 +11,10 @@ using WeChatApp.WebApp.Data;
 namespace WeChatApp.WebApp.Migrations
 {
     [DbContext(typeof(WeComAppDbContext))]
-    partial class WeComAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220815063538_Init_MySql_03")]
+    partial class Init_MySql_03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

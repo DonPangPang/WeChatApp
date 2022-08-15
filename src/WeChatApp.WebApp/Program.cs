@@ -10,6 +10,7 @@ using WeChatApp.WebApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,7 +83,14 @@ else
 }
 
 app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    ServeUnknownFileTypes = true
+    //ContentTypeProvider = new FileExtensionContentTypeProvider(new Dictionary<string, string>
+    //        {
+    //                { ".apk", "application/vnd.android.package-archive" }
+    //        })
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
