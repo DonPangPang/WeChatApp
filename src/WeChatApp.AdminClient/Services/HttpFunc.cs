@@ -1,10 +1,12 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Reflection.Metadata.Ecma335;
 using WeChatApp.EzHttpClient;
 using WeChatApp.Shared.Extensions;
 using WeChatApp.Shared.GlobalVars;
@@ -149,6 +151,19 @@ namespace WeChatApp.AdminClient.Services
 
             var bac = new StreamContent(stream);
             ((MultipartFormDataContent)_httpContent).Add(bac, name, fileName);
+
+            return this;
+        }
+
+        public IHttpFunc File(IBrowserFile file)
+        {
+            if (_httpContent == null)
+            {
+                _httpContent = new MultipartFormDataContent();
+            }
+            var stream = file.OpenReadStream(maxAllowedSize: 50_000_000L);
+            var bac = new StreamContent(stream);
+            ((MultipartFormDataContent)_httpContent).Add(bac, "file", file.Name);
 
             return this;
         }

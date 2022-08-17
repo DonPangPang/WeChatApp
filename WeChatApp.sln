@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChatApp.Test", "test\WeCh
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{29137DE6-2A9C-4D43-A4CE-86B41BBF8C54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Server", "samples\BlazorApp1\Server\BlazorApp1.Server.csproj", "{9541CD99-C1D6-4AB6-873A-2209FEA84CE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1.Server", "samples\BlazorApp1\Server\BlazorApp1.Server.csproj", "{9541CD99-C1D6-4AB6-873A-2209FEA84CE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Client", "samples\BlazorApp1\Client\BlazorApp1.Client.csproj", "{91C5FCAC-53DA-4D9E-AE45-4D54731959EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1.Client", "samples\BlazorApp1\Client\BlazorApp1.Client.csproj", "{91C5FCAC-53DA-4D9E-AE45-4D54731959EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Shared", "samples\BlazorApp1\Shared\BlazorApp1.Shared.csproj", "{1307CF15-AC7B-411B-81CC-E9BDA90F54B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1.Shared", "samples\BlazorApp1\Shared\BlazorApp1.Shared.csproj", "{1307CF15-AC7B-411B-81CC-E9BDA90F54B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

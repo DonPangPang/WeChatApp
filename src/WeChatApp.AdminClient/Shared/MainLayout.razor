@@ -3,7 +3,6 @@
 @inject ILoginService LoginService
 @inject IUserService UserService
 
-<MApp AlertParameters="param => { param.Right = true; param.Top = true;}">
     <MAppBar Flat App Color="white" Class="m-bar--underline">
         <span class="text-h6">积分管理系统</span>
         <MSpacer></MSpacer>
@@ -94,7 +93,6 @@
             </CascadingValue>
         </MContainer>
     </MMain>
-</MApp>
 
 
 
@@ -137,6 +135,8 @@
         new NavItem { Id = 1, Name = "用户管理", Href = "/usermgr", Icon = "mdi-account-box" },
         new NavItem { Id = 2, Name = "部门管理", Href = "/deptmgr", Icon = "mdi-graph" },
         new NavItem { Id = 3, Name = "任务管理", Href = "/worktasks", Icon = "mdi-format-list-checks" },
+        new NavItem { Id = 4, Name = "积分详情", Href = "/sorce", Icon = "mdi-poll" },
+        new NavItem { Id = 5, Name = "安装包管理", Href = "/apks", Icon = "mdi-package-variant" },
     };
 
     private List<NavItem> _tabItems = new()

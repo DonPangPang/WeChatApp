@@ -1,88 +1,23 @@
-@inject IDepartmentService DepartmentService
-@inject IPopupService PopupService
-
+@using Index = WeChatApp.AdminClient.Pages.Index
 <MListItem TwoLine>
     <MListItemContent>
-        
         <MListItemSubtitle>
-
-            <MList Disabled>
-                <MListItemGroup>
-                    @foreach (var item in _items)
-                    {
-                        <MListItem Style="height: 16px;">
-                            <MListItemContent>
-                                <MListItemTitle>@item.Text</MListItemTitle>
-                            </MListItemContent>
-                        </MListItem>
-                        <MDivider></MDivider>
-                    }
-                </MListItemGroup>
-            </MList>
+            <MVirtualScroll TItem="Index.TaskAndNode" Height="400"
+                            OverscanCount="5"
+                            Items="Data" Class="scrollbar-g">
+                <ItemContent>
+                    <MListItem TwoLine Style="height: 16px;">
+                        <MListItemAvatar>
+                            <MImage Src="@(GetIcon(@context.WorkTask.Status))"></MImage>
+                        </MListItemAvatar>
+                        <MListItemContent>
+                            <MListItemTitle>@(@context.WorkTask.Title ?? "任务异常")</MListItemTitle>
+                            <MListItemSubtitle>@(@context.Node.Title ?? "任务异常")</MListItemSubtitle>
+                        </MListItemContent>
+                    </MListItem>
+                    <MDivider Inset="true"></MDivider>
+                </ItemContent>
+            </MVirtualScroll>
         </MListItemSubtitle>
     </MListItemContent>
 </MListItem>
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await GetFromApi();
-
-        await PopupService.ConfigToast(config =>
-        {
-            config.Position = ToastPosition.TopRight;
-        });
-
-        await base.OnInitializedAsync();
-    }
-
-    #region Department
-    AlertTypes _type = 0;
-
-    void Show(AlertTypes t = 0)
-    {
-        _type = t;
-        _dialogDelete = true;
-    }
-
-    async Task AlertShow(AlertTypes t = 0)
-    {
-        _type = t;
-        await PopupService.ToastAsync(_message, _type);
-    }
-
-    private bool _dialog;
-    private bool _dialogDelete;
-
-    private bool _messageAlert = false;
-    private string _message = string.Empty;
-
-    List<DepartmentDto> _departments = new();
-
-    public async Task GetFromApi()
-    {
-        var result = await DepartmentService.GetDepartmentTreeAsync<WcResponse<IEnumerable<DepartmentDto>>>();
-
-        if (result.Code == WcStatus.Success)
-        {
-            _departments = result.Data!.ToList();
-        }
-    }
-    #endregion Department
-
-    List<Item> _items = new List<Item>
-{
-new Item { Text= "Real-Time", Icon= "mdi-account" },
-new Item { Text= "Audience", Icon= "mdi-account" },
-new Item { Text= "Conversions", Icon= "mdi-account" },
-new Item { Text= "Real-Time", Icon= "mdi-account" },
-new Item { Text= "Audience", Icon= "mdi-account" },
-new Item { Text= "Conversions", Icon= "mdi-account" }
-};
-
-    class Item
-    {
-        public string Text { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
-    }
-}

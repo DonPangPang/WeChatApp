@@ -41,6 +41,15 @@ namespace WeChatApp.AdminClient.Services
             return result;
         }
 
+        public async Task<T> GetWorkTaskIndex<T>(WorkTaskIndexParameters parameters)
+        {
+            var result = await _httpFunc.Create()
+                .Url(ApiBase.Get("GetWorkTaskIndex") + parameters.GetQueryString())
+                .GetAsync<T>();
+
+            return result;
+        }
+
         public async Task<T> EditWorkTaskAsync<T>(WorkTaskDto dto)
         {
             var result = await _httpFunc.Create()

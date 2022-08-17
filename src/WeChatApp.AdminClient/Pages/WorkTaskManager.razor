@@ -200,7 +200,9 @@
                                     <MIcon>mdi-plus</MIcon>
                                 </MButton>
                             </MToolbar>
-                            <MVirtualScroll TItem="WorkTaskNode" Height="300" OverscanCount="5" Items="_editedItem.Nodes!.OrderBy(x =>x.Type).ThenBy(x=>x.NodeTime).ToList()">
+                            <MVirtualScroll TItem="WorkTaskNode" Height="300" OverscanCount="5" 
+                                            Class="scrollbar-g"
+                                            Items="_editedItem.Nodes!.OrderBy(x =>x.Type).ThenBy(x=>x.NodeTime).ToList()">
                                 <ItemContent>
                                     <MListItem>
                                         <MListItemAvatar>

@@ -14,5 +14,7 @@ namespace WeChatApp.AdminClient.Services
         Task<T> EditWorkTaskAsync<T>(WorkTaskDto dto);
 
         Task<T> DeleteWorkTaskAsync<T>(WorkTaskDto dto);
+
+        Task<T> GetWorkTaskIndex<T>(WorkTaskIndexParameters parameters);
     }
 }

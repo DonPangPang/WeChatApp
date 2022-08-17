@@ -254,7 +254,7 @@
             <param name="parameters"> </param>
             <returns> </returns>
         </member>
-        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetRankings(System.Collections.Generic.IEnumerable{System.Guid})">
+        <member name="M:WeChatApp.WebApp.Controllers.BonusPointRecordController.GetRankings(System.Collections.Generic.List{System.Guid})">
             <summary>
             获取排名
             </summary>

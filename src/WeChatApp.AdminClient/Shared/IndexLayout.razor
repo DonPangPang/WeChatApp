@@ -3,20 +3,22 @@
 @inject ILoginService LoginService
 @inject IUserService UserService
 
-<CascadingAuthenticationState>
-    <AuthorizeView>
-        <Authorized>
-            <MainLayout>
-                <ChildContent>
-                    @Body
-                </ChildContent>
-            </MainLayout>
-        </Authorized>
-        <NotAuthorized>
-            <LoginLayout></LoginLayout>
-        </NotAuthorized>
-    </AuthorizeView>
-</CascadingAuthenticationState>
+<MApp AlertParameters="param => { param.Right = true; param.Top = true;}">
+    <CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                <MainLayout>
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                </MainLayout>
+            </Authorized>
+            <NotAuthorized>
+                <LoginLayout></LoginLayout>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>
+</MApp>
 
 @code {
 

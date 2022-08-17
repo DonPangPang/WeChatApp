@@ -10,7 +10,8 @@
             <MCard>
                 <MCardTitle>部门</MCardTitle>
                 <MDivider></MDivider>
-                <MTreeview Activatable  Hoverable OpenAll TItem="DepartmentDto" TKey="Guid" Items="_departments" ItemText="r=>r.DepartmentName"
+                <MTreeview Activatable Hoverable OpenAll TItem="DepartmentDto" TKey="Guid" 
+                           Items="_departments" ItemText="r=>r.DepartmentName"
                     ActiveChanged="HandleDeptActive"
                     ItemChildren="r=>r.Children?.ToList()" ItemKey="r=>r.Id">
                 </MTreeview>

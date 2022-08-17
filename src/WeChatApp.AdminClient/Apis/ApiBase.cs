@@ -33,6 +33,7 @@ namespace WeChatApp.AdminClient.Apis
             { "AddWorkTask", "/api/WorkTask/CreateEntity" },
             { "EditWorkTask", "/api/WorkTask/UpdateEntity" },
             { "DeleteWorkTask", "/api/WorkTask/DeleteEntity" },
+            { "GetWorkTaskIndex", "/api/WorkTask/GetWorkTaskIndex"},
 
             { "GetWorkTaskNodeList", "/api/WorkTaskNode/GetPagedList" },
             { "GetWorkTaskNode", "/api/WorkTaskNode/GetEntity" },
@@ -40,11 +41,19 @@ namespace WeChatApp.AdminClient.Apis
             { "EditWorkTaskNode", "/api/WorkTaskNode/UpdateEntity" },
             { "DeleteWorkTaskNode", "/api/WorkTaskNode/DeleteEntity" },
 
-            {"GetBonusPointRecordList", "api/BonusPointRecord/GetPagedList"},
-            {"GetBonusPointRecord", "api/BonusPointRecord/GetEntity"},
-            {"AddBonusPointRecord", "api/BonusPointRecord/CreateEntity"},
-            {"EditBonusPointRecord", "api/BonusPointRecord/UpdateEntity"},
-            {"DeleteBonusPointRecord", "api/BonusPointRecord/DeleteEntity"},
+            {"GetBonusPointRecordList", "/api/BonusPointRecord/GetPagedList"},
+            {"GetBonusPointRecord", "/api/BonusPointRecord/GetEntity"},
+            {"AddBonusPointRecord", "/api/BonusPointRecord/CreateEntity"},
+            {"EditBonusPointRecord", "/api/BonusPointRecord/UpdateEntity"},
+            {"DeleteBonusPointRecord", "/api/BonusPointRecord/DeleteEntity"},
+            {"GetRankings", "/api/BonusPointRecord/GetRankings"},
+
+            {"GetApkHistoryList","/api/AppHistory/GetPagedList" },
+            {"GetNewestVersion","/api/AppHistory/GetNewestVersion" },
+            {"AddAppVersion","/api/AppHistory/AddAppVersion" },
+            {"DeleteAppVersion","/api/AppHistory/DeleteEntity" },
+            {"EditAppVersion","/api/AppHistory/UpdateEntity" },
+            {"UploadAppVersion","/api/AppHistory/UploadAppVersion" }
         };
 
         public static string Get(string key)

@@ -140,7 +140,7 @@ namespace WeChatApp.AdminClient.Pages
 
             _workTaskDate = DateOnly.FromDateTime(_editedItem.EndTime);
 
-            _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').Where(x=>x != string.Empty).ToList().Select(x => Guid.Parse(x)).ToList();
+            _departmentWithUserKeys = _editedItem.PickUpUserIds is null || _editedItem.PickUpUserIds == String.Empty ? new() : _editedItem.PickUpUserIds.Split(',').Where(x => x != string.Empty).ToList().Select(x => Guid.Parse(x)).ToList();
 
             _dialog = true;
         }

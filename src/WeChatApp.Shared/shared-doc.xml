@@ -963,6 +963,11 @@
             备注
             </summary>
         </member>
+        <member name="P:WeChatApp.Shared.FormBody.AppHistoryUploadDto.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.FormBody.BonusPointRecordDto">
             <summary>
             积分记录

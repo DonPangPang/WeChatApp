@@ -16,17 +16,17 @@ namespace WeChatApp.WebApp.WebSocket
         public WsMessageService(
             IWsSessionManager sessionManager,
             IOptions<WsServerOptions> options,
-            IMessageToastService messageToastService)
+            IServiceScopeFactory factory)
         {
             _sessionManager = sessionManager;
-            _messageToastService = messageToastService;
+            _messageToastService = factory.CreateScope().ServiceProvider.GetRequiredService<IMessageToastService>();
             _options = options.Value;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var host = WebSocketHostBuilder.Create()
-                   .ConfigureSuperSocket(options =>
+                .ConfigureSuperSocket(options =>
                    {
                        options.AddListener(new ListenOptions()
                        {
@@ -46,9 +46,7 @@ namespace WeChatApp.WebApp.WebSocket
                    {
                        await _sessionManager.TryRemoveAsync(((WsSession)s).UserId);
                    })
-                   // .UseWebSocketMessageHandler(async (s, v) =>
-                   // {
-                   // })
+                   // .UseWebSocketMessageHandler(async (s, v) => { })
                    .UseInProcSessionContainer()
                    .BuildAsServer();
 

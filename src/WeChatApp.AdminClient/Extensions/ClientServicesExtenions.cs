@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WeChatApp.AdminClient.Auth;
 using WeChatApp.AdminClient.Services;
+using WeChatApp.Shared.Entity;
 using WeChatApp.Shared.FormBody;
 
 namespace WeChatApp.AdminClient.Extensions
@@ -16,9 +17,10 @@ namespace WeChatApp.AdminClient.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IWorkTaskService, WorkTaskService>();
+            services.AddScoped<IBonusPointRecordService, BonusPointRecordService>();
+            services.AddScoped<IApkHistoryService, ApkHistoryService>();
 
             services.AddSingleton<Session>();
-
 
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();

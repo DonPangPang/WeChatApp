@@ -10,7 +10,7 @@
                         所有任务
                     </div>
                     <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
-                        300
+                        @_pageData.TotalTaskCount
                     </MListItemTitle>
                 </MListItemContent>
             </MListItem>
@@ -21,10 +21,10 @@
             <MListItem TwoLine>
                 <MListItemContent>
                     <div class="text-overline mb-4">
-                        未接取的任务
+                        闲置的任务
                     </div>
                     <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
-                        30
+                        @_pageData.PickingTaskCount
                     </MListItemTitle>
                 </MListItemContent>
             </MListItem>
@@ -38,7 +38,7 @@
                         进行中的任务
                     </div>
                     <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
-                        40
+                        @_pageData.ActiveTaskCount
                     </MListItemTitle>
                 </MListItemContent>
             </MListItem>
@@ -49,10 +49,10 @@
             <MListItem TwoLine>
                 <MListItemContent>
                     <div class="text-overline mb-4">
-                        我的任务
+                        完成的任务
                     </div>
                     <MListItemTitle Class="text-h2 mb-1 text-center font-weight-medium">
-                        50
+                        @_pageData.EndTaskCount
                     </MListItemTitle>
                 </MListItemContent>
             </MListItem>
@@ -81,9 +81,19 @@
 <MRow>
     <MCol>
         <MCard>
-            <RecentTaskListComponent>
+            <MListItem TwoLine>
+                <MListItemContent>
+                    <div class="text-overline mb-4">
+                        任务动态
+                    </div>
+                    <MListItemSubtitle>
+                        <RecentTaskListComponent Data="_pageData.Result">
 
-            </RecentTaskListComponent>
+                        </RecentTaskListComponent>
+                    </MListItemSubtitle>
+                </MListItemContent>
+            </MListItem>
+            
         </MCard>
     </MCol>
     <MCol>

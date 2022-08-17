@@ -92,16 +92,30 @@ namespace WeChatApp.WebApp.Services
 
             await _service.SaveAsync();
 
-            var unSendUserIds = _wsSessionManager.GetAllSessions().Where(x => !messageTemp.UserIds!.Contains(x.Key)).Select(x => x.Key);
+            var onlineSession = _wsSessionManager.GetAllSessions().Where(x => messageTemp.UserIds!.Contains(x.Key)).Select(x => x.Key);
+
+            var unSendUserIds = messageTemp.UserIds!.Except(onlineSession);
+
+            var inst = new List<MessageToast>();
 
             foreach (var item in unSendUserIds)
             {
-                messageTemp.MessageToast.UserId = item;
-                messageTemp.MessageToast.Create();
-                await _service.Db.AddAsync(messageTemp.MessageToast);
+                var t = new MessageToast
+                {
+                    Title = messageTemp.MessageToast.Title,
+                    Content = messageTemp.MessageToast.Content,
+                    UserId = item,
+                };
+                t.Create();
+
+                inst.Add(t);
             }
 
-            await _service.SaveAsync();
+            if (inst.Any())
+            {
+                await _service.Db.AddRangeAsync(inst);
+                await _service.SaveAsync();
+            }
         }
 
         public async Task SendMessageAsync(WorkTask entity, bool pick = false)
@@ -166,7 +180,7 @@ namespace WeChatApp.WebApp.Services
                 });
             }
 
-            if (entity.Status == WorkTaskStatus.Active)
+            if (entity.Status == WorkTaskStatus.Publish)
             {
                 if (entity.WorkPublishType == WorkPublishType.全局发布)
                 {

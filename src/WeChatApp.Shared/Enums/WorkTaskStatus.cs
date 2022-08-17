@@ -64,7 +64,7 @@ namespace WeChatApp.Shared.Enums
         /// 结束
         /// </summary>
         [Description("结束")]
-        End = 23,
+        End = 99,
 
         /// <summary>
         /// 评分

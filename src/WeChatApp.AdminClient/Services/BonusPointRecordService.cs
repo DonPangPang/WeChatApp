@@ -20,6 +20,8 @@ namespace WeChatApp.AdminClient.Services
         Task<T> EditBonusPointRecordAsync<T>(BonusPointRecordDto dto);
 
         Task<T> DeleteBonusPointRecordAsync<T>(BonusPointRecordDto dto);
+
+        Task<T> GetRankingsAsync<T>(List<Guid> departmentIds);
     }
 
     public class BonusPointRecordService : IBonusPointRecordService
@@ -49,6 +51,16 @@ namespace WeChatApp.AdminClient.Services
                         new ("id", dto.Id.ToString())
                     }
                 ).DeleteAsync<T>();
+            return result;
+        }
+
+        public async Task<T> GetRankingsAsync<T>(List<Guid> departmentIds)
+        {
+            var result = await _httpFunc.Create()
+                .Url(ApiBase.Get("GetRankings"))
+                .Body(departmentIds)
+                .PostAsync<T>();
+
             return result;
         }
 

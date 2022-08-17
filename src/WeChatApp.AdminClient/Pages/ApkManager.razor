@@ -1,0 +1,160 @@
+﻿@page "/apks"
+
+<MCard>
+    <MDataTable Headers="_headers" Items="_appHistoryList" OnOptionsUpdate="HandleOnOptionsUpdate"
+                ServerItemsLength="_totalCount" Loading="_loading" Class="elevation-1"
+                NoDataText="无数据..."
+                LoadingText="加载数据中...请稍等.">
+        <TopContent>
+            <MToolbar Flat>
+                <MToolbarTitle>任务</MToolbarTitle>
+                <MDivider Class="mx-4"
+                          Inset
+                          Vertical>
+                </MDivider>
+                <MSpacer></MSpacer>
+                <MButton Color="primary"
+                         Dark
+                         Class="mb-2"
+                         OnClick="AddVersion">
+                    添加
+                </MButton>
+
+                <PConfirm Visible="_dialogDelete"
+                          Title="确认操作"
+                          Type="type"
+                          OnCancel="CloseDelete"
+                          OnOk="DeleteItemConfirm">
+                    您确认该操作吗？
+                </PConfirm>
+            </MToolbar>
+        </TopContent>
+        <ItemColContent>
+            @if (context.Header.Value == "serial")
+            {
+                @(_appHistoryList.IndexOf(context.Item) + 1)
+            }
+            else if (context.Header.Value == "actions")
+            {
+                @*<MIcon Small Class="mr-2" OnClick="() => EditVersion(context.Item)">
+                    mdi-pencil
+                </MIcon>*@
+                <MIcon Small OnClick="() => Show(context.Item, AlertTypes.Warning)">
+                    mdi-delete
+                </MIcon>
+            }
+            else
+            {
+                <TableTip Value="@context.Value"></TableTip>
+            }
+        </ItemColContent>
+    </MDataTable>
+</MCard>
+
+
+<PModal @bind-Value="_isShowEditModal"
+        
+        Title="@FormTitle"
+        Width="500"
+        OnSave="async () => await Save()"
+        OnCancel="Close">
+    <ChildContent>
+        <MRow>
+            <MCol Cols="12" Sm="4">
+                <MTextField @bind-Value="_editItem.Version"
+                            Label="版本"
+                            Dense
+                            Outlined
+                            HideDetails="@("auto")" />
+            </MCol>
+                <MCol Cols="12" Sm="8">
+                @*<MFileInput TValue="IBrowserFile"
+                            OnChange="HandleUploadFile"
+                            Color="deep-purple accent-4"
+                            Counter="@true"
+                            Dense
+                            Accept=".apk,.APK"
+                            PrependIcon="mdi-package-variant"
+                            Placeholder="选择你的文件"
+                            Outlined
+                            ShowSize>
+                    <SelectionContent Context="context">
+                        @if (context.index < 2)
+                        {
+                            <MChip Color="deep-purple accent-4"
+                               Dark
+                               Label
+                               Small>
+                                @context.text
+                            </MChip>
+                        }
+                    </SelectionContent>
+                    
+                </MFileInput>*@
+                @*<MFileInput TValue="IBrowserFile"
+                            Color="deep-purple accent-4"
+                            OnChange="HandleUploadFile"
+                            Accept=".apk,.APK"
+                            PrependIcon="mdi-package-variant"
+                            Placeholder="选择你的文件"
+                            Dense
+                            Outlined
+                            ShowSize>
+                    <SelectionContent Context="context">
+                        @if (context.index < 2)
+                        {
+                            <MChip Color="deep-purple accent-4"
+                               Dark
+                               Label
+                               Small>
+                                @context.text
+                            </MChip>
+                        }
+                    </SelectionContent>
+                </MFileInput>*@
+                <MFileInput TValue="IBrowserFile"
+                            Color="deep-purple accent-4"
+                            OnChange="HandleUploadFile"
+                            Accept=".apk,.APK"
+                            PrependIcon="mdi-package-variant"
+                            Placeholder="选择你的文件"
+                            Dense
+                            Outlined
+                            ShowSize>
+                    <SelectionContent Context="context">
+                        <MChip Color="deep-purple accent-4"
+                               Dark
+                               Label
+                               Small>
+                                @context.text
+                        </MChip>
+                    </SelectionContent>
+                </MFileInput>
+            </MCol>
+        </MRow>
+        <MRow>
+            <MTextarea @bind-Value="_editItem.Descrption"
+                       Label="描述"
+                       Dense
+                       Outlined>
+            </MTextarea>
+        </MRow>
+        <MRow>
+            <MTextarea @bind-Value="_editItem.Remark"
+                       Label="备注"
+                       Dense
+                       Outlined>
+            </MTextarea>
+        </MRow>
+    </ChildContent>
+    <CancelContent Context="cancel">
+        <MButton Color="blue darken-1" Text OnClick="cancel.Click" Disabled="cancel.Loading">
+            取消
+        </MButton>
+    </CancelContent>
+    <SaveContent Context="save">
+        <MButton Color="blue darken-1" Text OnClick="save.Click" Disabled="save.Loading" Loading="save.Loading">
+            保存
+        </MButton>
+    </SaveContent>
+</PModal>

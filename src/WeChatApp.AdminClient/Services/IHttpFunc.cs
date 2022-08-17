@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Specialized;
 using System.Net.Http.Headers;
 
@@ -42,6 +43,7 @@ namespace WeChatApp.AdminClient.Services
         IHttpFunc Header(string key, string value);
 
         IHttpFunc Query(IEnumerable<KeyValuePair<string, string>> nameValueCollection);
+        IHttpFunc File(IBrowserFile file);
     }
 
 #pragma warning restore CS8603 // 可能返回 null 引用。

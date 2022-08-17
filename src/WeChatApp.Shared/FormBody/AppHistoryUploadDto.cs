@@ -23,6 +23,9 @@ namespace WeChatApp.Shared.FormBody
         /// </summary>
         public string? Remark { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 路径
+        /// </summary>
         public string? Path { get; set; } = string.Empty;
     }
 }

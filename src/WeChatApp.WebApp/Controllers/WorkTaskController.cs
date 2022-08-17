@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Pang.AutoMapperMiddleware;
-using SkiaSharp;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using WeChatApp.Shared.Entity;
@@ -68,13 +67,13 @@ namespace WeChatApp.WebApp.Controllers
         {
             var query = _serviceGen.Query<WorkTask>();
 
-            var pickingTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Publish || x.PickUpUserIds == null || (x.PickUpUserIds.Length < x.MaxPickUpCount * 32 + (x.MaxPickUpCount < 0 ? 0 : x.MaxPickUpCount - 1))).CountAsync();
+            var pickingTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Publish && (x.PickUpUserIds == null || (x.PickUpUserIds.Length / 32 < x.MaxPickUpCount))).CountAsync();
 
             var activeTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Active).CountAsync();
 
             var totalTaskCount = await query.CountAsync();
 
-            var endTaskCount = await query.Where(x => x.Status == WorkTaskStatus.End).CountAsync();
+            var endTaskCount = await query.Where(x => x.Status == WorkTaskStatus.End || x.Status == WorkTaskStatus.Finished).CountAsync();
 
             //query = _session.UserInfo!.Role switch
             //{
@@ -114,9 +113,9 @@ namespace WeChatApp.WebApp.Controllers
 
             nodes_query = nodes_query.OrderByDescending(@x => @x.node.CreateTime);
 
-            if (parameters is IPaging)
+            if (parameters is IPaging paging)
             {
-                nodeQuery.Skip((parameters.Page - 1) * parameters.PageSize).Take(parameters.PageSize);
+                nodes_query = nodes_query.Skip((parameters.Page - 1) * parameters.PageSize).Take(parameters.PageSize);
             }
 
             var result = await nodes_query.ToListAsync();
@@ -486,10 +485,14 @@ namespace WeChatApp.WebApp.Controllers
 
                 await _serviceGen.CommitTrans();
 
-                _ = Task.Run(async () =>
+                try
                 {
                     await _messageToastService.SendMessageAsync(entity);
-                });
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
 
                 return Success("创建成功");
             }

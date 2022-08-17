@@ -6,23 +6,23 @@
 @inject IPopupService PopupService
 
 
-<MApp>
-    <MContainer Fluid Style="width: 400px;margin-top: 200px;">
-        <h1 style="text-align: center;">积分后台管理</h1>
-        <MForm EnableValidation @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
-            <MTextField @bind-Value="_loginDto.UserName" Counter="true" Label="账号" required></MTextField>
-            <MTextField @bind-Value="_loginDto.Password" AppendIcon="@(_passwordShow ? "mdi-eye" : "mdi-eye-off")"
-                Type="@(_passwordShow ? "text" : "password")" Label="密码" Hint="至少输入6个字符" Counter="true"
-                OnAppendClick="() => _passwordShow = !_passwordShow" required>
-            </MTextField>
-            <MButton Block Color="success" Type="submit">登录</MButton>
-            
-            <MOverlay Value="_overlay">
-                    <MProgressCircular indeterminate
-                                       Size="64"></MProgressCircular></MOverlay>
-        </MForm>
-    </MContainer>
-</MApp>
+<MContainer Fluid Style="width: 400px;margin-top: 200px;">
+    <h1 style="text-align: center;">积分后台管理</h1>
+    <MForm EnableValidation @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
+        <MTextField @bind-Value="_loginDto.UserName" Counter="true" Label="账号" required></MTextField>
+        <MTextField @bind-Value="_loginDto.Password" AppendIcon="@(_passwordShow ? "mdi-eye" : "mdi-eye-off")"
+                    Type="@(_passwordShow ? "text" : "password")" Label="密码" Hint="至少输入6个字符" Counter="true"
+                    OnAppendClick="() => _passwordShow = !_passwordShow" required>
+        </MTextField>
+        <MButton Block Dark Color="#2196F3" Style="margin-top:10px;" Type="submit">登录</MButton>
+
+        <MOverlay Value="_overlay">
+            <MProgressCircular indeterminate
+                                Size="64">
+            </MProgressCircular>
+        </MOverlay>
+    </MForm>
+</MContainer>
 
 @code {
 
@@ -38,10 +38,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await PopupService.ConfigToast(config =>
-        {
-            config.Position = ToastPosition.TopRight;
-        });
+        await PopupService.ConfigToast(config => { config.Position = ToastPosition.TopRight; });
 
         await base.OnInitializedAsync();
     }
@@ -88,4 +85,5 @@
             NavigationManager.NavigateTo("");
         }
     }
+
 }

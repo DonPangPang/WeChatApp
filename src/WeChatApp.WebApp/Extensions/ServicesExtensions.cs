@@ -25,6 +25,7 @@ public static class ServicesExtensions
         services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
+        services.AddHostedService<WsMessageService>();
         services.AddSingleton<IWsSessionManager, WsSessionManager>();
 
         services.AddScoped<IMessageToastService, MessageToastService>();
