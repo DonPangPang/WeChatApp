@@ -68,55 +68,11 @@
                             HideDetails="@("auto")" />
             </MCol>
                 <MCol Cols="12" Sm="8">
-                @*<MFileInput TValue="IBrowserFile"
-                            OnChange="HandleUploadFile"
-                            Color="deep-purple accent-4"
-                            Counter="@true"
-                            Dense
+                <MFileInput TValue="IBrowserFile" OnChange="HandleUploadFile"
+                            Value="_browserFile"
                             Accept=".apk,.APK"
                             PrependIcon="mdi-package-variant"
-                            Placeholder="选择你的文件"
-                            Outlined
-                            ShowSize>
-                    <SelectionContent Context="context">
-                        @if (context.index < 2)
-                        {
-                            <MChip Color="deep-purple accent-4"
-                               Dark
-                               Label
-                               Small>
-                                @context.text
-                            </MChip>
-                        }
-                    </SelectionContent>
-                    
-                </MFileInput>*@
-                @*<MFileInput TValue="IBrowserFile"
-                            Color="deep-purple accent-4"
-                            OnChange="HandleUploadFile"
-                            Accept=".apk,.APK"
-                            PrependIcon="mdi-package-variant"
-                            Placeholder="选择你的文件"
-                            Dense
-                            Outlined
-                            ShowSize>
-                    <SelectionContent Context="context">
-                        @if (context.index < 2)
-                        {
-                            <MChip Color="deep-purple accent-4"
-                               Dark
-                               Label
-                               Small>
-                                @context.text
-                            </MChip>
-                        }
-                    </SelectionContent>
-                </MFileInput>*@
-                <MFileInput TValue="IBrowserFile"
-                            Color="deep-purple accent-4"
-                            OnChange="HandleUploadFile"
-                            Accept=".apk,.APK"
-                            PrependIcon="mdi-package-variant"
+                            Label="文件上传"
                             Placeholder="选择你的文件"
                             Dense
                             Outlined
@@ -126,7 +82,7 @@
                                Dark
                                Label
                                Small>
-                                @context.text
+                            @context.text
                         </MChip>
                     </SelectionContent>
                 </MFileInput>

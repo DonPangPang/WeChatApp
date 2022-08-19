@@ -122,11 +122,23 @@ namespace WeChatApp.AdminClient.Pages
 
         private string _filePath = string.Empty;
 
+        //private MFileInput<IBrowserFile> MFileInput { get; set; } = default!;
+
+        private IBrowserFile? _browserFile = null;
+
         private async Task HandleUploadFile(IBrowserFile file)
         {
+            _browserFile = file;
+
+            if (file is null)
+            {
+                return;
+            }
+
             //var file = _files.FirstOrDefault();
 
-            var result = await ApkHistoryService.UploadAppVersion<WcResponse<UploadFileDto>>(file);
+            var result = await ApkHistoryService
+                .UploadAppVersion<WcResponse<UploadFileDto>>(_browserFile);
 
             if (result.IsSuccess())
             {
@@ -181,6 +193,8 @@ namespace WeChatApp.AdminClient.Pages
             _isShowEditModal = false;
             _editItem = new();
             _editedIndex = 1;
+
+            _browserFile = null;
         }
 
         private bool _dialogDelete = false;
