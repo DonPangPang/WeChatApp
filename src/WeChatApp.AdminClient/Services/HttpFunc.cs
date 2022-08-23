@@ -132,6 +132,8 @@ namespace WeChatApp.AdminClient.Services
         {
             _client = _httpClientFactory.CreateClient(ApiVars.ApiBase);
 
+            _httpContent = null;
+
             return this;
         }
 
@@ -161,6 +163,8 @@ namespace WeChatApp.AdminClient.Services
             {
                 _httpContent = new MultipartFormDataContent();
             }
+            //_httpContent = new MultipartFormDataContent();
+
             var stream = file.OpenReadStream(maxAllowedSize: 50_000_000L);
             var bac = new StreamContent(stream);
             ((MultipartFormDataContent)_httpContent).Add(bac, "file", file.Name);

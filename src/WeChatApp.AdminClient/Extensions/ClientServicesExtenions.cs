@@ -18,7 +18,7 @@ namespace WeChatApp.AdminClient.Extensions
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IWorkTaskService, WorkTaskService>();
             services.AddScoped<IBonusPointRecordService, BonusPointRecordService>();
-            services.AddScoped<IApkHistoryService, ApkHistoryService>();
+            services.AddTransient<IApkHistoryService, ApkHistoryService>();
 
             services.AddSingleton<Session>();
 

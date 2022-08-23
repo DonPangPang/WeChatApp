@@ -99,10 +99,17 @@ namespace WeChatApp.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> GetRankings(List<Guid> departments)
         {
-            var globalRank = await _serviceGen.Query<BonusPointRecord>()
-                .GroupBy(x => x.PickUpUserName)
-                .Select(x => new { Name = x.Key, Score = x.Sum(t => t.BonusPoints) })
-                .OrderByDescending(x => x.Score).ToListAsync();
+            var globalRank = await _serviceGen.Query<User>()
+                .Join(_serviceGen.Query<BonusPointRecord>(), user => user.Id, bpRecord => bpRecord.PickUpUserId, (user, bpRecord) => new { user, bpRecord })
+                .GroupBy(@x => new { @x.user.Id, @x.user.Name })
+                .Select(x => new { Name = x.Key.Name, Score = x.Any() ? x.Sum(x => x.bpRecord.BonusPoints) : 0 })
+                .OrderByDescending(x => x.Score)
+                .ToListAsync();
+
+            //var globalRank = await _serviceGen.Query<BonusPointRecord>()
+            //    .GroupBy(x => x.PickUpUserName)
+            //    .Select(x => new { Name = x.Key, Score = x.Sum(t => t.BonusPoints) })
+            //    .OrderByDescending(x => x.Score).ToListAsync();
 
             var user_query = _serviceGen.Query<User>();
 
@@ -119,11 +126,19 @@ namespace WeChatApp.WebApp.Controllers
 
             var userIds = await user_query.Select(x => x.Id).ToListAsync();
 
-            var deptRank = await _serviceGen.Query<BonusPointRecord>()
-                .Where(x => userIds.Contains(x.PickUpUserId))
-                .GroupBy(x => x.PickUpUserName)
-                .Select(x => new { Name = x.Key, Score = x.Sum(t => t.BonusPoints) })
-                .OrderByDescending(x => x.Score).ToListAsync();
+            var deptRank = await _serviceGen.Query<User>()
+                .Join(_serviceGen.Query<BonusPointRecord>(), user => user.Id, bpRecord => bpRecord.PickUpUserId, (user, bpRecord) => new { user, bpRecord })
+                .Where(@x => userIds.Contains(@x.bpRecord.PickUpUserId))
+                .GroupBy(@x => new { @x.user.Id, @x.user.Name })
+                .Select(x => new { Name = x.Key.Name, Score = x.Any() ? x.Sum(x => x.bpRecord.BonusPoints) : 0 })
+                .OrderByDescending(x => x.Score)
+                .ToListAsync();
+
+            //var deptRank = await _serviceGen.Query<BonusPointRecord>()
+            //    .Where(x => userIds.Contains(x.PickUpUserId))
+            //    .GroupBy(x => x.PickUpUserName)
+            //    .Select(x => new { Name = x.Key, Score = x.Sum(t => t.BonusPoints) })
+            //    .OrderByDescending(x => x.Score).ToListAsync();
 
             return Success("获取成功", new
             {

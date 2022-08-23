@@ -171,7 +171,7 @@ namespace WeChatApp.WebApp.Controllers
                 return Fail("用户信息丢失");
             }
 
-            query = query.Where(x =>
+            query = query.Include(x => x.Nodes).Where(x =>
                 (x.Status == WorkTaskStatus.Publish || x.Status == WorkTaskStatus.Active) &&
                     ((x.WorkPublishType == WorkPublishType.全局发布 && x.PickUpUserNames != GlobalVars.GlobalTaskAssign) ||
                     (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId) ||
@@ -179,7 +179,7 @@ namespace WeChatApp.WebApp.Controllers
                 !(x.PickUpUserIds ?? "").Contains(_session.UserInfo.Id.ToString())
             );
 
-            var pickingTask = await query.ToListAsync();
+            var pickingTask = await query.OrderByDescending(x => x.CreateTime).ToListAsync();
 
             var res = pickingTask.MapTo<WorkTaskDto>();
 
@@ -756,6 +756,12 @@ namespace WeChatApp.WebApp.Controllers
 
             if (task.Status != WorkTaskStatus.PendingPublish || task.Status != WorkTaskStatus.Assign) return Fail("该任务不是待发布状态");
 
+            //var pickCount = await _serviceGen.Query<WorkTask>()
+            //    .Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString()) ||
+            //        (x.Type == WorkTaskTypes.Assigned && x.WorkPublishType == WorkPublishType.全局发布) ||
+            //        (x.Type == WorkTaskTypes.Assigned && x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId))
+            //    .CountAsync();
+
             task.Status = WorkTaskStatus.Active;
 
             _serviceGen.Db.Update(task);
@@ -790,13 +796,12 @@ namespace WeChatApp.WebApp.Controllers
 
             if (task is null) return Fail("没有找到该任务");
 
-            var pickUpCount = await _serviceGen.Query<WorkTaskNodeItem>()
-                .Where(x => x.WorkTaskId == dto.WorkTaskId).CountAsync();
+            var pickCount = await _serviceGen.Query<WorkTask>()
+            .Where(x => (x.PickUpUserIds ?? "").Contains(_session.UserId.ToString()))
+            .Where(x => !new[] { WorkTaskStatus.End, WorkTaskStatus.Finished, WorkTaskStatus.Grade }.Contains(x.Status))
+            .CountAsync();
 
-            if (pickUpCount >= task.MaxPickUpCount)
-            {
-                return Fail("到达抢单上限");
-            }
+            if (pickCount >= 3) return Fail("已达到接取任务上限");
 
             var userIds = string.Join(",", dto.PickUpUserIds);
             task.Status = WorkTaskStatus.Active;

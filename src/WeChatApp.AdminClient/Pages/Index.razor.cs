@@ -26,13 +26,14 @@ namespace WeChatApp.AdminClient.Pages
             }
         }
 
-
         private WorkTaskIndexParameters _parameters = new()
         {
             Page = 1,
             PageSize = 10
         };
+
         private Response _pageData = new();
+
         private async Task GetFromApi()
         {
             var result = await WorkTaskService.GetWorkTaskIndex<WcResponse<Response>>(_parameters);
@@ -50,9 +51,9 @@ namespace WeChatApp.AdminClient.Pages
         public class Response
         {
             public int PickingTaskCount { get; set; }
-            public  int ActiveTaskCount { get; set; }
-            public  int TotalTaskCount { get; set; }
-            public  int EndTaskCount { get; set; }
+            public int ActiveTaskCount { get; set; }
+            public int TotalTaskCount { get; set; }
+            public int EndTaskCount { get; set; }
 
             public List<TaskAndNode> Result { get; set; } = new();
         }
@@ -62,36 +63,34 @@ namespace WeChatApp.AdminClient.Pages
             public WorkTaskDto WorkTask { get; set; }
             public WorkTaskNodeDto Node { get; set; }
         }
-        
-        private object _option = new
-        {
-            Title = new
-            {
-                Left = "center",
-                Text = "任务统计"
-            },
-            Tooltip = new { },
-            Legend = new
-            {
-                Right = "20px",
-                Data = new[] { "数量" }
-            },
-            XAxis = new
-            {
-                Data = new[] { "周一", "周二", "周三", "周四", "周五", "周六", "周日" }
-            },
-            YAxis = new { },
-            Series = new[]
-            {
-                new
-                {
-                    Name= "数量",
-                    Type= "bar",
-                    Data= new []{ 5, 20, 36, 10, 10, 20, 29 }
-                }
-            }
-        };
-        
-        
+
+        //private object _option = new
+        //{
+        //    Title = new
+        //    {
+        //        Left = "center",
+        //        Text = "任务统计"
+        //    },
+        //    Tooltip = new { },
+        //    Legend = new
+        //    {
+        //        Right = "20px",
+        //        Data = new[] { "数量" }
+        //    },
+        //    XAxis = new
+        //    {
+        //        Data = new[] { "周一", "周二", "周三", "周四", "周五", "周六", "周日" }
+        //    },
+        //    YAxis = new { },
+        //    Series = new[]
+        //    {
+        //        new
+        //        {
+        //            Name= "数量",
+        //            Type= "bar",
+        //            Data= new []{ 5, 20, 36, 10, 10, 20, 29 }
+        //        }
+        //    }
+        //};
     }
 }

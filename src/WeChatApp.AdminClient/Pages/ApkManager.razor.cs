@@ -130,6 +130,8 @@ namespace WeChatApp.AdminClient.Pages
         {
             _browserFile = file;
 
+            Console.WriteLine(file.Name);
+
             if (file is null)
             {
                 return;

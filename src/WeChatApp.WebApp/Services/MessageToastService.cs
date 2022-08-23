@@ -54,7 +54,7 @@ namespace WeChatApp.WebApp.Services
                     var msg = message.MapTo<MessageToastDto>().ToJson();
 
                     await session.SendAsync(msg);
-                    _service.Db.Remove(msg);
+                    _service.Db.Remove(message);
                 }
             }
 
