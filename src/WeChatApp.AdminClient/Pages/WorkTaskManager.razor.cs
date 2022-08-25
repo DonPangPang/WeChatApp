@@ -187,8 +187,8 @@ namespace WeChatApp.AdminClient.Pages
             new() { Text = "创建人", Align = "center", Value = nameof(WorkTaskDto.CreateUserName), Sortable = false },
             new() { Text = "创建时间", Align = "center", Value = nameof(WorkTaskDto.CreateTime), Sortable = false },
             //new() { Text = "公开节点", Align = "center", Value = nameof(WorkTaskDto.IsPublicNodes), Sortable = false },
-            new() { Text = "详情", Align = "center", Value = "details", Sortable = false },
-            new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
+            // new() { Text = "详情", Align = "center", Value = "details", Sortable = false },
+            // new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
         };
 
         public async Task HandleOnOptionsUpdate(DataOptions options)

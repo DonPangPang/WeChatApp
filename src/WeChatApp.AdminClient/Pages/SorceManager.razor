@@ -1,7 +1,58 @@
 ﻿@page "/sorce"
 
-<h3>SorceManager</h3>
+<MCard>
+    <MDataTable Headers="_headers" TItem="BonusPointRecordDto" Items="_records" OnOptionsUpdate="HandleOnOptionsUpdate"
+                ServerItemsLength="_totalCount" Loading="_loading" Class="elevation-1"
+                NoDataText="无数据..."
+                LoadingText="加载数据中...请稍等.">
+        <TopContent>
+            <MToolbar Flat>
+                <MToolbarTitle>积分记录</MToolbarTitle>
+                <MDivider Class="mx-4"
+                          Inset
+                          Vertical>
+                </MDivider>
+                <MTextField @bind-Value="_search"
+                            AppendIcon="mdi-magnify"
+                            Label="搜索"
+                            SingleLine
+                            HideDetails="true" OnAppendClick="HandleSearch" TValue="string" OnChange="HandleSearchChange">
+                </MTextField>
+                <MSpacer></MSpacer>
+                <MButton Color="primary"
+                         Dark
+                         Class="mb-2"
+                         OnClick="AddItem">
+                    添加
+                </MButton>
 
-@code {
-
-}
+                <PConfirm Visible="_dialogDelete"
+                          Title="确认操作"
+                          Type="type"
+                          OnCancel="CloseDelete"
+                          OnOk="DeleteItemConfirm">
+                    您确认该操作吗？
+                </PConfirm>
+            </MToolbar>
+        </TopContent>
+        <ItemColContent>
+            @if (context.Header.Value == "serial")
+            {
+                @(_records.ToList().IndexOf(context.Item) + 1)
+            }
+            else if (context.Header.Value == "actions")
+            {
+                <MIcon Small Class="mr-2" OnClick="() => EditItem(context.Item)">
+                    mdi-pencil
+                </MIcon>
+                <MIcon Small OnClick="() => Show(AlertTypes.Warning)">
+                    mdi-delete
+                </MIcon>
+            }
+            else
+            {
+                @context.Value
+            }
+        </ItemColContent>
+    </MDataTable>
+</MCard>
