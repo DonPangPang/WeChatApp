@@ -82,9 +82,9 @@ namespace WeChatApp.WebApp.Controllers
                 query = query.Where(x => x.item.CreateUserId == parameters.UserId);
             }
 
-            var result = await query.OrderByDescending(x => x.item.CreateTime).ToListAsync();
+            var result = await query.OrderByDescending(x => x.item.CreateTime).AsNoTracking().ToListAsync();
 
-            return Success();
+            return Success("查询成功", result);
         }
     }
 }
