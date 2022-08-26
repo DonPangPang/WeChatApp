@@ -58,5 +58,33 @@ namespace WeChatApp.WebApp.Controllers
 
             return Success("查询成功", res);
         }
+
+        /// <summary>
+        /// 用户单个任务的每个节点的提交记录
+        /// </summary>
+        /// <remarks> 用户单个任务的每个节点的提交记录 </remarks>
+        /// <param name="parameters"> </param>
+        /// <returns> </returns>
+        [HttpGet]
+        public async Task<ActionResult> GetTaskItemsByUser([FromQuery] WorkTaskWithItemsDtoParameters parameters)
+        {
+            var query = _serviceGen.Query<WorkTaskNodeItem>()
+                .GroupJoin(_serviceGen.Query<WorkTaskNode>(), item => item.WorkTaskNodeId, node => node.Id, (item, grouping) => new { item, grouping })
+                .SelectMany(@t => @t.grouping.DefaultIfEmpty(), (@t, node) => new { @t.item, node });
+
+            if (!parameters.WorkTaskId.IsEmpty())
+            {
+                query = query.Where(x => x.item.WorkTaskId == parameters.WorkTaskId);
+            }
+
+            if (!parameters.UserId.IsEmpty())
+            {
+                query = query.Where(x => x.item.CreateUserId == parameters.UserId);
+            }
+
+            var result = await query.OrderByDescending(x => x.item.CreateTime).ToListAsync();
+
+            return Success();
+        }
     }
 }

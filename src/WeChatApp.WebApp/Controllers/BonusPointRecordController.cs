@@ -99,10 +99,19 @@ namespace WeChatApp.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> GetRankings(List<Guid> departments)
         {
+            // var globalRank = await _serviceGen.Query<User>()
+            // .Join(_serviceGen.Query<BonusPointRecord>(), user => user.Id, bpRecord =>
+            // bpRecord.PickUpUserId, (user, bpRecord) => new { user, bpRecord }) .GroupBy(@x => new
+            // { @x.user.Id, @x.user.Name }) .Select(x => new { Name = x.Key.Name, Score = x.Any() ?
+            // x.Sum(x => x.bpRecord.BonusPoints) : 0 }) .OrderByDescending(x => x.Score) .ToListAsync();
+
             var globalRank = await _serviceGen.Query<User>()
-                .Join(_serviceGen.Query<BonusPointRecord>(), user => user.Id, bpRecord => bpRecord.PickUpUserId, (user, bpRecord) => new { user, bpRecord })
-                .GroupBy(@x => new { @x.user.Id, @x.user.Name })
-                .Select(x => new { Name = x.Key.Name, Score = x.Any() ? x.Sum(x => x.bpRecord.BonusPoints) : 0 })
+                    .GroupJoin(_serviceGen.Query<BonusPointRecord>(), user => user.Id,
+                        bpRecord => bpRecord.PickUpUserId, (user, grouping) => new { user, grouping })
+                    .SelectMany(@t => @t.grouping.DefaultIfEmpty(), (@t, bpRecord) => new { @t.user, bpRecord })
+                    .Where(x => x.user.Role == Shared.Enums.Role.普通成员)
+                    .GroupBy(x => new { x.user.Id, x.user.Name })
+                .Select(x => new { Name = x.Key.Name, Score = x.Sum(t => t.bpRecord.BonusPoints) })
                 .OrderByDescending(x => x.Score)
                 .ToListAsync();
 
@@ -113,24 +122,28 @@ namespace WeChatApp.WebApp.Controllers
 
             var user_query = _serviceGen.Query<User>();
 
-            var deptId = departments.FirstOrDefault();
-            if (deptId != Guid.Empty)
-            {
-                var depts = string.Join(",", await _serviceGen.Query<Department>().Where(x => x.TreeIds!.Contains(deptId.ToString())).Select(x => x.TreeIds).ToListAsync());
-                user_query = user_query.Where(x => depts.Contains(x.DepartmentId.ToString() ?? ""));
-            }
-            else
-            {
-                user_query = user_query.Where(x => x.DepartmentId == _session.UserInfo!.DepartmentId);
-            }
+            //var deptId = departments.FirstOrDefault();
+            //if (deptId != Guid.Empty)
+            //{
+            //    var depts = string.Join(",", await _serviceGen.Query<Department>().Where(x => x.TreeIds!.Contains(deptId.ToString())).Select(x => x.TreeIds).ToListAsync());
+            //    user_query = user_query.Where(x => depts.Contains(x.DepartmentId.ToString() ?? ""));
+            //}
+            //else
+            //{
+            //    user_query = user_query.Where(x => x.DepartmentId == _session.UserInfo!.DepartmentId);
+            //}
 
-            var userIds = await user_query.Select(x => x.Id).ToListAsync();
+            //var userIds = await user_query.Select(x => x.Id).ToListAsync();
+            var depts = string.Join(",", await _serviceGen.Query<Department>().Where(x => x.TreeIds!.Contains(departments.FirstOrDefault().ToString())).Select(x => x.TreeIds).ToListAsync());
 
             var deptRank = await _serviceGen.Query<User>()
-                .Join(_serviceGen.Query<BonusPointRecord>(), user => user.Id, bpRecord => bpRecord.PickUpUserId, (user, bpRecord) => new { user, bpRecord })
-                .Where(@x => userIds.Contains(@x.bpRecord.PickUpUserId))
-                .GroupBy(@x => new { @x.user.Id, @x.user.Name })
-                .Select(x => new { Name = x.Key.Name, Score = x.Any() ? x.Sum(x => x.bpRecord.BonusPoints) : 0 })
+                    .GroupJoin(_serviceGen.Query<BonusPointRecord>(), user => user.Id,
+                        bpRecord => bpRecord.PickUpUserId, (user, grouping) => new { user, grouping })
+                    .SelectMany(@t => @t.grouping.DefaultIfEmpty(), (@t, bpRecord) => new { @t.user, bpRecord })
+                .Where(x => x.user.Role == Shared.Enums.Role.普通成员)
+                .Where(x => depts.Contains(x.user.DepartmentId.ToString() ?? ""))
+                .GroupBy(x => new { x.user.Id, x.user.Name })
+                .Select(x => new { Name = x.Key.Name, Score = x.Sum(t => t.bpRecord.BonusPoints) })
                 .OrderByDescending(x => x.Score)
                 .ToListAsync();
 

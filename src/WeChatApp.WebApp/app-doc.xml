@@ -500,6 +500,14 @@
             <returns> </returns>
             <exception cref="T:System.ArgumentNullException"> </exception>
         </member>
+        <member name="M:WeChatApp.WebApp.Controllers.WorkTaskNodeItemController.GetTaskItemsByUser(WeChatApp.Shared.RequestBody.WebApi.WorkTaskWithItemsDtoParameters)">
+            <summary>
+            用户单个任务的每个节点的提交记录
+            </summary>
+            <remarks> 用户单个任务的每个节点的提交记录 </remarks>
+            <param name="parameters"> </param>
+            <returns> </returns>
+        </member>
         <member name="T:WeChatApp.WebApp.Data.WeComAppDbContext">
             <summary>
             </summary>

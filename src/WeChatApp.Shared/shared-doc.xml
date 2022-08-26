@@ -1992,6 +1992,21 @@
             子节点Id
             </summary>
         </member>
+        <member name="T:WeChatApp.Shared.RequestBody.WebApi.WorkTaskWithItemsDtoParameters">
+            <summary>
+            查询用户工作任务中提交的
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskWithItemsDtoParameters.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:WeChatApp.Shared.RequestBody.WebApi.WorkTaskWithItemsDtoParameters.WorkTaskId">
+            <summary>
+            工作任务Id
+            </summary>
+        </member>
         <member name="T:WeChatApp.Shared.RequestBody.WeCom.GetUserInfoRequestParameters">
             <summary>
             

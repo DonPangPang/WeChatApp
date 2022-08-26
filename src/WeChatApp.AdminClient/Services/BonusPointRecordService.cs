@@ -11,7 +11,7 @@ namespace WeChatApp.AdminClient.Services
 {
     public interface IBonusPointRecordService
     {
-        Task<T> GetBonusPointRecordListAsync<T>(ParameterBase parameter);
+        Task<T> GetBonusPointRecordListAsync<T>(BonusPointRecordDtoParameters parameter);
 
         Task<T> GetBonusPointRecordAsync<T>(Guid bonusPointRecordId);
 
@@ -85,7 +85,7 @@ namespace WeChatApp.AdminClient.Services
             return result;
         }
 
-        public async Task<T> GetBonusPointRecordListAsync<T>(ParameterBase parameter)
+        public async Task<T> GetBonusPointRecordListAsync<T>(BonusPointRecordDtoParameters parameter)
         {
             var result = await _httpFunc.Create()
                 .Url(ApiBase.Get("GetBonusPointRecordList") + parameter.GetQueryString())

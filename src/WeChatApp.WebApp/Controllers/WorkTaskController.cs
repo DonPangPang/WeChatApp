@@ -67,6 +67,15 @@ namespace WeChatApp.WebApp.Controllers
         {
             var query = _serviceGen.Query<WorkTask>();
 
+            query = _session.UserInfo!.Role switch
+            {
+                Role.高层管理员 => query,
+                Role.中层管理员 => query.Where(x => x.CreateUserId == _session.UserInfo.Id),
+                Role.普通成员 => query.Where(x => x.WorkPublishType == WorkPublishType.全局发布 ||
+                        (x.WorkPublishType == WorkPublishType.科室发布 && x.DepartmentId == _session.UserInfo.DepartmentId)),
+                _ => throw new ArgumentNullException(nameof(_session.UserInfo.Role))
+            };
+
             var pickingTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Publish && (x.PickUpUserIds == null || (x.PickUpUserIds.Length / 32 < x.MaxPickUpCount))).CountAsync();
 
             var activeTaskCount = await query.Where(x => x.Status == WorkTaskStatus.Active).CountAsync();

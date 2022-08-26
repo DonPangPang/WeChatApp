@@ -79,10 +79,14 @@ public class UserController : ApiController<User, UserDto>
             .Where(x => x.Id == user!.DepartmentId)
             .FirstOrDefaultAsync();
 
-        var globalRank = (await _serviceGen.Query<BonusPointRecord>()
-                .GroupBy(x => x.PickUpUserId)
-                .Select(x => new { Id = x.Key, Sorce = x.Sum(t => t.BonusPoints) })
-                .OrderByDescending(x => x.Sorce)
+        var globalRank = (await _serviceGen.Query<User>()
+                    .GroupJoin(_serviceGen.Query<BonusPointRecord>(), user => user.Id,
+                        bpRecord => bpRecord.PickUpUserId, (user, grouping) => new { user, grouping })
+                    .SelectMany(@t => @t.grouping.DefaultIfEmpty(), (@t, bpRecord) => new { @t.user, bpRecord })
+                    .Where(x => x.user.Role == Shared.Enums.Role.普通成员)
+                    .GroupBy(x => new { x.user.Id, x.user.Name })
+                .Select(x => new { Id = x.Key.Id, Name = x.Key.Name, Score = x.Sum(t => t.bpRecord.BonusPoints) })
+                .OrderByDescending(x => x.Score)
                 .ToListAsync())
             .Select((x, row) => new { Row = row + 1, Id = x.Id })
             .FirstOrDefault(x => x.Id == user!.Id);
@@ -91,11 +95,15 @@ public class UserController : ApiController<User, UserDto>
             .Where(x => x.DepartmentId == user!.DepartmentId)
             .Select(x => x.Id).ToListAsync();
 
-        var departmentRank = (await _serviceGen.Query<BonusPointRecord>()
-                .Where(x => userIds.Contains(x.PickUpUserId))
-                .GroupBy(x => x.PickUpUserId)
-                .Select(x => new { Id = x.Key, Sorce = x.Sum(t => t.BonusPoints) })
-                .OrderByDescending(x => x.Sorce)
+        var departmentRank = (await _serviceGen.Query<User>()
+                    .GroupJoin(_serviceGen.Query<BonusPointRecord>(), user => user.Id,
+                        bpRecord => bpRecord.PickUpUserId, (user, grouping) => new { user, grouping })
+                    .SelectMany(@t => @t.grouping.DefaultIfEmpty(), (@t, bpRecord) => new { @t.user, bpRecord })
+                .Where(x => x.user.Role == Shared.Enums.Role.普通成员)
+                .Where(x => (dept.Id) == x.user.DepartmentId)
+                .GroupBy(x => new { x.user.Id, x.user.Name })
+                .Select(x => new { Id = x.Key.Id, Name = x.Key.Name, Score = x.Sum(t => t.bpRecord.BonusPoints) })
+                .OrderByDescending(x => x.Score)
                 .ToListAsync())
             .Select((x, row) => new { Row = row + 1, Id = x.Id })
             .FirstOrDefault(x => x.Id == user!.Id);

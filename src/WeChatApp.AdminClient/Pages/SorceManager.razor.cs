@@ -24,19 +24,21 @@ namespace WeChatApp.AdminClient.Pages
         private List<BonusPointRecordDto> _records = new();
         protected string _search = string.Empty;
         protected int _totalCount = 0;
+
         protected DataOptions _options = new DataOptions()
         {
             Page = 1,
             ItemsPerPage = 10
         };
-        protected bool _loading = true;
 
+        protected bool _loading = true;
 
         protected int _serial = 1;
 
         protected bool _dialog = false;
         protected bool _dialogDelete = false;
         private AlertTypes type = 0;
+
         private void Show(AlertTypes t = 0)
         {
             type = t;
@@ -64,7 +66,6 @@ namespace WeChatApp.AdminClient.Pages
 
             await base.OnInitializedAsync();
         }
-
 
         #region Init
 
@@ -98,7 +99,7 @@ namespace WeChatApp.AdminClient.Pages
             return await GetRecordsFromApi();
         }
 
-        protected ParameterBase _parameter = new()
+        protected BonusPointRecordDtoParameters _parameter = new()
         {
             OrderBy = "CreateTime desc",
         };
@@ -114,23 +115,27 @@ namespace WeChatApp.AdminClient.Pages
             return (new List<BonusPointRecordDto>(), 0);
         }
 
-        #endregion
+        #endregion Init
 
         #region Table
+
         // header
 
         protected List<DataTableHeader<BonusPointRecordDto>> _headers = new List<DataTableHeader<BonusPointRecordDto>>()
         {
-            new (){Text = "序号", Align="center", Value="serial", Sortable = false},
-            new (){Text = "得分人", Align="center", Value=nameof(BonusPointRecordDto.PickUpUserName), Sortable=false},
+            new() { Text = "序号", Align="center", Value="serial", Sortable = false},
+            //new() { Text = "任务", Align="center", Value=nameof(BonusPointRecordDto.WorkTaskName), Sortable=false},
+            new() { Text = "得分人", Align="center", Value=nameof(BonusPointRecordDto.PickUpUserName), Sortable=false},
             new() { Text = "积分", Align = "center", Value = nameof(BonusPointRecordDto.BonusPoints), Sortable = false },
             new() { Text = "评分人", Align = "center", Value = nameof(BonusPointRecordDto.CreateUserName), Sortable = false },
             new() { Text = "评分时间", Align = "center", Value = nameof(BonusPointRecordDto.CreateTime), Sortable = false },
-            new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
+            //new() { Text = "操作", Align = "center", Value = "actions", Sortable = false }
         };
-        #endregion
+
+        #endregion Table
 
         #region Search
+
         protected async Task HandleSearch()
         {
             _parameter.Q = _search;
@@ -143,19 +148,20 @@ namespace WeChatApp.AdminClient.Pages
             await GetDataFromApi();
         }
 
-        #endregion
+        #endregion Search
 
         #region Edit
+
         private void AddItem()
         {
-
         }
 
         private void EditItem(BonusPointRecordDto dto)
         {
-
         }
-        #endregion
+
+        #endregion Edit
+
         public void CloseDelete()
         {
             _dialogDelete = false;

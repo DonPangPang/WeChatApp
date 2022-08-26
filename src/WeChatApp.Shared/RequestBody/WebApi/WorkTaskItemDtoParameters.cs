@@ -27,4 +27,20 @@ namespace WeChatApp.Shared.RequestBody.WebApi
         /// </summary>
         public Guid WorkTaskNodeId { get; set; }
     }
+
+    /// <summary>
+    /// 查询用户工作任务中提交的
+    /// </summary>
+    public class WorkTaskWithItemsDtoParameters : ParameterBase
+    {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public Guid UserId { get; set; } = Guid.Empty;
+
+        /// <summary>
+        /// 工作任务Id
+        /// </summary>
+        public Guid WorkTaskId { get; set; }
+    }
 }
