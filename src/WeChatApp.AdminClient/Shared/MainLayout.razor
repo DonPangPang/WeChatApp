@@ -161,12 +161,6 @@
         var index = _tabItems.IndexOf(nav) - 1;
         if (nav.Id == 0) return;
         _tabItems.Remove(nav);
-        if (_tabItems.Count() == 1)
-        {
-            _tab = "工作台";
-            NavigationManager.NavigateTo("/");
-            return;
-        }
         if (_thisTab != nav.Id)
         {
             var prevTab = _tabItems[(index <= 0 ? 0 : index)];

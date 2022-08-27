@@ -50,7 +50,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\WeChatApp.AdminClient\WeChatApp.AdminClient.csproj" />
 		<ProjectReference Include="..\WeChatApp.EzHttpClient\WeChatApp.EzHttpClient.csproj" />
 		<ProjectReference Include="..\WeChatApp.Shared\WeChatApp.Shared.csproj" />
 	</ItemGroup>

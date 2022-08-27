@@ -2,29 +2,20 @@
 
 <MCard>
     <MDataTable Headers="_headers" Items="_appHistoryList" OnOptionsUpdate="HandleOnOptionsUpdate"
-                ServerItemsLength="_totalCount" Loading="_loading" Class="elevation-1"
-                NoDataText="无数据..."
-                LoadingText="加载数据中...请稍等.">
+        ServerItemsLength="_totalCount" Loading="_loading" Class="elevation-1" NoDataText="无数据..."
+        LoadingText="加载数据中...请稍等.">
         <TopContent>
             <MToolbar Flat>
-                <MToolbarTitle>任务</MToolbarTitle>
-                <MDivider Class="mx-4"
-                          Inset
-                          Vertical>
+                <MToolbarTitle>安装包管理</MToolbarTitle>
+                <MDivider Class="mx-4" Inset Vertical>
                 </MDivider>
                 <MSpacer></MSpacer>
-                <MButton Color="primary"
-                         Dark
-                         Class="mb-2"
-                         OnClick="AddVersion">
+                <MButton Color="primary" Dark Class="mb-2" OnClick="AddVersion">
                     添加
                 </MButton>
 
-                <PConfirm Visible="_dialogDelete"
-                          Title="确认操作"
-                          Type="type"
-                          OnCancel="CloseDelete"
-                          OnOk="DeleteItemConfirm">
+                <PConfirm Visible="_dialogDelete" Title="确认操作" Type="type" OnCancel="CloseDelete"
+                    OnOk="DeleteItemConfirm">
                     您确认该操作吗？
                 </PConfirm>
             </MToolbar>
@@ -38,7 +29,7 @@
             {
                 @*<MIcon Small Class="mr-2" OnClick="() => EditVersion(context.Item)">
                     mdi-pencil
-                </MIcon>*@
+                    </MIcon>*@
                 <MIcon Small OnClick="() => Show(context.Item, AlertTypes.Warning)">
                     mdi-delete
                 </MIcon>
@@ -52,36 +43,18 @@
 </MCard>
 
 
-<PModal @bind-Value="_isShowEditModal"
-        
-        Title="@FormTitle"
-        Width="500"
-        OnSave="async () => await Save()"
-        OnCancel="Close">
+<PModal @bind-Value="_isShowEditModal" Title="@FormTitle" Width="500" OnSave="async () => await Save()"
+    OnCancel="Close">
     <ChildContent>
         <MRow>
             <MCol Cols="12" Sm="4">
-                <MTextField @bind-Value="_editItem.Version"
-                            Label="版本"
-                            Dense
-                            Outlined
-                            HideDetails="@("auto")" />
+                <MTextField @bind-Value="_editItem.Version" Label="版本" Dense Outlined HideDetails="@("auto")" />
             </MCol>
-                <MCol Cols="12" Sm="8">
-                <MFileInput TValue="IBrowserFile" OnChange="HandleUploadFile"
-                            Value="_browserFile"
-                            Accept=".apk,.APK"
-                            PrependIcon="mdi-package-variant"
-                            Label="文件上传"
-                            Placeholder="选择你的文件"
-                            Dense
-                            Outlined
-                            ShowSize>
+            <MCol Cols="12" Sm="8">
+                <MFileInput TValue="IBrowserFile" OnChange="HandleUploadFile" Value="_browserFile" Accept=".apk,.APK"
+                    PrependIcon="mdi-package-variant" Label="文件上传" Placeholder="选择你的文件" Dense Outlined ShowSize>
                     <SelectionContent Context="context">
-                        <MChip Color="deep-purple accent-4"
-                               Dark
-                               Label
-                               Small>
+                        <MChip Color="deep-purple accent-4" Dark Label Small>
                             @context.text
                         </MChip>
                     </SelectionContent>
@@ -89,17 +62,11 @@
             </MCol>
         </MRow>
         <MRow>
-            <MTextarea @bind-Value="_editItem.Descrption"
-                       Label="描述"
-                       Dense
-                       Outlined>
+            <MTextarea @bind-Value="_editItem.Descrption" Label="描述" Dense Outlined>
             </MTextarea>
         </MRow>
         <MRow>
-            <MTextarea @bind-Value="_editItem.Remark"
-                       Label="备注"
-                       Dense
-                       Outlined>
+            <MTextarea @bind-Value="_editItem.Remark" Label="备注" Dense Outlined>
             </MTextarea>
         </MRow>
     </ChildContent>
