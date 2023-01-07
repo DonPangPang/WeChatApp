@@ -7,7 +7,7 @@
 
 
 <MContainer Fluid Style="width: 400px;margin-top: 200px;">
-    <h1 style="text-align: center;">积分后台管理</h1>
+    <h1 style="text-align: center;">任务发布系统</h1>
     <MForm EnableValidation @bind-Value="_valid" Model="_loginDto" OnValidSubmit="HandleLogin">
         <MTextField @bind-Value="_loginDto.UserName" Counter="true" Label="账号" required></MTextField>
         <MTextField @bind-Value="_loginDto.Password" AppendIcon="@(_passwordShow ? "mdi-eye" : "mdi-eye-off")"

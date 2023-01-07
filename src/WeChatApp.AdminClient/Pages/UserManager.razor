@@ -144,7 +144,7 @@
                         @* <MIcon Small OnClick="() => DeleteItem(context.Item)">
                             mdi-delete
                         </MIcon> *@
-                         <MIcon Small OnClick="() => Show(AlertTypes.Warning)">
+                            <MIcon Small OnClick="() => Show(context.Item, AlertTypes.Warning)">
                             mdi-delete
                         </MIcon>
                     }
@@ -164,10 +164,11 @@
     AlertTypes type = 0;
     private string _message = string.Empty;
     ToastPosition position = ToastPosition.TopRight;
-    void Show(AlertTypes t = 0)
+    void Show(UserDto item, AlertTypes t = 0)
     {
         type = t;
         _dialogDelete = true;
+        _editedItem = item;
     }
 
     async Task AlertShow(AlertTypes t = 0)
@@ -254,7 +255,7 @@
     {
         if (_editedIndex > -1)
         {
-            //_editedItem.Uid = _editedItem.Uid;
+            _editedItem.Uid = _editedItem.Tel;
             var result = await UserService.EditUserAsync<WcResponse<UserDto>>(_editedItem);
             _message = result.Message ?? "";
             await AlertShow(result.Code == WcStatus.Success ? AlertTypes.Success : AlertTypes.Error);

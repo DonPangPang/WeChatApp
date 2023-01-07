@@ -66,7 +66,8 @@ builder.Services.AddAutoMapper();
 builder.Services.AddDatabase();
 builder.Services.AddHangfireSupport();
 
-builder.WebHost.UseUrls("http://*:8014/");
+//builder.WebHost.UseUrls("http://*:8014/");
+builder.WebHost.UseUrls("http://*:9100/");
 
 var app = builder.Build();
 
